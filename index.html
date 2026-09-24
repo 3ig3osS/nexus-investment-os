@@ -1,0 +1,2875 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Portfolio Dashboard v4.9.6</title>
+
+<!-- ไอคอนสำหรับตอนกด "เพิ่มไปยังหน้าจอโฮม" จาก browser menu เอง (ไม่มีผลกับ layout ของหน้า) -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Portfolio">
+<meta name="theme-color" content="#000000">
+
+<!-- ตั้งธีมที่ผู้ใช้เคยเลือกไว้ทันทีก่อนหน้าจะ render กันภาพกระพริบ (theme flash) ตอนเปิดแอป -->
+<script>
+  try {
+    var t = localStorage.getItem('pf_theme');
+    if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+</script>
+<link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAADe0lEQVR4nO3bwW3bQBRFUTtICVkKLiQtpN60kEIML1NEFgYCIcgjOcMhOTM8Zy1Lsv/1J02LLy8AAAAAc3i95FUfj7dLXndoHx/vJ7/iSXGoobkTWjk2Dk2c4LhKjopDFic7IpH2ccjiQm0TaRmHLDrRKpEvTZ7lRRk9aTWLNnEoozdNJrL3sCKLzu05xOzaHMro354Z1cehjFFUT6oyDmWMpW5eNXEoY0QVUyuOQxnjKp1ds+sczKcsDmtjdEUTLIhDGXPYPsetcShjJhun6ZyDaFMc1sZ8tszU5iBaj8PamNXqZG0OopU4rI25Lc/X5iASB9FSHI4pd7AwZZuDSBxE4iASB1GMw9nofaRZ2xxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIvl79Bkb17ef3LQ/7/ePX0e/kODZHjY1lFD2yQ+IoVjrvcfsQR5m6SQ/ahzgK7JnxiH2Ig0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg2jyu+zvcC/8cWbeHDe5F/4408Zxn3vhjzNnHLe6F/44E8Zxt3vhjzNhHLQiDiJxEImDSBxEk18hHVE/V3Vtjr50dVVXHB3p7aquOHrR4VVdcXShz6u64iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYOoi8+Q9vOpSZ5dvzm6+tQkzy6Oo7dPTfLsyjg6/NQkzy6Lo89PTfLs+nMOuiUOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBFOP4+Hg/831woTRrm4NIHETiIBIH0VIch56T7rm3cflrPXORhSlfuTnqvqstX+WZm7j4sFL6vW1/vGfebyWOE6529PCzu8Mz/9fyfF9Xv/7xeNv/JujTchzrhxWXSme1Oll/yhJtisPymM+WmdocRFvjsDxmsnGaBZtDH3PYPseyw4o+Rlc0QeccRMVxWB7jKp1dzebQx4gqplZ5WNHHWOrmVX/OoY9RVE9q1wmpPvq3Z0br/5Xdwn9uO7T/V7fNn7JWSG+aTKTZdQ599KPVLNocVp45xFyo7a9o+zg+SeRkR2zuo+L4JJETHHdAPzaOv1TS3AkneSfF8Q+tVHDKDwAAACv+AIFu8UWIxrmEAAAAAElFTkSuQmCC">
+<link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAACpElEQVR4nLVWu24TQRQ9d3bG3vUmOE4cBKHgjQSioUBCoqCi4Tf4A+hpQeJn0iGloUhBRc1DSolCHIIt8vDu7MweinXWySY2foRTzazunnPfGuA/Qyp3Y0ytVjfGzMDlnLM2tdaeLyAizWYrjmOl1AzsBUj2+0e9Xtd7f0pARNrt1TCMSM7MXlJlWba72/HeARg422wuhWFjfnYAJI0xrdZycVUAjDFxvEDm87OXGlEUhWE0EKjV6vPkfRTCMEQZwYWzl7QX73gFesb/HOkJgRh1ZpbmF/DUDxaDtYiHzn7uwXOMxtQCdNQ34+a7h6ppINh//72/vi31kamevgakamqJNRMPUF0OMXZ4ZioygZynDqMxcYoKIhlb0NkFPOWSFqPyAwc73Tr5twAz1p+0Fl7dkVrgtg7+vPlyTlpy0hOA6GrXThCBp3ncCq5FTHLzaEmthQXXSXZZMOZWDMJtHfLIn6zspCmCJ3KCqPYMCYXF13frz9oAko3O/ttvoJRxzDrJQwGIUcGNRhFWcLMBLTixl0cIODInAFGTtU2ZNF8tzzkCdKw/XQmfr4Lof9ixm3sTaYzAGQFChSp+eV3fWwCgrob20+/xszqlAAABBEzz8jwPRqwKnjnMCg3AOXfms4iR4gACSsQo+mH3iVH0uRgFJVX7YxS0GoC16fA9IWCSJ+vb4YsrAJP1bRDpx11zf1EaQfZ13/9IJECysaNvx+7A2c1fdDxln7GQSdMUZYJXVtqNRjyUcUThUWHtiUCgBFk+cJmEVoPpC6RiLyLW2k7nJ8lBDXq9bpZlUi7LYljy45ADATGQKcquZNDygVTsRSTP8253r3B3mDKtdau1XDxm5oG1ttvdK1+o1R6Moqhej7TW029+OOfTNOn3jy7khTgp/gICfjm/W/o/QQAAAABJRU5ErkJggg==">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f1fb;
+    --bg2: #faf3ec;
+    --card: #ffffff;
+    --text: #1c1c2a;
+    --sub: #8a8a9a;
+    --border: #eae6f5;
+    --accent: #7c3aed;
+    --accent2: #4f46e5;
+    --teal: #0d9488;
+    --teal2: #14b8a6;
+    --green: #12a454;
+    --red: #e5484d;
+    --amber: #d97706;
+    --shadow: 0 4px 16px rgba(90,60,180,0.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14111f;
+      --bg2: #191424;
+      --card: #211d30;
+      --text: #f2f0fa;
+      --sub: #948fb0;
+      --border: #34304a;
+      --shadow: 0 4px 16px rgba(0,0,0,0.35);
+    }
+  }
+  html[data-theme="dark"] {
+    --bg: #14111f; --bg2: #191424; --card: #211d30; --text: #f2f0fa; --sub: #948fb0; --border: #34304a;
+    --shadow: 0 4px 16px rgba(0,0,0,0.35);
+  }
+  html[data-theme="light"] {
+    --bg: #f4f1fb; --bg2: #faf3ec; --card: #ffffff; --text: #1c1c2a; --sub: #8a8a9a; --border: #eae6f5;
+    --shadow: 0 4px 16px rgba(90,60,180,0.06);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { max-width: 100%; overflow-x: hidden; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'IBM Plex Sans Thai', 'Inter', "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(180deg, var(--bg2) 0%, var(--bg) 220px, var(--bg) 100%);
+    color: var(--text);
+    padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+    transition: background .25s, color .25s;
+    -webkit-font-smoothing: antialiased;
+  }
+  .kpi-value, .value, .ticker, .today-card .value, .kpi-card .kpi-value {
+    font-variant-numeric: tabular-nums;
+  }
+  .avatar {
+    width: 34px; height: 34px; min-width: 34px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 700; font-size: 12.5px; letter-spacing: -.02em;
+    margin-right: 10px; font-variant-numeric: tabular-nums;
+  }
+  .topbar {
+    position: sticky; top: 0; z-index: 20;
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    padding: 16px 18px 18px; background: var(--bg2);
+    border-radius: 0 0 26px 26px;
+    box-shadow: var(--shadow);
+  }
+  .topbar h1 {
+    font-size: 17px; margin: 0; font-weight: 800; letter-spacing: -.01em;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    flex: 1 1 auto; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+  }
+  .version-badge {
+    font-size: 10px; font-weight: 700; color: var(--sub);
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 999px; padding: 2px 8px; margin-left: 6px;
+    flex: 0 0 auto; white-space: nowrap; vertical-align: middle;
+    -webkit-text-fill-color: var(--sub); /* กัน gradient ของ h1 ทับสีของ badge */
+  }
+  .iconbtn {
+    border: none; background: var(--card); color: var(--text);
+    width: 40px; height: 40px; min-width: 40px; border-radius: 50%; font-size: 17px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow); cursor: pointer;
+    transition: transform .12s ease;
+  }
+  .iconbtn:active { transform: scale(0.9); }
+  .topbar-actions { display: flex; gap: 6px; align-items: center; flex: 0 0 auto; }
+
+  .search-bar { margin: 4px 0 14px; }
+  .search-bar input {
+    width: 100%; padding: 12px 16px; border-radius: 999px; border: 1px solid var(--border);
+    background: var(--card); color: var(--text); font-size: 15px; box-shadow: var(--shadow);
+  }
+
+  .today-card {
+    position: relative; overflow: hidden;
+    border-radius: 26px; padding: 20px 20px 22px; margin: 6px 0 16px;
+    background: linear-gradient(135deg, #0d9488, #22c55e);
+    color: #fff; box-shadow: 0 10px 30px rgba(13,148,136,.3), 0 2px 8px rgba(13,148,136,.2);
+  }
+  .today-card.neg { background: linear-gradient(135deg, #a11c28, #d1373f); box-shadow: 0 10px 30px rgba(161,28,40,.4), 0 2px 8px rgba(161,28,40,.25); }
+  .today-card::before {
+    content: ''; position: absolute; top: -40%; right: -20%; width: 220px; height: 220px;
+    background: radial-gradient(circle, rgba(255,255,255,.1), transparent 70%);
+    pointer-events: none;
+  }
+  .today-card .label {
+    font-size: 12.5px; opacity: .9; margin-bottom: 6px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .06em; position: relative; z-index: 1;
+  }
+  .today-card .value-row { display: flex; align-items: baseline; gap: 8px; position: relative; z-index: 1; flex-wrap: wrap; min-width: 0; }
+  .today-card .arrow { font-size: 22px; line-height: 1; }
+  .today-card .value {
+    font-size: clamp(20px, 6.2vw, 30px); font-weight: 800; letter-spacing: -.02em;
+    text-shadow: 0 2px 10px rgba(0,0,0,.15);
+    overflow-wrap: break-word; min-width: 0;
+  }
+  .today-card .sub { font-size: 12.5px; opacity: .85; margin-top: 4px; position: relative; z-index: 1; }
+
+  .brief-card {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff; border-radius: 18px; padding: 15px 17px; margin-bottom: 14px;
+    box-shadow: 0 10px 30px rgba(124,58,237,.28), 0 2px 8px rgba(124,58,237,.2);
+  }
+  .brief-card .brief-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; gap: 8px; }
+  .brief-card .brief-title { font-weight: 800; font-size: 13.5px; display: flex; align-items: center; gap: 6px; min-width: 0; }
+  .brief-card .brief-refresh {
+    background: rgba(255,255,255,.18); border: none; color: #fff;
+    width: 32px; height: 32px; min-width: 32px; border-radius: 50%; font-size: 14px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; transition: transform .12s ease;
+  }
+  .brief-card .brief-refresh:active { transform: scale(0.88) rotate(180deg); }
+  .brief-card .brief-body { font-size: 13.5px; line-height: 1.65; white-space: pre-wrap; overflow-wrap: break-word; }
+  .brief-card .brief-time { font-size: 10.5px; opacity: .75; margin-top: 10px; }
+  .brief-card .brief-disclaimer { font-size: 10px; opacity: .65; margin-top: 4px; line-height: 1.4; }
+
+  .page { display: none; padding: 12px 16px 8px; animation: fadeIn .22s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px);} to { opacity: 1; transform: translateY(0);} }
+
+  .kpi-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 8px 0 16px;
+  }
+  .kpi-card {
+    background: var(--card); border-radius: 18px; padding: 13px 14px;
+    border: 1px solid var(--border); min-width: 0;
+    box-shadow: var(--shadow); transition: transform .12s ease;
+  }
+  .kpi-card:active { transform: scale(0.97); }
+  .kpi-label { font-size: 11px; color: var(--sub); margin-bottom: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
+  .kpi-value { font-size: clamp(15px, 4.6vw, 19px); font-weight: 800; letter-spacing: -.01em; overflow-wrap: break-word; }
+  .pos { color: var(--green); }
+  .neg { color: var(--red); }
+
+  .section-title {
+    font-size: 12.5px; font-weight: 700; color: var(--sub);
+    text-transform: uppercase; letter-spacing: .04em;
+    margin: 18px 2px 8px;
+  }
+
+  .card {
+    background: var(--card); border-radius: 20px; padding: 13px 15px;
+    box-shadow: var(--shadow); border: 1px solid var(--border); margin-bottom: 10px;
+    transition: transform .1s ease;
+  }
+  .card:active { transform: scale(0.985); }
+  .row-between { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .row-between > * { min-width: 0; }
+  .ticker { font-weight: 700; font-size: 15px; cursor: pointer; }
+  .theme-tag { font-size: 11px; color: var(--sub); }
+  .badge {
+    font-size: 11px; padding: 3px 9px; border-radius: 20px; font-weight: 700; white-space: nowrap;
+  }
+  .badge.buy { background: rgba(18,164,84,.14); color: var(--green); }
+  .badge.sell { background: rgba(229,72,77,.14); color: var(--red); }
+  .badge.hold { background: rgba(107,114,128,.16); color: var(--sub); }
+  .badge.high { background: rgba(229,72,77,.14); color: var(--red); }
+  .badge.med { background: rgba(217,119,6,.14); color: var(--amber); }
+  .badge.low { background: rgba(107,114,128,.16); color: var(--sub); }
+
+  .meta-row { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--sub); margin-top: 6px; gap: 6px; flex-wrap: wrap; }
+  .meta-row > * { min-width: 0; overflow-wrap: break-word; }
+  .meta-row b { color: var(--text); }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    border: none; border-radius: 999px; padding: 13px 16px; font-size: 14.5px; font-weight: 700;
+    cursor: pointer; width: 100%; margin-top: 8px; transition: transform .1s ease, opacity .15s ease;
+  }
+  .btn:active { transform: scale(0.98); }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff;
+    box-shadow: 0 8px 20px rgba(124,58,237,.3);
+  }
+  .btn-teal {
+    background: linear-gradient(135deg, var(--teal), var(--teal2)); color: #fff;
+    box-shadow: 0 8px 20px rgba(13,148,136,.3);
+  }
+  .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+
+  form label { display: block; font-size: 12.5px; color: var(--sub); margin: 12px 2px 5px; font-weight: 500; }
+  .field {
+    width: 100%; padding: 11px 12px; border-radius: 11px; border: 1px solid var(--border);
+    background: var(--card); color: var(--text); font-size: 16px;
+  }
+  .seg { display: flex; gap: 8px; margin-top: 4px; }
+  .seg button {
+    flex: 1; padding: 10px; border-radius: 11px; border: 1px solid var(--border);
+    background: var(--card); color: var(--text); font-weight: 700; cursor: pointer; font-size: 14px;
+    transition: transform .1s ease;
+  }
+  .seg button:active { transform: scale(0.97); }
+  .seg button.active.buy { background: var(--green); color: #fff; border-color: var(--green); }
+  .seg button.active.sell { background: var(--red); color: #fff; border-color: var(--red); }
+  .modebtn {
+    flex: 1; padding: 10px; border-radius: 11px; border: 1px solid var(--border);
+    background: var(--card); color: var(--sub); font-weight: 700; cursor: pointer; font-size: 13.5px;
+  }
+  .modebtn.active { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; border-color: transparent; }
+
+  .tabbar {
+    position: fixed; left: 12px; right: 12px; z-index: 20;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+    display: flex; background: #1c1a26;
+    border-radius: 999px;
+    box-shadow: 0 10px 30px rgba(20,10,40,.35);
+    padding: 6px;
+  }
+  .tab {
+    flex: 1; min-width: 0; text-align: center; padding: 9px 1px; background: none; border: none;
+    color: #a9a3c0; font-size: 10.5px; cursor: pointer; border-radius: 999px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    transition: background .15s ease, color .15s ease;
+  }
+  .tab .ic { font-size: 19px; display: block; margin-bottom: 2px; }
+  .tab.active { color: #fff; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--accent2)); }
+
+  .empty { text-align: center; color: var(--sub); font-size: 13px; padding: 24px 0; }
+  .toast {
+    position: fixed; left: 50%; bottom: calc(90px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%);
+    background: var(--text); color: var(--bg); padding: 10px 18px; border-radius: 20px;
+    font-size: 13px; opacity: 0; pointer-events: none; transition: opacity .25s, bottom .25s;
+    z-index: 50; font-weight: 600; max-width: calc(100% - 32px); text-align: center;
+  }
+  .toast.show { opacity: 1; bottom: 100px; }
+
+  /* ================= Easy Mode ================= */
+  .easy-card { background: var(--card); border:1px solid var(--border); border-radius:20px; padding:14px; margin:10px 0 16px; box-shadow:var(--shadow); }
+  .easy-hero { border-radius:17px; padding:14px; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; box-shadow:0 8px 24px rgba(124,58,237,.20); }
+  .easy-hero .eyebrow { font-size:10.5px; opacity:.82; font-weight:700; letter-spacing:.05em; }
+  .easy-hero .headline { font-size:19px; font-weight:800; margin:4px 0 5px; }
+  .easy-hero .reason { font-size:12px; line-height:1.5; opacity:.92; }
+  .easy-kpis { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:10px; }
+  .easy-mini { background:var(--bg); border-radius:14px; padding:9px 8px; text-align:center; border:1px solid var(--border); }
+  .easy-mini .n { font-size:17px; font-weight:800; }
+  .easy-mini .l { font-size:10px; color:var(--sub); margin-top:2px; }
+  .easy-section { margin-top:11px; }
+  .easy-section-title { font-size:12px; font-weight:800; margin-bottom:6px; }
+  .easy-action { display:flex; align-items:center; gap:9px; padding:9px 0; border-bottom:1px solid var(--border); cursor:pointer; }
+  .easy-action:last-child { border-bottom:0; }
+  .easy-action .rank { width:25px; height:25px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--bg); font-size:11px; font-weight:800; }
+  .easy-action .main { flex:1; min-width:0; }
+  .easy-action .ticker { font-size:14px; font-weight:800; }
+  .easy-action .desc { color:var(--sub); font-size:10.5px; margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .easy-action .right { text-align:right; min-width:74px; }
+  .easy-action .score { font-size:15px; font-weight:800; }
+  .easy-action .amount { font-size:10.5px; color:var(--sub); }
+  .easy-legend { display:flex; flex-wrap:wrap; gap:6px; margin-top:9px; }
+  .easy-chip { display:inline-flex; align-items:center; gap:4px; border-radius:999px; padding:5px 8px; background:var(--bg); border:1px solid var(--border); font-size:10.5px; font-weight:700; }
+  .easy-link { border:0; background:none; color:var(--accent2); font-weight:800; cursor:pointer; font-size:11.5px; padding:5px 0; }
+  .easy-empty { color:var(--sub); font-size:12px; padding:8px 0; }
+
+  /* ================= V4.3.8 Command Center + DCA Roadmap ================= */
+  .dca-roadmap { background:var(--card); border:1px solid var(--border); border-radius:18px; padding:12px; margin-top:10px; }
+  .dca-roadmap-head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; }
+  .dca-roadmap-title { font-size:13px; font-weight:800; }
+  .dca-status { border-radius:999px; padding:4px 8px; font-size:10.5px; font-weight:800; white-space:nowrap; }
+  .dca-step { display:grid; grid-template-columns:32px 1fr auto; align-items:center; gap:8px; padding:9px 0; border-bottom:1px solid var(--border); }
+  .dca-step:last-child { border-bottom:0; }
+  .dca-dot { width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--bg); font-size:11px; font-weight:800; }
+  .dca-step .name { font-size:12px; font-weight:800; }
+  .dca-step .hint { font-size:10.5px; color:var(--sub); margin-top:2px; }
+  .dca-step .price { text-align:right; font-size:13px; font-weight:800; }
+  .dca-step .alloc { font-size:10px; color:var(--sub); }
+  .dca-now { margin-top:8px; padding:9px 10px; border-radius:12px; background:var(--bg2); font-size:11.5px; line-height:1.55; }
+  .dca-rule { margin-top:7px; font-size:10px; color:var(--sub); line-height:1.45; }
+
+  .skeleton {
+    background: linear-gradient(90deg, var(--border) 25%, var(--bg) 37%, var(--border) 63%);
+    background-size: 400% 100%; animation: sk 1.4s ease infinite; border-radius: 8px; height: 14px;
+  }
+  @keyframes sk { 0% {background-position:100% 50%} 100% {background-position:0 50%} }
+
+  /* ================= v4.9.6 Stable UX Polish ================= */
+  :root { --content-max: 980px; --radius-xl: 22px; }
+  body { min-height:100vh; }
+  .topbar { max-width:var(--content-max); margin:0 auto; width:100%; }
+  .page { max-width:var(--content-max); margin:0 auto; }
+  .section-title { display:flex; align-items:center; gap:7px; }
+  .section-title::after { content:''; height:1px; flex:1; background:var(--border); margin-left:4px; opacity:.8; }
+  .kpi-grid { grid-template-columns:repeat(4,minmax(0,1fr)); }
+  .kpi-card { min-height:78px; display:flex; flex-direction:column; justify-content:center; }
+  .brief-card, .easy-card, .today-card { border-radius:var(--radius-xl); }
+  .brief-card { position:relative; overflow:hidden; }
+  .brief-card::after { content:''; position:absolute; width:150px; height:150px; right:-65px; top:-70px; border-radius:50%; background:rgba(255,255,255,.08); pointer-events:none; }
+  .card, .kpi-card { transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease; }
+  @media (hover:hover) {
+    .card:hover, .kpi-card:hover { transform:translateY(-1px); box-shadow:0 8px 24px rgba(70,50,130,.09); border-color:color-mix(in srgb, var(--accent) 22%, var(--border)); }
+  }
+  .easy-card { box-shadow:0 8px 24px rgba(70,50,130,.08); }
+  .easy-hero { padding:16px; }
+  .easy-kpis { grid-template-columns:repeat(3,1fr); }
+  .search-bar { position:sticky; top:74px; z-index:12; padding:4px 0; background:linear-gradient(var(--bg),transparent); }
+  .search-bar input:focus, .field:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(124,58,237,.10); }
+  .tabbar { max-width:var(--content-max); margin:0 auto; }
+  .tab { min-height:52px; }
+  .page > .section-title:first-child { margin-top:4px; }
+  .muted { color:var(--sub); }
+  .priority-p0, .action-danger { border-left:4px solid var(--red); }
+  .action-warn { border-left:4px solid var(--amber); }
+  .action-good { border-left:4px solid var(--green); }
+  .action-neutral { border-left:4px solid var(--accent2); }
+  @media (max-width:720px) {
+    :root { --content-max:100%; }
+    .topbar { padding-left:14px; padding-right:14px; }
+    .page { padding-left:13px; padding-right:13px; }
+    .kpi-grid { grid-template-columns:1fr 1fr; }
+    .search-bar { top:70px; }
+    .tabbar { left:8px; right:8px; bottom:calc(env(safe-area-inset-bottom,0px) + 8px); }
+    .tab { font-size:9.5px; padding:8px 1px; }
+    .tab .ic { font-size:18px; }
+  }
+  @media (min-width:1000px) {
+    .page { padding-left:22px; padding-right:22px; }
+    .topbar { padding-left:22px; padding-right:22px; }
+    .tabbar { bottom:18px; }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>📊 Portfolio Dashboard v4.9.6<span class="version-badge" id="versionBadge">NEXUS v4.9.6</span></h1>
+  <div class="topbar-actions">
+    <button class="iconbtn" id="themeBtn" title="โหมดสี" aria-label="สลับโหมดสี">🌓</button>
+    <button class="iconbtn" id="refreshBtn" title="รีเฟรช" aria-label="รีเฟรชข้อมูล">↻</button>
+  </div>
+</div>
+
+<!-- ================= DASHBOARD ================= -->
+<div class="page active" id="page-dashboard">
+  <div class="brief-card" id="briefCard">
+    <div class="brief-head">
+      <div class="brief-title">🧭 สรุปวันนี้จาก AI</div>
+      <button class="brief-refresh" id="briefRefreshBtn" title="วิเคราะห์ใหม่" aria-label="วิเคราะห์ใหม่">🔄</button>
+    </div>
+    <div class="brief-body" id="briefBody">💭 กำลังวิเคราะห์สถานการณ์พอร์ตวันนี้…</div>
+    <div class="brief-time" id="briefTime"></div>
+    <div class="brief-disclaimer">⚠️ วิเคราะห์โดย AI เพื่อประกอบการตัดสินใจ ไม่ใช่คำแนะนำการลงทุน โปรดใช้วิจารณญาณของคุณเอง</div>
+  </div>
+
+  <div class="section-title">🔔 Smart Alerts — วันนี้ต้องดูอะไร?</div>
+  <div id="smartAlertSummary"><div class="empty">กำลังตรวจ Smart Alerts…</div></div>
+
+
+
+  <!-- ================= V4.3.8 EASY MODE ================= -->
+  <div class="easy-card" id="easyModeCard">
+    <div class="easy-hero">
+      <div class="eyebrow">🧭 NEXUS EASY MODE</div>
+      <div class="headline" id="easyHeadline">กำลังวิเคราะห์…</div>
+      <div class="reason" id="easyReason">ระบบกำลังสรุปข้อมูลพอร์ตและ Decision Engine ให้เป็นภาษาที่เข้าใจง่าย</div>
+    </div>
+    <div class="easy-kpis">
+      <div class="easy-mini"><div class="n" id="easyBuyCount">—</div><div class="l">🟢 ซื้อ</div></div>
+      <div class="easy-mini"><div class="n" id="easyWaitCount">—</div><div class="l">🟡 รอ/ถือ</div></div>
+      <div class="easy-mini"><div class="n" id="easyRiskCount">—</div><div class="l">🔴/🟠 เสี่ยง</div></div>
+    </div>
+    <div class="easy-section">
+      <div class="easy-section-title">🎯 วันนี้ควรทำอะไร?</div>
+      <div id="easyPrimary"><div class="easy-empty">กำลังโหลดคำแนะนำ…</div></div>
+    </div>
+    <div class="easy-section">
+      <div class="easy-section-title">⚡ สิ่งที่น่าสนใจ</div>
+      <div id="easyActions"><div class="easy-empty">กำลังโหลด…</div></div>
+    </div>
+    <div class="easy-legend">
+      <span class="easy-chip">🟢 ซื้อ = Buy Zone</span>
+      <span class="easy-chip">🟢 DCA = ทยอยสะสม</span>
+      <span class="easy-chip">🟡 รอ = ยังไม่ต้องทำ</span>
+      <span class="easy-chip">🟠 ลด = ทบทวนสัดส่วน</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:9px">
+      <span id="easyUpdated" style="font-size:10px;color:var(--sub)"></span>
+      <button class="easy-link" id="easyAdvancedBtn">ดูรายละเอียดทั้งหมด →</button>
+    </div>
+  </div>
+
+  <div class="search-bar">
+    <input class="field" id="quickSearch" list="tickerList" placeholder="🔍 ค้นหา ticker เช่น NVDA แล้วกด Enter">
+  </div>
+
+  <div class="today-card" id="todayCard">
+    <div class="label">📅 การเปลี่ยนแปลงวันนี้</div>
+    <div class="value-row">
+      <span class="arrow" id="todayArrow">▲</span>
+      <span class="value" id="todayValue">…</span>
+    </div>
+    <div class="sub" id="todaySub"></div>
+  </div>
+
+  <div class="section-title">📰 ข่าวสำคัญวันนี้</div>
+  <div id="portfolioNews"><div class="empty">กำลังโหลดข่าว…</div></div>
+
+  <div class="kpi-grid" id="kpiGrid">
+    <div class="kpi-card"><div class="skeleton" style="width:60%"></div></div>
+    <div class="kpi-card"><div class="skeleton" style="width:60%"></div></div>
+    <div class="kpi-card"><div class="skeleton" style="width:60%"></div></div>
+    <div class="kpi-card"><div class="skeleton" style="width:60%"></div></div>
+  </div>
+  <div id="lastUpdated" style="text-align:center;color:var(--sub);font-size:11px;margin:-10px 0 6px"></div>
+
+  <div class="section-title">🔥 Top Movers วันนี้</div>
+  <div id="topMovers"><div class="empty">กำลังโหลด…</div></div>
+
+  <div class="section-title">🗺️ Portfolio Heatmap</div>
+  <div class="card"><div id="heatmap"><div class="empty">กำลังโหลด…</div></div></div>
+
+  <div class="section-title">📈 แนวโน้มมูลค่าพอร์ต (30 วัน)</div>
+  <div class="card" id="historyCard">
+    <div id="historyChart"><div class="empty">กำลังโหลด…</div></div>
+  </div>
+
+  <div class="section-title">🚨 Risk Meter</div>
+  <div class="card" id="riskMeter"><div class="empty">กำลังโหลด…</div></div>
+
+  <div class="section-title">Top Holdings</div>
+  <div id="holdingsList"><div class="empty">กำลังโหลด…</div></div>
+</div>
+
+
+<!-- ================= NEXUS V3 DECISION ENGINE ================= -->
+<div class="page" id="page-decision">
+  <div class="section-title">🧠 NEXUS Decision Engine 3.0 — Calibration 2.0</div>
+  <div id="decisionSummary"><div class="empty">กำลังคำนวณ…</div></div>
+  <div class="section-title">🚦 การดำเนินการวันนี้</div>
+  <div id="actionCenter"><div class="empty">กำลังโหลด…</div></div>
+  <div class="section-title">💰 การใช้เงินสด</div>
+  <div id="cashDeployment"><div class="empty">กำลังโหลด…</div></div>
+  <div class="section-title">🏆 คะแนน Decision สูงสุด</div>
+  <div id="decisionList"><div class="empty">กำลังโหลด…</div></div>
+  <div class="section-title">🔍 Decision Audit (คะแนน Breakdown)</div>
+  <div id="decisionAudit"><div class="empty">กำลังโหลด…</div></div>
+  <div class="card" style="font-size:11px;color:var(--sub);line-height:1.5">⚠️ ระบบนี้ใช้ข้อมูลจาก Workbook เป็นฐานคำนวณแบบ deterministic; AI ไม่ได้เป็นผู้สร้างคะแนนหรือราคาซื้อ และผลลัพธ์ไม่ใช่คำแนะนำการลงทุน</div>
+</div>
+
+<!-- ================= ADD TRANSACTION ================= -->
+<div class="page" id="page-add">
+  <div class="seg" style="margin-bottom:4px">
+    <button type="button" class="modebtn active" data-mode="stock">📈 ธุรกรรมหุ้น</button>
+    <button type="button" class="modebtn" data-mode="cash">💵 เงินสด</button>
+  </div>
+
+  <form id="txForm">
+    <label>วันที่</label>
+    <input class="field" type="date" id="txDate" required>
+
+    <div id="stockFields">
+      <label>Ticker</label>
+      <input class="field" list="tickerList" id="txTicker" placeholder="เช่น NVDA" autocapitalize="characters">
+      <datalist id="tickerList"></datalist>
+
+      <label>ประเภทคำสั่ง</label>
+      <div class="seg">
+        <button type="button" class="segbtn buy active" data-action="BUY">🟢 BUY</button>
+        <button type="button" class="segbtn sell" data-action="SELL">🔴 SELL</button>
+      </div>
+
+      <label>จำนวนหุ้น (Shares)</label>
+      <input class="field" type="number" step="any" inputmode="decimal" id="txShares" placeholder="0.00">
+
+      <label>ราคาต่อหุ้น ($)</label>
+      <input class="field" type="number" step="any" inputmode="decimal" id="txราคา" placeholder="0.00">
+
+      <label>ค่าธรรมเนียม ($) — ไม่บังคับ</label>
+      <input class="field" type="number" step="any" inputmode="decimal" id="txFees" placeholder="0">
+    </div>
+
+    <div id="cashFields" style="display:none">
+      <label>ประเภท</label>
+      <div class="seg">
+        <button type="button" class="segbtn buy active" data-cashaction="DEPOSIT">💰 เติมเงิน (Deposit)</button>
+        <button type="button" class="segbtn sell" data-cashaction="WITHDRAW">💸 ถอนเงิน (Withdraw)</button>
+      </div>
+
+      <label>จำนวนเงิน ($)</label>
+      <input class="field" type="number" step="any" inputmode="decimal" id="txCashAmount" placeholder="0.00">
+    </div>
+
+    <div class="row-between" style="align-items:center;margin-top:4px">
+      <label style="margin:0">โน้ต — ไม่บังคับ</label>
+      <button type="button" id="txNotesAiBtn" class="brief-refresh" title="ให้ AI เขียนโน้ตให้" aria-label="ให้ AI เขียนโน้ตให้" style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;width:auto;height:auto;border-radius:999px;padding:5px 12px;font-size:11.5px;font-weight:700">✨ AI เขียนโน้ต</button>
+    </div>
+    <input class="field" type="text" id="txNotes" placeholder="เช่น T1 Core, Swing trade, โอนเงินเดือน…">
+
+    <button type="submit" class="btn btn-primary" id="txSubmitBtn">💾 บันทึกธุรกรรม</button>
+    <button type="button" class="btn btn-outline" id="txCancelEditBtn" style="display:none">ยกเลิกการแก้ไข</button>
+  </form>
+</div>
+
+<!-- ================= REBALANCE ================= -->
+<div class="page" id="page-rebalance">
+  <div class="section-title">ข้อเสนอปรับสมดุลพอร์ต</div>
+  <div id="rebalanceList"><div class="empty">กำลังโหลด…</div></div>
+</div>
+
+<!-- ================= AI COPILOT ================= -->
+<div class="page" id="page-copilot">
+  <div class="section-title">🤖 AI Copilot</div>
+  <div class="card" style="margin-bottom:10px">
+    <div class="row-between" style="align-items:center;gap:10px">
+      <div><div style="font-weight:800">🔌 NEXUS AI Gateway</div><div id="aiGatewayStatus" class="muted" style="margin-top:4px">กำลังตรวจ API…</div></div>
+      <button class="btn btn-outline" id="aiGatewayTestBtn" style="width:auto;min-width:92px">🧪 ทดสอบ AI</button>
+    </div>
+    <div style="font-size:11.5px;color:var(--sub);margin-top:8px">AUTO: Gemini → Groq → OpenRouter | API Key เก็บใน Script Properties เท่านั้น</div>
+  </div>
+  
+  <div class="card" style="margin-bottom:10px">
+    <div style="font-size:12.5px;color:var(--sub)">ถามได้เลย เช่น "NVDA แพงไหม", "พอร์ตผมเสี่ยงตรงไหน", "วันนี้ควรซื้อตัวไหน" — AI จะตอบโดยอ้างอิงข้อมูลพอร์ตจริงของคุณ</div>
+  </div>
+  <div id="copilotChat"></div>
+  <div style="display:flex;gap:8px;margin-top:8px;position:sticky;bottom:0;padding-bottom:4px">
+    <input type="text" id="copilotInput" placeholder="พิมพ์คำถาม…"
+      style="flex:1;padding:12px 16px;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:16px">
+    <button class="iconbtn" id="copilotSend" title="ส่งคำถาม" aria-label="ส่งคำถาม" style="width:44px;height:44px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff">➤</button>
+  </div>
+</div>
+
+<!-- ================= NEXUS v4.9.6 COMMAND CENTER ================= -->
+<div class="page" id="page-command">
+  <div class="section-title">🚀 NEXUS v4.9.6 Command Center</div>
+  <div id="v4CommandCenter"><div class="empty">กำลังรวมข้อมูลพอร์ต…</div></div>
+</div>
+
+<!-- ================= V4.3.8 SYSTEM HEALTH ================= -->
+<div class="page" id="page-system">
+  <div class="section-title">🧪 NEXUS v4.9.6 System Health</div>
+  <div id="systemHealthContent"><div class="empty">กำลังตรวจระบบ…</div></div>
+</div>
+
+<!-- ================= V4.3.8 DATA HEALTH CENTER ================= -->
+<div class="page" id="page-data-health">
+  <div class="section-title">🩺 NEXUS v4.9.6 Data Health Center</div>
+  <div id="dataHealthCenterContent"><div class="empty">กำลังตรวจสุขภาพข้อมูล…</div></div>
+</div>
+
+<!-- ================= MORE (เมนูรวม) ================= -->
+<div class="page" id="page-more">
+  <div class="section-title">เพิ่มเติม</div>
+  <div id="moreMenu" style="padding-bottom:24px"></div>
+</div>
+
+<!-- ================= DETAIL (แสดงข้อมูลแต่ละหัวข้อ) ================= -->
+<div class="page" id="page-detail">
+  <div class="row-between" style="margin-bottom:10px">
+    <button class="iconbtn" id="detailBack" title="ย้อนกลับ" aria-label="ย้อนกลับ">←</button>
+    <div id="detailTitle" style="font-weight:700;font-size:15px"></div>
+    <div style="width:40px"></div>
+  </div>
+  <div id="detailContent"><div class="empty">กำลังโหลด…</div></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="tabbar">
+  <button class="tab active" data-page="dashboard"><span class="ic">🏠</span>ภาพรวม</button>
+  <button class="tab" data-page="add"><span class="ic">➕</span>เพิ่มรายการ</button>
+  <button class="tab" data-page="rebalance"><span class="ic">⚖️</span>ปรับสมดุล</button>
+  <button class="tab" data-page="decision"><span class="ic">🧠</span>ตัดสินใจ</button>
+  <button class="tab" data-page="copilot"><span class="ic">🤖</span>AI</button>
+  <button class="tab" data-page="command"><span class="ic">🚀</span>ศูนย์ควบคุม</button>
+  <button class="tab" data-page="more"><span class="ic">⋯</span>เพิ่มเติม</button>
+</div>
+
+<script>
+  // ---------- Version ----------
+  // แก้เลขเวอร์ชันตรงนี้ที่เดียว ทุกครั้งที่อัปเดตโค้ด — จะไปแสดงที่ badge ข้างชื่อแอปให้อัตโนมัติ
+  const APP_VERSION = 'v4.9.6';
+  document.getElementById('versionBadge').textContent = APP_VERSION;
+
+  // ---------- Theme ----------
+  const root = document.documentElement;
+  function applyTheme(t) { root.setAttribute('data-theme', t); saveTheme(t); }
+  function saveTheme(t) { try { localStorage.setItem('pf_theme', t); } catch (e) { /* localStorage ใช้ไม่ได้ (private mode ฯลฯ) - ข้ามการจำธีมไปเฉยๆ */ } }
+  document.getElementById('themeBtn').onclick = () => {
+    const cur = root.getAttribute('data-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyTheme(cur === 'light' ? 'dark' : 'light');
+  };
+
+  // ---------- Tabs ----------
+  const tabs = document.querySelectorAll('.tab');
+  const pages = document.querySelectorAll('.page');
+  tabs.forEach(t => t.onclick = () => {
+    tabs.forEach(x => x.classList.remove('active'));
+    pages.forEach(p => p.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('page-' + t.dataset.page).classList.add('active');
+  });
+  function goTab(name) {
+    document.querySelector(`.tab[data-page="${name}"]`).click();
+  }
+
+  // ---------- Toast ----------
+  let toastTimer;
+  function showToast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 2400);
+  }
+
+  // ---------- Helpers ----------
+  // ---------- Ticker avatar badge (โลโก้จริงถ้ารู้จักบริษัท ไม่งั้น fallback เป็นวงกลมสีตัวอักษร) ----------
+  const TICKER_DOMAINS = {
+    // === พอร์ตปัจจุบัน ===
+    NVDA: 'nvidia.com', MSFT: 'microsoft.com', GOOGL: 'abc.xyz', META: 'meta.com',
+    AVGO: 'broadcom.com', TSM: 'tsmc.com', PLTR: 'palantir.com', CRWD: 'crowdstrike.com',
+    PANW: 'paloaltonetworks.com', ISRG: 'intuitive.com', AMZN: 'amazon.com', RKLB: 'rocketlabusa.com',
+    OKLO: 'oklo.com', TEM: 'tempus.com', IONQ: 'ionq.com', ACHR: 'archer.com',
+    JOBY: 'jobyaviation.com', RXRX: 'recursion.com', UNH: 'unitedhealthgroup.com', RDW: 'redwirespace.com',
+    // === Watchlist ===
+    ORCL: 'oracle.com', ARM: 'arm.com', MRVL: 'marvell.com', SNOW: 'snowflake.com',
+    DDOG: 'datadoghq.com', MDB: 'mongodb.com', ZS: 'zscaler.com', HIMX: 'himax.com.tw',
+    FTNT: 'fortinet.com', VRTX: 'vrtx.com', CRSP: 'crisprtx.com', ASTS: 'ast-science.com',
+    CEG: 'constellationenergy.com', NNE: 'nanonuclearenergy.com', RGTI: 'rigetti.com',
+    QBTS: 'dwavesys.com', NTRA: 'natera.com', AFRM: 'affirm.com', AMAT: 'appliedmaterials.com',
+    LRCX: 'lamresearch.com', CRDO: 'credosemi.com', VRT: 'vertiv.com', ASML: 'asml.com',
+    LLY: 'lilly.com', APP: 'applovin.com', HIMS: 'hims.com', SCHG: 'schwab.com',
+    // === หุ้นดังทั่วไปอื่นๆ (เผื่อซื้อเพิ่มในอนาคต) ===
+    AAPL: 'apple.com', GOOG: 'abc.xyz', TSLA: 'tesla.com', AMD: 'amd.com', INTC: 'intel.com',
+    CRM: 'salesforce.com', ADBE: 'adobe.com', NOW: 'servicenow.com', SHOP: 'shopify.com',
+    UBER: 'uber.com', NFLX: 'netflix.com', DIS: 'disney.com', JPM: 'jpmorganchase.com',
+    V: 'visa.com', MA: 'mastercard.com', COST: 'costco.com', WMT: 'walmart.com', KO: 'coca-cola.com',
+    PEP: 'pepsico.com', XOM: 'exxonmobil.com', CVX: 'chevron.com', QCOM: 'qualcomm.com', TXN: 'ti.com',
+    IBM: 'ibm.com', CSCO: 'cisco.com', PYPL: 'paypal.com', SQ: 'squareup.com', COIN: 'coinbase.com',
+    ABNB: 'airbnb.com', SPOT: 'spotify.com', RIVN: 'rivian.com', LCID: 'lucidmotors.com'
+  };
+  function tickerColor(t) {
+    let hash = 0;
+    for (let i = 0; i < t.length; i++) hash = t.charCodeAt(i) + ((hash << 5) - hash);
+    const hue = Math.abs(hash) % 360;
+    return `hsl(${hue}, 68%, 46%)`;
+  }
+  function avatarHtml(t) {
+    const ticker = String(t).toUpperCase();
+    const initials = ticker.slice(0, 2);
+    const bg = tickerColor(ticker);
+    const domain = TICKER_DOMAINS[ticker];
+    if (domain) {
+      return `<span class="avatar" style="background:${bg};padding:0;overflow:hidden">` +
+        `<img src="https://logo.clearbit.com/${domain}?size=80" alt="${escapeHtml(initials)}" ` +
+        `style="width:100%;height:100%;object-fit:cover" ` +
+        `onerror="this.onerror=null;this.parentElement.textContent=${jsArg(initials)};">` +
+        `</span>`;
+    }
+    return `<span class="avatar" style="background:${bg}">${initials}</span>`;
+  }
+
+  // ป้องกัน HTML/สคริปต์หลุดเข้ามาตอน render ข้อความที่ผู้ใช้พิมพ์เอง (เช่น Notes)
+  function escapeHtml(s) {
+    if (s == null) return '';
+    return String(s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  function jsArg(v) {
+    return escapeHtml(JSON.stringify(String(v == null ? '' : v)));
+  }
+
+  // แปลงค่าให้เป็น string ปลอดภัยก่อนเช็ค .includes() — กัน error ถ้าค่าจาก Sheets ไม่ใช่ text
+  // (เช่น cell ว่าง, number, boolean) ทำให้ .includes() พัง เช่น "a.status.includes is not a function"
+  function safeIncludes(v, s) {
+    return String(v == null ? '' : v).includes(s);
+  }
+
+  function fmtMoney(n) {
+    n = Number(n) || 0;
+    return '$' + n.toLocaleString('en-US', { maximumFractionDigits: 2 });
+  }
+  function fmtPct(n) {
+    n = Number(n) || 0;
+    return (n * 100).toFixed(1) + '%';
+  }
+  function pnlClass(n) { return Number(n) >= 0 ? 'pos' : 'neg'; }
+
+  // ---------- Portfolio News (วันนี้) ----------
+  function loadPortfolioNews(onDone) {
+    google.script.run
+      .withSuccessHandler(news => { renderPortfolioNews(news); if (onDone) onDone(); })
+      .withFailureHandler(() => {
+        document.getElementById('portfolioNews').innerHTML = retryCardHtml_('โหลดข่าวไม่สำเร็จ', 'loadPortfolioNews()');
+        if (onDone) onDone();
+      })
+      .getPortfolioNews(5);
+  }
+
+  function renderPortfolioNews(news) {
+    const el = document.getElementById('portfolioNews');
+    el.innerHTML = '';
+    if (!news.length) { el.innerHTML = '<div class="empty">ไม่พบข่าวล่าสุด</div>'; return; }
+
+    const sentimentStyle = {
+      BULLISH: { label: '🟢 บวก', color: 'var(--green)', bg: 'rgba(18,164,84,.14)' },
+      BEARISH: { label: '🔴 ลบ', color: 'var(--red)', bg: 'rgba(229,72,77,.14)' },
+      NEUTRAL: { label: '🟡 กลาง', color: 'var(--amber)', bg: 'rgba(217,119,6,.14)' }
+    };
+
+    news.forEach(n => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.style.cursor = 'pointer';
+      card.onclick = () => window.open(n.link, '_blank');
+
+      const top = document.createElement('div');
+      top.className = 'row-between';
+      const left = document.createElement('div');
+      left.style.cssText = 'display:flex;align-items:center;gap:6px';
+      const chip = document.createElement('span');
+      chip.className = 'badge hold';
+      chip.textContent = n.ticker;
+      left.appendChild(chip);
+      if (n.sentiment && sentimentStyle[n.sentiment]) {
+        const s = sentimentStyle[n.sentiment];
+        const sChip = document.createElement('span');
+        sChip.style.cssText = `font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px;background:${s.bg};color:${s.color}`;
+        sChip.textContent = s.label;
+        left.appendChild(sChip);
+      }
+      const date = document.createElement('span');
+      date.style.cssText = 'font-size:11px;color:var(--sub)';
+      date.textContent = formatPubDate(n.pubDate);
+      top.appendChild(left);
+      top.appendChild(date);
+
+      const title = document.createElement('div');
+      title.style.cssText = 'font-size:13px;font-weight:600;line-height:1.4;margin-top:6px';
+      title.textContent = n.title;
+
+      card.appendChild(top);
+      card.appendChild(title);
+      el.appendChild(card);
+    });
+  }
+
+  // ---------- AI Copilot ----------
+  const copilotChatEl = document.getElementById('copilotChat');
+  function addCopilotMsg(role, text) {
+    const bubble = document.createElement('div');
+    bubble.className = 'card';
+    bubble.style.cssText = role === 'user'
+      ? 'background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;margin-left:15%'
+      : 'margin-right:15%';
+    bubble.style.whiteSpace = 'pre-wrap';
+    bubble.style.fontSize = '13.5px';
+    bubble.style.lineHeight = '1.5';
+    bubble.textContent = text;
+    copilotChatEl.appendChild(bubble);
+    copilotChatEl.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    return bubble;
+  }
+  function sendCopilotQuestion() {
+    const input = document.getElementById('copilotInput');
+    const q = input.value.trim();
+    if (!q) return;
+    addCopilotMsg('user', q);
+    input.value = '';
+    const loadingBubble = addCopilotMsg('ai', '💭 กำลังคิด…');
+    google.script.run
+      .withSuccessHandler(answer => { loadingBubble.textContent = answer; })
+      .withFailureHandler(err => { loadingBubble.textContent = '⚠️ ผิดพลาด: ' + (err && err.message ? err.message : err); })
+      .askCopilot(q);
+  }
+  document.getElementById('copilotSend').onclick = sendCopilotQuestion;
+  document.getElementById('copilotInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') sendCopilotQuestion();
+  });
+
+  // ---------- NEXUS AI Gateway ----------
+  function loadAiGatewayStatus_() {
+    google.script.run.withSuccessHandler(s => {
+      const el = document.getElementById('aiGatewayStatus');
+      if (!el) return;
+      if (!s || !s.ready) {
+        el.textContent = '🔴 ยังไม่พร้อม — ตั้ง API Key ใน Script Properties';
+        return;
+      }
+      const keys = Object.keys(s.keys || {}).filter(k => s.keys[k]).join(' + ') || '-';
+      el.textContent = `🟢 ${s.active} พร้อมใช้งาน | Mode: ${s.provider} | Keys: ${keys}`;
+    }).withFailureHandler(e => {
+      const el = document.getElementById('aiGatewayStatus');
+      if (el) el.textContent = '⚠️ ตรวจสอบ Gateway ไม่สำเร็จ';
+    }).getAiGatewayStatus();
+  }
+  document.getElementById('aiGatewayTestBtn').onclick = () => {
+    const btn = document.getElementById('aiGatewayTestBtn');
+    btn.disabled = true; btn.textContent = '⏳ ทดสอบ…';
+    google.script.run.withSuccessHandler(r => {
+      btn.disabled = false; btn.textContent = '🧪 ทดสอบ AI';
+      if (r && r.success) {
+        showToast(`✅ AI ใช้งานได้: ${r.provider}${r.model ? ' / ' + r.model : ''} (${r.latencyMs}ms)`);
+        loadAiGatewayStatus_();
+      } else {
+        showToast('⚠️ AI ยังไม่พร้อม: ' + ((r && r.error) || 'Unknown error'));
+      }
+    }).withFailureHandler(e => {
+      btn.disabled = false; btn.textContent = '🧪 ทดสอบ AI';
+      showToast('⚠️ ทดสอบ AI ไม่สำเร็จ: ' + (e && e.message ? e.message : e));
+    }).testNexusAI();
+  };
+  loadAiGatewayStatus_();
+
+  document.getElementById('copilotSend').onclick = sendCopilotQuestion;
+  document.getElementById('copilotInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') sendCopilotQuestion();
+  });
+
+
+  // ---------- Daily AI Briefing ----------
+  // สรุปสถานการณ์วันนี้ + คำแนะนำการจัดพอร์ต โดยใช้ backend function askCopilot() ตัวเดิม
+  // (ไม่ต้องเพิ่มฟังก์ชันใหม่ใน Code.gs) ส่งคำถามสำเร็จรูปไปแทน แล้ว cache ผลไว้ 1 ครั้ง/วัน
+  // เพื่อไม่ให้ยิง Gemini ทุกครั้งที่เปิดแอป (ประหยัดโควตา + โหลดเร็วขึ้น)
+  const BRIEF_PROMPT =
+    'สรุปสถานการณ์พอร์ตของฉันวันนี้แบบสั้นกระชับ เป็น bullet 3-5 ข้อ ครอบคลุม: ' +
+    '1) ภาพรวมวันนี้เป็นอย่างไร (กำไร/ขาดทุน, ตัวที่ขยับแรง) ' +
+    '2) วันนี้ควรทำอะไรกับพอร์ตบ้าง (ซื้อเพิ่ม/ถือ/ลดสัดส่วน) ถ้าไม่มีอะไรต้องทำให้บอกตรงๆ ว่า "ถือต่อ ไม่ต้องทำอะไร" ' +
+    '3) มีความเสี่ยงหรือสิ่งที่ควรระวังไหม (ข่าว, ความเข้มข้นของพอร์ต, การกระจุกตัว) ' +
+    'ตอบเป็นภาษาไทย กระชับ ตรงประเด็น ไม่ต้องทักทายหรือขึ้นต้นด้วยคำนำ';
+
+  // cache กลาง — ใช้ร่วมกันได้ทั้ง Daily Briefing และ AI สรุปรายหุ้น (key ต่างกันไปตามฟีเจอร์)
+  // ผูกกับ "วันนี้" ตามเวลาเครื่อง เพื่อให้ cache หมดอายุอัตโนมัติทุกวันใหม่ ไม่ต้องคอยเคลียร์เอง
+  function aiCacheKey_(prefix) {
+    const d = new Date();
+    return 'pf_ai_' + prefix + '_' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+  }
+  function readAiCache_(prefix) {
+    try {
+      const raw = localStorage.getItem(aiCacheKey_(prefix));
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+  }
+  function writeAiCache_(prefix, text) {
+    try {
+      localStorage.setItem(aiCacheKey_(prefix), JSON.stringify({ text, ts: Date.now() }));
+    } catch (e) { /* localStorage ใช้ไม่ได้ (private mode ฯลฯ) - ข้ามการ cache ไปเฉยๆ */ }
+  }
+  function renderBrief_(text, ts) {
+    document.getElementById('briefBody').textContent = text;
+    const timeEl = document.getElementById('briefTime');
+    if (ts) {
+      const t = new Date(ts);
+      const hh = String(t.getHours()).padStart(2, '0');
+      const mm = String(t.getMinutes()).padStart(2, '0');
+      timeEl.textContent = `วิเคราะห์เมื่อ ${hh}:${mm}`;
+    } else {
+      timeEl.textContent = '';
+    }
+  }
+  function loadDailyBriefing(force) {
+    if (!force) {
+      const cached = readAiCache_('brief');
+      if (cached) { renderBrief_(cached.text, cached.ts); return; }
+    }
+    document.getElementById('briefBody').textContent = '💭 กำลังวิเคราะห์สถานการณ์พอร์ตวันนี้…';
+    document.getElementById('briefTime').textContent = '';
+    google.script.run
+      .withSuccessHandler(answer => {
+        writeAiCache_('brief', answer);
+        renderBrief_(answer, Date.now());
+      })
+      .withFailureHandler(err => {
+        renderBrief_('⚠️ วิเคราะห์ไม่สำเร็จ: ' + (err && err.message ? err.message : err) + ' — แตะ 🔄 เพื่อลองใหม่');
+      })
+      .askCopilot(BRIEF_PROMPT);
+  }
+  document.getElementById('briefRefreshBtn').onclick = () => loadDailyBriefing(true);
+
+  // ---------- AI สรุปรายหุ้น (ในหน้า Detail ของแต่ละ ticker) ----------
+  // ใช้ askCopilot() ตัวเดิมเช่นกัน แค่เปลี่ยนคำถามให้เจาะจงหุ้นตัวนั้น + cache แยกตาม ticker ต่อวัน
+  // เก็บข้อมูล detail ล่าสุดของแต่ละ ticker ไว้ ใช้เป็น "ข้อมูลจริงจากระบบ" ป้อนให้ AI แทนการเดา
+  // (ตัวเลข Buy Zone / ราคา เป้าหมาย / DCA / Fundamentals พวกนี้ระบบคำนวณจาก Google Sheets ไว้แม่นกว่าให้ AI เดาเอง)
+  const lastStockDetailData_ = {};
+  function buildStockContext_(d) {
+    if (!d) return '(ไม่มีข้อมูลเชิงตัวเลขจากระบบสำหรับหุ้นนี้ในขณะนี้ ให้ใช้ความรู้ทั่วไปแทน และระบุ Insufficient Data ถ้าไม่มั่นใจ)';
+    const lines = [];
+    if (d.portfolio) {
+      const p = d.portfolio;
+      lines.push(`ราคาปัจจุบันในระบบ (liveราคา): ${fmtMoney(p.liveราคา)}`);
+      lines.push(`ต้นทุนเฉลี่ยที่ฉันถือ: ${fmtMoney(p.avgCost)} | น้ำหนักในพอร์ต: ${fmtPct(p.weight)} | กำไร/ขาดทุนตอนนี้: ${fmtPct(p.returnPct)}`);
+    } else {
+      lines.push('ยังไม่ได้ถือหุ้นตัวนี้อยู่ในพอร์ต');
+    }
+    if (d.fundamentals) {
+      const f = d.fundamentals;
+      lines.push(`Fundamentals จากระบบ: Rating ${escapeHtml(f.rating)}, คะแนน รวม ${fmtNum(f.totalคะแนน,1)}/100, P/E ${f.pe}, Beta ${fmtNum(f.beta,2)}`);
+    }
+    if (d.priceเป้าหมายs) {
+      const t = d.priceเป้าหมายs;
+      lines.push(`ราคา เป้าหมาย จากระบบ: Bear ${fmtMoney(t.bear)} / Base ${fmtMoney(t.base)} / Bull ${fmtMoney(t.bull)} (สัญญาณ: ${t.signal || '-'})`);
+    }
+    if (d.buyZone) {
+      const b = d.buyZone;
+      lines.push(`Buy Zone จากระบบ: Support(S1) ${fmtMoney(b.s1)}, Resistance(R1) ${fmtMoney(b.r1)} (สัญญาณ: ${b.signal || '-'})`);
+    }
+    if (d.dca) {
+      const c = d.dca;
+      lines.push(`DCA จากระบบ: สัญญาณ ${escapeHtml(c.buySignal)}, คะแนน ${fmtNum(c.score,1)}, จำนวนที่แนะนำ ${fmtMoney(c.allocAmt)}`);
+    }
+    if (d.technicals) {
+      const t = d.technicals;
+      if (t.error) {
+        lines.push(`ข้อมูลเทคนิค (EMA/SMA/RSI14/52-Week): ${t.error} — ${t.reason || ''} → ให้ตอบ "Insufficient Data" ในหัวข้อที่เกี่ยวข้อง ห้ามประมาณเอง`);
+      } else {
+        lines.push(`ข้อมูลเทคนิคคำนวณจริงจากราคาปิดย้อนหลัง ${t.dataPoints} วัน (ณ ${t.asOfDate}):`);
+        lines.push(`ราคาปิดล่าสุด: ${fmtMoney(t.lastClose)}, SMA50: ${fmtMoney(t.sma50)}, SMA200: ${t.sma200 != null ? fmtMoney(t.sma200) : 'Insufficient Data'}`);
+        lines.push(`EMA50: ${fmtMoney(t.ema50)}, EMA200: ${t.ema200 != null ? fmtMoney(t.ema200) : 'Insufficient Data'}, RSI14: ${fmtNum(t.rsi14,1)}`);
+        lines.push(`52-Week High: ${fmtMoney(t.high52w)}, 52-Week Low: ${fmtMoney(t.low52w)}`);
+      }
+    } else {
+      lines.push('ข้อมูลเทคนิค (EMA/SMA/RSI14/52-Week): ไม่มีข้อมูล → ให้ตอบ "Insufficient Data" ในหัวข้อที่เกี่ยวข้อง ห้ามประมาณเอง');
+    }
+    if (d.priceChart && !d.priceChart.error) {
+      const pc = d.priceChart;
+      if (pc.stage && pc.stage.stage) {
+        lines.push(`Weinstein Stage Analysis จริง (คำนวณจาก MA 30 สัปดาห์): ${pc.stage.label}, MA30W ${fmtMoney(pc.stage.ma30w)}, ความชัน ${pc.stage.slopePct >= 0 ? '+' : ''}${pc.stage.slopePct}% ต่อ ~3 สัปดาห์`);
+      }
+      if (pc.support && pc.support.length) {
+        lines.push(`แนวรับจริง (คำนวณจาก Swing Low ย้อนหลัง ~${pc.dates ? pc.dates.length : ''} วันเทรด): ` +
+          pc.support.map((s, i) => `S${i + 1} ${fmtMoney(s.price)} (ชน ${s.touches} ครั้ง)`).join(', '));
+      }
+      if (pc.resistance && pc.resistance.length) {
+        lines.push(`แนวต้านจริง (คำนวณจาก Swing High): ` +
+          pc.resistance.map((r, i) => `R${i + 1} ${fmtMoney(r.price)} (ชน ${r.touches} ครั้ง)`).join(', '));
+      }
+    } else {
+      lines.push('Stage Analysis / แนวรับ-แนวต้านจาก Swing High-Low: ไม่มีข้อมูล → ให้ตอบ "Insufficient Data" ในหัวข้อที่เกี่ยวข้อง ห้ามประมาณเอง');
+    }
+    return lines.join('\n');
+  }
+  function stockAiPrompt_(ticker) {
+    return `คุณคือ Institutional Equity Analyst และ Portfolio Manager มืออาชีพ
+
+ข้อมูลจริงจากระบบของฉันสำหรับหุ้น ${ticker} (ให้ใช้ตัวเลขชุดนี้เป็นหลักสำหรับ Buy Zone / DCA Zone / Support / Resistance / เป้าหมาย ราคา / Fair Value / EMA / SMA / RSI14 / 52-Week High-Low แทนการประมาณเอง เพราะคำนวณจากระบบจริงมาแล้ว ถ้าจุดไหนระบุว่า Insufficient Data ให้ตอบ Insufficient Data ในหัวข้อนั้นตรงๆ ห้ามเดาแทน):
+${buildStockContext_(lastStockDetailData_[ticker])}
+
+สร้าง "AI Investment Summary" สำหรับหุ้น ${ticker} จากข้อมูลข้างต้นรวมกับข้อมูลล่าสุดอื่นที่คุณมี (ปัจจัยพื้นฐาน ข่าว สัญญาณเทคนิค)
+
+วิเคราะห์ตามหัวข้อต่อไปนี้ ตอบสั้นกระชับ หัวข้อละไม่เกิน 1-2 บรรทัด:
+1. Investment คะแนน (0-100)
+2. Business Quality
+3. Revenue Growth
+4. EPS Growth
+5. Free Cash Flow
+6. ROE / ROIC
+7. Debt / Balance Sheet
+8. Gross Margin
+9. P/E / Forward P/E / PEG
+10. Valuation เทียบ Historical Average
+11. Current ราคา เทียบ EMA50 / EMA200 / SMA50 / SMA200
+12. RSI14
+13. 52-Week High / Low
+14. Support และ Resistance (ใช้ตัวเลขแนวรับ/แนวต้านจริงจาก Swing High/Low ที่ให้ไว้ด้านบน ห้ามประมาณเอง)
+14.5. Stage Analysis (Weinstein) — อ้างอิงจาก Stage ที่ระบบคำนวณให้ด้านบน อธิบายว่า Stage นี้หมายถึงอะไรสำหรับหุ้นตัวนี้
+15. Current Trend
+16. Industry / Megatrend
+17. Competitive Advantage / Moat
+18. Latest Earnings / Company News (ต้องระบุวันที่ของข่าวหรือผลประกอบการทุกครั้ง)
+19. Short-term Risk
+20. Long-term Risk
+
+จากนั้นเลือกสถานะที่เหมาะสมที่สุดเพียง 1 สถานะเท่านั้น จาก:
+🟢 BUY / 🟢 DCA / 🟡 HOLD / 🟡 รอเงื่อนไข / 🟠 TRIM / 🔴 SELL
+
+แสดงตัวเลขสำคัญต่อไปนี้ (ถ้าข้อมูลไม่พอให้เขียนว่า "Insufficient Data" ตรงๆ ห้ามเดา):
+- Current ราคา
+- Fair Value
+- Upside/Downside %
+- Buy Zone
+- DCA Zone 1
+- DCA Zone 2
+- Strong Support
+- Resistance
+- เป้าหมาย ราคา
+- Risk Level
+- Investment คะแนน
+
+กติกาสำคัญที่ต้องทำตามเคร่งครัด:
+- ห้ามแนะนำ BUY หรือ DCA เพียงเพราะราคาหุ้นลง ต้องมีเหตุผลเชิงพื้นฐานหรือเทคนิครองรับเสมอ
+- ห้ามอ้างราคาหรือข่าวเก่าโดยไม่ระบุวันที่ของข้อมูลนั้น
+- แยกให้ชัดเจนว่าแต่ละข้อความเป็น Fact (ข้อเท็จจริง) Estimate (ประมาณการ) หรือ AI Opinion (ความเห็นของ AI)
+- หัวข้อไหนข้อมูลไม่พอ ให้ระบุ "Insufficient Data" ตรงๆ ในหัวข้อนั้น อย่าสมมติขึ้นเอง
+
+ปิดท้ายด้วยหัวข้อ "AI VERDICT" ตอบ 5 ข้อนี้ให้ชัดเจนกระชับ:
+1. ตอนนี้ควรทำอะไร
+2. ราคาไหนเหมาะกับการซื้อ
+3. ถ้าถืออยู่ควรทำอย่างไร
+4. ความเสี่ยงสำคัญที่สุดคืออะไร
+5. เหตุผล 1 ประโยคว่าทำไมควรหรือไม่ควรลงทุนตอนนี้
+
+ตอบเป็นภาษาไทย น้ำเสียงกระชับแบบรายงานนักลงทุนสถาบัน (institutional research note) ห้ามใช้สัญลักษณ์ Markdown เช่น ** หรือ # หรือ backtick เด็ดขาด เพราะข้อความจะแสดงผลเป็นตัวอักษรดิบในแอป ให้ใช้เลขหัวข้อ เส้นคั่น หรืออีโมจิที่ระบุไว้แทนการจัดรูปแบบ ไม่ต้องทักทายหรือขึ้นต้นด้วยคำนำ`;
+  }
+  function extractVerdictBadge_(text) {
+    const m = text.match(/(🟢|🟡|🟠|🔴)\s*(BUY|DCA|HOLD|รอเงื่อนไข|TRIM|SELL)/i);
+    if (!m) return null;
+    const label = m[2].toUpperCase();
+    const styleMap = {
+      BUY:  { color: 'var(--green)', bg: 'rgba(18,164,84,.14)' },
+      DCA:  { color: 'var(--green)', bg: 'rgba(18,164,84,.14)' },
+      HOLD: { color: 'var(--amber)', bg: 'rgba(217,119,6,.14)' },
+      รอเงื่อนไข: { color: 'var(--amber)', bg: 'rgba(217,119,6,.14)' },
+      TRIM: { color: '#f97316',      bg: 'rgba(249,115,22,.14)' },
+      SELL: { color: 'var(--red)',   bg: 'rgba(229,72,77,.14)' }
+    };
+    const s = styleMap[label] || { color: 'var(--sub)', bg: 'rgba(107,114,128,.16)' };
+    return { emoji: m[1], label, color: s.color, bg: s.bg };
+  }
+  function renderStockAiSummary_(ticker, text, ts, failed) {
+    const el = document.getElementById('aiStockSection');
+    if (!el) return; // ผู้ใช้กดออกจากหน้านี้ไปแล้วก่อนโหลดเสร็จ
+    const timeStr = ts ? (() => {
+      const t = new Date(ts);
+      return `วิเคราะห์เมื่อ ${String(t.getHours()).padStart(2, '0')}:${String(t.getMinutes()).padStart(2, '0')}`;
+    })() : '';
+    el.innerHTML = '';
+
+    // แถบหัวข้อสั้นๆ สีม่วงไล่เฉด (เหมือนการ์ด "สรุปวันนี้") + ปุ่มวิเคราะห์ใหม่
+    const head = document.createElement('div');
+    head.className = 'brief-card';
+    head.style.cssText = 'margin-top:10px;padding:12px 15px;margin-bottom:0;border-radius:16px 16px 0 0';
+    const headRow = document.createElement('div');
+    headRow.className = 'brief-head';
+    headRow.style.marginBottom = '0';
+    const title = document.createElement('div');
+    title.className = 'brief-title';
+    title.textContent = `🧠 AI Investment Summary`;
+    const refreshBtn = document.createElement('button');
+    refreshBtn.className = 'brief-refresh';
+    refreshBtn.title = 'วิเคราะห์ใหม่';
+    refreshBtn.setAttribute('aria-label', 'วิเคราะห์ใหม่');
+    refreshBtn.textContent = '🔄';
+    refreshBtn.onclick = () => loadStockAiSummary(ticker, true);
+    headRow.appendChild(title);
+    headRow.appendChild(refreshBtn);
+    head.appendChild(headRow);
+
+    // เนื้อหารายงานยาว — ใช้การ์ดปกติ (อ่านง่ายกว่าพื้นสีม่วงไล่เฉดสำหรับข้อความยาว)
+    const body = document.createElement('div');
+    body.className = 'card';
+    body.style.cssText = 'border-radius:0 0 16px 16px;border-top:none;margin-top:0';
+
+    const badgeInfo = failed ? null : extractVerdictBadge_(text);
+    if (badgeInfo) {
+      const badge = document.createElement('span');
+      badge.style.cssText = `display:inline-block;padding:7px 16px;border-radius:999px;font-weight:800;font-size:13.5px;margin-bottom:10px;background:${badgeInfo.bg};color:${badgeInfo.color}`;
+      badge.textContent = `${badgeInfo.emoji} ${badgeInfo.label}`;
+      body.appendChild(badge);
+    }
+
+    const bodyText = document.createElement('div');
+    bodyText.style.cssText = 'font-size:13px;line-height:1.7;white-space:pre-wrap;overflow-wrap:break-word';
+    bodyText.textContent = text;
+    body.appendChild(bodyText);
+
+    const timeEl = document.createElement('div');
+    timeEl.style.cssText = 'font-size:10.5px;color:var(--sub);margin-top:10px';
+    timeEl.textContent = timeStr;
+    body.appendChild(timeEl);
+
+    const disclaimer = document.createElement('div');
+    disclaimer.style.cssText = 'font-size:10px;color:var(--sub);opacity:.8;margin-top:4px;line-height:1.4';
+    disclaimer.textContent = '⚠️ วิเคราะห์โดย AI เพื่อประกอบการตัดสินใจ ไม่ใช่คำแนะนำการลงทุน โปรดใช้วิจารณญาณของคุณเอง';
+    body.appendChild(disclaimer);
+
+    el.appendChild(head);
+    el.appendChild(body);
+  }
+  function loadStockAiSummary(ticker, force) {
+    const cacheKey = 'stockv2_' + ticker;
+    if (!force) {
+      const cached = readAiCache_(cacheKey);
+      if (cached) { renderStockAiSummary_(ticker, cached.text, cached.ts); return; }
+    }
+    renderStockAiSummary_(ticker, '💭 กำลังวิเคราะห์ ' + ticker + ' แบบละเอียด…', null, true);
+    google.script.run
+      .withSuccessHandler(answer => {
+        writeAiCache_(cacheKey, answer);
+        renderStockAiSummary_(ticker, answer, Date.now());
+      })
+      .withFailureHandler(err => {
+        renderStockAiSummary_(ticker, '⚠️ วิเคราะห์ไม่สำเร็จ: ' + (err && err.message ? err.message : err) + ' — แตะ 🔄 เพื่อลองใหม่', null, true);
+      })
+      .askCopilot(stockAiPrompt_(ticker));
+  }
+
+  // ---------- AI Risk Commentary (หน้า More → Risk Dashboard) ----------
+  function renderRiskCommentary_(text, ts, failed) {
+    const el = document.getElementById('aiRiskSection');
+    if (!el) return; // ผู้ใช้กดออกจากหน้านี้ไปแล้ว
+    const timeStr = ts ? (() => {
+      const t = new Date(ts);
+      return `วิเคราะห์เมื่อ ${String(t.getHours()).padStart(2, '0')}:${String(t.getMinutes()).padStart(2, '0')}`;
+    })() : '';
+    el.innerHTML = '';
+    const card = document.createElement('div');
+    card.className = 'brief-card';
+    const head = document.createElement('div');
+    head.className = 'brief-head';
+    const title = document.createElement('div');
+    title.className = 'brief-title';
+    title.textContent = '🧭 AI วิเคราะห์ความเสี่ยงพอร์ต';
+    const refreshBtn = document.createElement('button');
+    refreshBtn.className = 'brief-refresh';
+    refreshBtn.title = 'วิเคราะห์ใหม่';
+    refreshBtn.setAttribute('aria-label', 'วิเคราะห์ใหม่');
+    refreshBtn.textContent = '🔄';
+    refreshBtn.onclick = () => loadRiskCommentary(true);
+    head.appendChild(title);
+    head.appendChild(refreshBtn);
+    const body = document.createElement('div');
+    body.className = 'brief-body';
+    body.textContent = text;
+    const timeEl = document.createElement('div');
+    timeEl.className = 'brief-time';
+    timeEl.textContent = timeStr;
+    const disclaimer = document.createElement('div');
+    disclaimer.className = 'brief-disclaimer';
+    disclaimer.textContent = '⚠️ วิเคราะห์โดย AI เพื่อประกอบการตัดสินใจ ไม่ใช่คำแนะนำการลงทุน โปรดใช้วิจารณญาณของคุณเอง';
+    card.appendChild(head);
+    card.appendChild(body);
+    card.appendChild(timeEl);
+    card.appendChild(disclaimer);
+    el.appendChild(card);
+  }
+  function loadRiskCommentary(force) {
+    if (!force) {
+      const cached = readAiCache_('risk');
+      if (cached) { renderRiskCommentary_(cached.text, cached.ts); return; }
+    }
+    renderRiskCommentary_('💭 กำลังวิเคราะห์ความเสี่ยงพอร์ต…', null, true);
+    google.script.run
+      .withSuccessHandler(answer => {
+        writeAiCache_('risk', answer);
+        renderRiskCommentary_(answer, Date.now());
+      })
+      .withFailureHandler(err => {
+        renderRiskCommentary_('⚠️ วิเคราะห์ไม่สำเร็จ: ' + (err && err.message ? err.message : err) + ' — แตะ 🔄 เพื่อลองใหม่', null, true);
+      })
+      .getRiskCommentary();
+  }
+
+
+  function loadRiskMeter(onDone) {
+    google.script.run.withSuccessHandler(data => { renderRiskMeter(data); if (onDone) onDone(); }).withFailureHandler(() => {
+      document.getElementById('riskMeter').innerHTML = retryCardHtml_('โหลดไม่สำเร็จ', 'loadRiskMeter()');
+      if (onDone) onDone();
+    }).getRiskData();
+  }
+  function renderRiskMeter(data) {
+    const el = document.getElementById('riskMeter');
+    const g = data.gauges;
+    const level = String(g.riskLevel || '');
+    const isHigh = level.includes('HIGH');
+    const isMed = level.includes('MED');
+    const pct = isHigh ? 90 : (isMed ? 55 : 25);
+    const color = isHigh ? 'var(--red)' : (isMed ? 'var(--amber)' : 'var(--green)');
+    el.innerHTML = `
+      <div class="row-between" style="margin-bottom:8px">
+        <span style="font-size:12.5px;color:var(--sub)">ระดับความเสี่ยงรวม</span>
+        <span style="font-weight:800;color:${color}">${g.riskLevel || '-'}</span>
+      </div>
+      <div style="height:8px;background:var(--border);border-radius:999px;overflow:hidden;margin-bottom:10px">
+        <div style="height:100%;width:${pct}%;background:${color};border-radius:999px"></div>
+      </div>
+      <div class="meta-row">
+        <span>Beta <b>${fmtNum(g.beta,2)}</b></span>
+        <span>Top 5 สัดส่วน <b>${fmtPct(g.top5สัดส่วน)}</b></span>
+        <span>หุ้นตัวใหญ่สุด <b>${fmtPct(g.largestPosition)}</b></span>
+      </div>
+    `;
+  }
+
+  // ---------- Dashboard ----------
+  function loadDashboard(onDone) {
+    google.script.run
+      .withSuccessHandler(data => { renderDashboard(data); if (onDone) onDone(); })
+      .withFailureHandler(err => {
+        onError(err);
+        document.getElementById('kpiGrid').innerHTML = retryCardHtml_('โหลดข้อมูลพอร์ตไม่สำเร็จ', 'loadDashboard()');
+        if (onDone) onDone();
+      })
+      .getDashboardData();
+  }
+  function loadHistory(onDone) {
+    google.script.run.withSuccessHandler(rows => { renderHistoryChart(rows); if (onDone) onDone(); }).withFailureHandler(() => {
+      document.getElementById('historyChart').innerHTML = retryCardHtml_('โหลดกราฟไม่สำเร็จ', 'loadHistory()');
+      if (onDone) onDone();
+    }).getPortfolioHistory(30);
+  }
+  function renderHistoryChart(rows) {
+    const el = document.getElementById('historyChart');
+    if (!rows || rows.length < 2) {
+      el.innerHTML = '<div class="empty">ยังไม่มีข้อมูลย้อนหลัง — ระบบจะเริ่มเก็บอัตโนมัติทุกวันตั้งแต่วันนี้เป็นต้นไป</div>';
+      return;
+    }
+    const w = 320, h = 110, pad = 6;
+    const values = rows.map(r => r.value);
+    const min = Math.min(...values), max = Math.max(...values);
+    const range = (max - min) || 1;
+    const stepX = (w - pad * 2) / (rows.length - 1);
+    const pts = values.map((v, i) => {
+      const x = pad + i * stepX;
+      const y = pad + (h - pad * 2) * (1 - (v - min) / range);
+      return [x, y];
+    });
+    const isUp = values[values.length - 1] >= values[0];
+    const lineColor = isUp ? 'var(--green)' : 'var(--red)';
+    const pathD = pts.map((p, i) => (i === 0 ? 'M' : 'L') + p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+    const areaD = pathD + ` L${pts[pts.length - 1][0].toFixed(1)},${h - pad} L${pts[0][0].toFixed(1)},${h - pad} Z`;
+    const changePct = values[0] !== 0 ? (values[values.length - 1] - values[0]) / values[0] : 0;
+
+    el.innerHTML = `
+      <div class="row-between" style="margin-bottom:6px">
+        <span style="font-size:12.5px;color:var(--sub)">${rows[0].date} → ${rows[rows.length - 1].date}</span>
+        <span class="${changePct >= 0 ? 'pos' : 'neg'}" style="font-weight:700;font-size:13px">${changePct >= 0 ? '+' : ''}${(changePct * 100).toFixed(1)}%</span>
+      </div>
+      <svg viewBox="0 0 ${w} ${h}" style="width:100%;height:${h}px;display:block" preserveAspectRatio="none">
+        <path d="${areaD}" fill="${lineColor}" opacity="0.12" stroke="none"></path>
+        <path d="${pathD}" fill="none" stroke="${lineColor}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    `;
+  }
+  function renderDashboard(data) {
+    const k = data.kpis;
+
+    const todayCard = document.getElementById('todayCard');
+    const todayVal = document.getElementById('todayValue');
+    const todayArrow = document.getElementById('todayArrow');
+    const todaySub = document.getElementById('todaySub');
+    const isNeg = Number(k.todayChangeAmt) < 0;
+    todayCard.classList.toggle('neg', isNeg);
+    todayArrow.textContent = isNeg ? '▼' : '▲';
+    todayVal.textContent = `${isNeg ? '' : '+'}${fmtMoney(k.todayChangeAmt)} (${isNeg ? '' : '+'}${fmtPct(k.todayChangePct)})`;
+    todaySub.textContent = 'มูลค่าพอร์ตรวม ' + fmtMoney(k.portfolioValue);
+
+    document.getElementById('kpiGrid').innerHTML = `
+      <div class="kpi-card"><div class="kpi-label">💰 มูลค่าพอร์ต</div><div class="kpi-value">${fmtMoney(k.portfolioValue)}</div></div>
+      <div class="kpi-card"><div class="kpi-label">💸 ต้นทุนรวม</div><div class="kpi-value">${fmtMoney(k.totalCost)}</div></div>
+      <div class="kpi-card"><div class="kpi-label">📈 กำไร/ขาดทุน</div><div class="kpi-value ${pnlClass(k.unrealizedGL)}">${fmtMoney(k.unrealizedGL)}</div></div>
+      <div class="kpi-card"><div class="kpi-label">📊 Return %</div><div class="kpi-value ${pnlClass(k.returnPct)}">${fmtPct(k.returnPct)}</div></div>
+      <div class="kpi-card"><div class="kpi-label">🏦 เงินสด</div><div class="kpi-value">${fmtMoney(k.cashBalance)}</div></div>
+      <div class="kpi-card"><div class="kpi-label">🎯 Health คะแนน</div><div class="kpi-value">${(Number(k.healthคะแนน)||0).toFixed(0)}/100</div></div>
+    `;
+    const t = new Date(data.lastUpdated);
+    document.getElementById('lastUpdated').textContent = 'อัปเดตล่าสุด ' + t.toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+
+    const list = document.getElementById('holdingsList');
+    if (!data.holdings.length) {
+      list.innerHTML = '<div class="empty">ยังไม่มีข้อมูลการถือครอง</div>';
+      document.getElementById('topMovers').innerHTML = '<div class="empty">ยังไม่มีข้อมูล</div>';
+      document.getElementById('heatmap').innerHTML = '<div class="empty">ยังไม่มีข้อมูล</div>';
+      return;
+    }
+    list.innerHTML = data.holdings.map(h => {
+      const chgPct = todayPctOf_(h);
+      const chgNeg = chgPct < 0;
+      return `
+      <div class="card">
+        <div class="row-between">
+          <div style="display:flex;align-items:center">${avatarHtml(h.ticker)}<div><span class="ticker" onclick="openStockDetail(${jsArg(h.ticker)})">${escapeHtml(h.ticker)}</span> <span class="theme-tag">· ${escapeHtml(h.theme)}</span></div></div>
+          <div class="${pnlClass(h.returnPct)}" style="font-weight:700">${fmtPct(h.returnPct)}</div>
+        </div>
+        <div class="meta-row">
+          <span>ราคา <b>${fmtMoney(h.liveราคา)}</b> <span class="${pnlClass(chgPct)}">${chgNeg ? '▼' : '▲'} ${fmtPct(Math.abs(chgPct))}</span></span>
+          <span>มูลค่า <b>${fmtMoney(h.mktValue)}</b></span>
+          <span>น้ำหนัก <b>${fmtPct(h.weight)}</b></span>
+          <span>${escapeHtml(h.conviction || '')}</span>
+        </div>
+      </div>
+    `;
+    }).join('');
+
+    renderTopMovers(data.holdings);
+    renderHeatmap(data.holdings);
+  }
+
+  // ---------- Top Movers วันนี้ ----------
+  function todayPctOf_(h) {
+    // ประมาณ % เปลี่ยนแปลงวันนี้จากราคาปัจจุบันลบการเปลี่ยนแปลงวันนี้ = ราคาเมื่อวาน
+    const prevราคา = h.liveราคา - (h.dayChgPerShare || 0);
+    return prevราคา ? (h.dayChgPerShare || 0) / prevราคา : 0;
+  }
+  function renderTopMovers(holdings) {
+    const el = document.getElementById('topMovers');
+    const withChg = holdings.map(h => ({ ...h, todayPct: todayPctOf_(h) }));
+    const sorted = [...withChg].sort((a, b) => b.todayPct - a.todayPct);
+    const gainers = sorted.slice(0, 3);
+    const losers = sorted.slice(-3).reverse();
+    const row = (h) => `
+      <div class="kpi-card" style="flex:1;min-width:0">
+        <div class="kpi-label">${h.ticker}</div>
+        <div class="kpi-value ${pnlClass(h.todayPct)}" style="font-size:16px">${h.todayPct >= 0 ? '+' : ''}${(h.todayPct * 100).toFixed(2)}%</div>
+      </div>`;
+    el.innerHTML = `
+      <div style="margin-bottom:8px">
+        <div style="font-size:11px;color:var(--sub);font-weight:700;margin-bottom:6px">📈 GAINERS</div>
+        <div style="display:flex;gap:8px">${gainers.map(row).join('')}</div>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--sub);font-weight:700;margin-bottom:6px">📉 LOSERS</div>
+        <div style="display:flex;gap:8px">${losers.map(row).join('')}</div>
+      </div>`;
+  }
+
+  // ---------- Portfolio Heatmap ----------
+  function renderHeatmap(holdings) {
+    const el = document.getElementById('heatmap');
+    const withChg = holdings.map(h => ({ ...h, todayPct: todayPctOf_(h) }));
+    el.innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:6px">${withChg.map(h => {
+      const pct = h.todayPct;
+      const intensity = Math.min(Math.abs(pct) * 12, 1); // ยิ่งเปลี่ยนแปลงมาก สียิ่งเข้ม
+      const bg = pct >= 0
+        ? `rgba(18,164,84,${0.15 + intensity * 0.55})`
+        : `rgba(229,72,77,${0.15 + intensity * 0.55})`;
+      const size = Math.max(64, Math.min(120, Math.round(64 + h.weight * 300)));
+      return `
+        <div onclick="openStockDetail('${h.ticker}')" style="cursor:pointer;flex:0 0 auto;width:${size}px;height:${size * 0.62}px;
+          border-radius:12px;background:${bg};display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff">
+          <div style="font-weight:800;font-size:13px;text-shadow:0 1px 2px rgba(0,0,0,.25)">${h.ticker}</div>
+          <div style="font-size:11px;font-weight:700;text-shadow:0 1px 2px rgba(0,0,0,.25)">${pct >= 0 ? '+' : ''}${(pct * 100).toFixed(1)}%</div>
+        </div>`;
+    }).join('')}</div>`;
+  }
+
+  // ---------- Add Transaction ----------
+  let currentAction = 'BUY';
+  let currentCashAction = 'DEPOSIT';
+  let currentMode = 'stock';
+  let editingRow = null; // null = กำลังเพิ่มใหม่, ไม่ null = กำลังแก้ไขแถวนี้
+
+  document.querySelectorAll('.modebtn').forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll('.modebtn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentMode = btn.dataset.mode;
+      document.getElementById('stockFields').style.display = currentMode === 'stock' ? 'block' : 'none';
+      document.getElementById('cashFields').style.display = currentMode === 'cash' ? 'block' : 'none';
+    };
+  });
+
+  document.querySelectorAll('.segbtn[data-action]').forEach(btn => {
+    btn.onclick = () => {
+      const group = btn.parentElement;
+      group.querySelectorAll('.segbtn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentAction = btn.dataset.action;
+    };
+  });
+  document.querySelectorAll('.segbtn[data-cashaction]').forEach(btn => {
+    btn.onclick = () => {
+      const group = btn.parentElement;
+      group.querySelectorAll('.segbtn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCashAction = btn.dataset.cashaction;
+    };
+  });
+
+  function loadTickers(onDone) {
+    google.script.run
+      .withSuccessHandler(list => {
+        document.getElementById('tickerList').innerHTML =
+          list.map(t => `<option value="${t}">`).join('');
+        if (onDone) onDone();
+      })
+      .withFailureHandler(err => {
+        console.error('โหลดรายชื่อ Ticker ไม่สำเร็จ:', err && err.message ? err.message : err);
+        if (onDone) onDone();
+      })
+      .getAllTickers();
+  }
+
+  document.getElementById('txDate').valueAsDate = new Date();
+
+  function resetTxForm() {
+    document.getElementById('txForm').reset();
+    document.getElementById('txDate').valueAsDate = new Date();
+    editingRow = null;
+    document.getElementById('txSubmitBtn').textContent = '💾 บันทึกธุรกรรม';
+    document.getElementById('txCancelEditBtn').style.display = 'none';
+    document.querySelectorAll('.modebtn')[0].click();
+  }
+
+  document.getElementById('txCancelEditBtn').onclick = resetTxForm;
+
+  document.getElementById('txNotesAiBtn').onclick = () => {
+    const ticker = document.getElementById('txTicker').value.trim().toUpperCase();
+    if (!ticker) { showToast('⚠️ กรอก Ticker ก่อนค่อยให้ AI เขียนโน้ต'); return; }
+    const btn = document.getElementById('txNotesAiBtn');
+    const original = btn.textContent;
+    btn.textContent = '💭 กำลังคิด…';
+    btn.disabled = true;
+
+    const shares = document.getElementById('txShares').value;
+    const price = document.getElementById('txราคา').value;
+    let tradeCtx = '';
+    if (shares && price) tradeCtx = ` (ธุรกรรมนี้: ${shares} หุ้น ที่ราคา $${price})`;
+
+    const prompt = `เขียนโน้ตสั้นๆ 1 บรรทัด (ไม่เกิน 15 คำ) สำหรับบันทึกในสมุดเทรดของฉัน อธิบายเหตุผลหลักที่ถือ/ซื้อ/ขายหุ้น ${ticker}${tradeCtx} ` +
+      `ให้ใช้ข้อมูลพอร์ต/ปัจจัยพื้นฐานที่มีจริงเท่านั้น เช่น ธีมหลักที่ลงทุน หรือเหตุผลเชิงพื้นฐาน/เทคนิคสั้นๆ ` +
+      `ตอบแค่ข้อความโน้ตบรรทัดเดียว ห้ามมีคำอธิบายอื่น ห้ามใช้เครื่องหมายคำพูดครอบ ห้ามใช้ markdown`;
+
+    google.script.run
+      .withSuccessHandler(answer => {
+        btn.textContent = original;
+        btn.disabled = false;
+        document.getElementById('txNotes').value = String(answer || '').trim().replace(/^["']|["']$/g, '');
+      })
+      .withFailureHandler(err => {
+        btn.textContent = original;
+        btn.disabled = false;
+        showToast('⚠️ AI เขียนโน้ตไม่สำเร็จ: ' + (err && err.message ? err.message : err));
+      })
+      .askCopilot(prompt);
+  };
+
+  document.getElementById('txForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const submitBtn = document.getElementById('txSubmitBtn');
+
+    let tx;
+    if (currentMode === 'cash') {
+      const amount = document.getElementById('txCashAmount').value;
+      if (!amount || Number(amount) <= 0) { onError('กรอกจำนวนเงินให้ถูกต้อง'); return; }
+      tx = {
+        date: document.getElementById('txDate').value,
+        ticker: 'CASH', type: 'CASH', action: currentCashAction,
+        shares: 1, price: amount, fees: 0,
+        notes: document.getElementById('txNotes').value
+      };
+    } else {
+      const ticker = document.getElementById('txTicker').value;
+      const shares = document.getElementById('txShares').value;
+      const price = document.getElementById('txราคา').value;
+      if (!ticker || !shares || !price) { onError('กรอก Ticker, Shares, ราคา ให้ครบ'); return; }
+      tx = {
+        date: document.getElementById('txDate').value,
+        ticker, type: 'STOCK', action: currentAction, shares, price,
+        fees: document.getElementById('txFees').value,
+        notes: document.getElementById('txNotes').value
+      };
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'กำลังบันทึก…';
+
+    const onSuccess = () => {
+      showToast(editingRow ? '✅ แก้ไขธุรกรรมแล้ว' : '✅ บันทึกธุรกรรมแล้ว');
+      resetTxForm();
+      submitBtn.disabled = false;
+      loadDashboard();
+      loadRebalance();
+      goTab('dashboard');
+    };
+    const onFail = err => {
+      onError(err);
+      submitBtn.disabled = false;
+      submitBtn.textContent = editingRow ? '💾 บันทึกการแก้ไข' : '💾 บันทึกธุรกรรม';
+    };
+
+    if (editingRow) {
+      google.script.run.withSuccessHandler(onSuccess).withFailureHandler(onFail).updateTransaction(editingRow, tx);
+    } else {
+      google.script.run.withSuccessHandler(onSuccess).withFailureHandler(onFail).addTransaction(tx);
+    }
+  });
+
+  // ---------- Rebalance ----------
+  function loadRebalance(onDone) {
+    google.script.run
+      .withSuccessHandler(rows => { renderRebalance(rows); if (onDone) onDone(); })
+      .withFailureHandler(err => {
+        onError(err);
+        document.getElementById('rebalanceList').innerHTML = retryCardHtml_('โหลดข้อมูล Rebalance ไม่สำเร็จ', 'loadRebalance()');
+        if (onDone) onDone();
+      })
+      .getRebalanceData();
+  }
+  function urgencyClass(u) {
+    u = String(u == null ? '' : u);
+    if (!u) return 'low';
+    if (u.includes('HIGH')) return 'high';
+    if (u.includes('MED')) return 'med';
+    return 'low';
+  }
+  function actionClass(a) {
+    a = String(a == null ? '' : a);
+    if (!a) return 'hold';
+    if (a.includes('SELL')) return 'sell';
+    if (a.includes('BUY')) return 'buy';
+    return 'hold';
+  }
+  function renderRebalance(rows) {
+    const list = document.getElementById('rebalanceList');
+    if (!rows.length) {
+      list.innerHTML = '<div class="empty">ไม่มีข้อมูล Rebalance</div>';
+      return;
+    }
+    list.innerHTML = rows.map(r => {
+      const ac = actionClass(r.action);
+      const showBtn = ac !== 'hold';
+      return `
+      <div class="card">
+        <div class="row-between">
+          <div style="display:flex;align-items:center">${avatarHtml(r.ticker)}<span class="ticker">${escapeHtml(r.ticker)}</span></div>
+          <span class="badge ${ac}">${r.action}</span>
+        </div>
+        <div class="meta-row">${r.liveราคา != null ? `<span>ราคา <b>${fmtMoney(r.liveราคา)}</b></span>` : ''}<span>เป้าหมาย <b>${fmtPct(r.target)}</b></span><span>Current <b>${fmtPct(r.current)}</b></span><span class="badge ${urgencyClass(r.urgency)}">${r.urgency || ''}</span></div>
+        <div class="meta-row"><span>${r.note || ''}</span></div>
+        ${showBtn ? `<button class="btn btn-outline" onclick="prefillTx(${escapeHtml(JSON.stringify(r))})>📝 บันทึกรายการนี้</button>` : ''}
+      </div>`;
+    }).join('');
+  }
+
+  function prefillTx(r) {
+    goTab('add');
+    document.getElementById('txTicker').value = r.ticker;
+    document.getElementById('txShares').value = Math.abs(r.sharesDelta) || '';
+    document.getElementById('txราคา').value = '';
+    document.getElementById('txNotes').value = 'Rebalance: ' + (r.note || '');
+    const wantAction = safeIncludes(r.action,'SELL') ? 'SELL' : 'BUY';
+    document.querySelectorAll('.segbtn').forEach(b => {
+      b.classList.toggle('active', b.dataset.action === wantAction);
+    });
+    currentAction = wantAction;
+    showToast('กรอกราคาปัจจุบันก่อนบันทึก');
+    document.getElementById('txราคา').focus();
+  }
+
+
+  // ---------- NEXUS v4.9.6 Command Center ----------
+  function loadV4CommandCenter_(onDone) {
+    google.script.run
+      .withSuccessHandler(data => { renderV4CommandCenter_(data || {}); if (onDone) onDone(); })
+      .withFailureHandler(err => {
+        const el=document.getElementById('v4CommandCenter');
+        if(el) el.innerHTML=retryCardHtml_('โหลด NEXUS v4.9.6 Command Center ไม่สำเร็จ','loadV4CommandCenter_()');
+        if(onDone) onDone();
+      })
+      .getV4CommandCenterData();
+  }
+  function renderV4CommandCenter_(d) {
+    const el=document.getElementById('v4CommandCenter'); if(!el) return;
+    const k=d.kpis||{}, h=d.health||{}, c=d.cash||{}, a=d.actions||{};
+    const health=Number(h.score)||0;
+    const healthLabel=h.rating|| (health>=85?'ดีมาก':health>=70?'ดี':health>=55?'ปานกลาง':'ควรระวัง');
+    const deployments=Array.isArray(c.deployment)?c.deployment:[];
+    const alerts=Array.isArray(d.alerts)?d.alerts:[];
+    const events=Array.isArray(d.upcoming)?d.upcoming:[];
+    const setup=Array.isArray(d.dataHealth)?d.dataHealth:[];
+    const gauges=Array.isArray(d.market?.gauges)?d.market.gauges:[];
+    const money=n=>fmtMoney(Number(n)||0);
+    const pct=n=>fmtPct(Number(n)||0);
+    const levelClass=x=>x==='HIGH'?'sell':x==='MED'?'hold':x==='OK'?'buy':'hold';
+    el.innerHTML=`
+      <div class="card" style="background:linear-gradient(135deg,rgba(99,102,241,.16),rgba(14,165,233,.10));border-color:rgba(99,102,241,.25)">
+        <div style="font-size:11px;color:var(--sub);font-weight:800;letter-spacing:.5px">NEXUS COMMAND CENTER</div>
+        <div style="font-size:20px;font-weight:900;margin-top:4px">วันนี้ต้องรู้อะไรบ้าง?</div>
+        <div class="muted" style="margin-top:5px">รวม Decision, สุขภาพพอร์ต, เงินพร้อมลงทุน, Alert และ Market ไว้หน้าเดียว</div>
+      </div>
+      <div class="kpi-grid" style="margin-top:10px">
+        <div class="kpi-card"><div class="label">🩺 Portfolio Health</div><div class="value">${Math.round(health)}/100</div><div class="sub">${escapeHtml(healthLabel)}</div></div>
+        <div class="kpi-card"><div class="label">💰 เงินสด</div><div class="value">${money(c.balance)}</div><div class="sub">พร้อมใช้ ${money(c.deployable)}</div></div>
+        <div class="kpi-card"><div class="label">📈 ผลตอบแทน</div><div class="value ${pnlClass(k.returnPct)}">${pct(k.returnPct)}</div><div class="sub">P/L ${money(k.unrealizedGL)}</div></div>
+        <div class="kpi-card"><div class="label">🎯 BUY / DCA</div><div class="value">${Number(a.buy||0)} / ${Number(a.dca||0)}</div><div class="sub">Candidates วันนี้</div></div>
+      </div>
+      <div class="section-title">💵 Smart Cash Allocation</div>
+      <div class="card">
+        <div class="row-between"><span>เงินสดทั้งหมด</span><b>${money(c.balance)}</b></div>
+        <div class="row-between" style="margin-top:7px"><span>เงินสำรอง</span><b>${money(c.reserve)}</b></div>
+        <div class="row-between" style="margin-top:7px"><span>เงินที่ระบบจัดสรรได้</span><b class="pos">${money(c.deployable)}</b></div>
+        <div style="margin-top:10px">${deployments.length?deployments.map((x,i)=>`<div class="row-between" style="padding:8px 0;border-top:1px solid var(--border)"><span>🥇 ${escapeHtml(x.ticker||'-')} <span class="muted">${escapeHtml(x.action||'')}</span></span><b>${money(x.amount||x.dcaAmount||0)}</b></div>`).join(''):'<div class="empty">ยังไม่มีรายการจัดสรรเงินวันนี้</div>'}</div>
+      </div>
+      <div class="section-title">🚨 Alerts — สิ่งที่ต้องรู้</div>
+      <div>${alerts.map(x=>`<div class="card" style="margin-bottom:7px"><div class="row-between"><div><b>${x.icon||'🔔'} ${escapeHtml(x.title||'')}</b><div class="muted" style="margin-top:3px">${escapeHtml(x.detail||'')}</div></div><span class="badge ${levelClass(x.level)}">${escapeHtml(x.level||'INFO')}</span></div></div>`).join('')}</div>
+      <div class="section-title">📅 Upcoming Events</div>
+      <div class="card">${events.length?events.map(e=>`<div class="row-between" style="padding:8px 0;border-bottom:1px solid var(--border)"><span>${e.icon||'📌'} <b>${escapeHtml(e.ticker||'-')}</b> <span class="muted">${escapeHtml(e.note||'')}</span></span><b>${escapeHtml(e.date||'-')}</b></div>`).join(''):'<div class="empty">ไม่มี Event ที่ระบบดึงได้ในตอนนี้</div>'}</div>
+      <div class="section-title">🌡️ Market Reference</div>
+      <div class="card">${gauges.length?gauges.map(g=>`<div class="row-between" style="padding:7px 0;border-bottom:1px solid var(--border)"><span>${escapeHtml(g.indicator||'-')}</span><b>${escapeHtml(g.live==null?'-':g.live)} ${g.signal?`<span class="muted">· ${escapeHtml(g.signal)}</span>`:''}</b></div>`).join(''):'<div class="empty">ไม่มีข้อมูล Market Reference</div>'}</div>
+      <div class="section-title">🛡️ Data Health</div>
+      <div class="card">${setup.length?setup.map(x=>`<div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:12px">${x.ok?'🟢':'🔴'} ${escapeHtml(x.text||'')}</div>`).join(''):'<div class="empty">ยังตรวจสอบ Data Health ไม่ได้</div>'}</div>
+      <div class="card" style="font-size:10.5px;color:var(--sub);line-height:1.5">⚠️ ${escapeHtml(d.disclaimer||'ระบบช่วยวิเคราะห์ ไม่ใช่คำแนะนำการลงทุน')}</div>`;
+  }
+
+  // ---------- Errors / Refresh ----------
+  function onError(err) {
+    showToast('⚠️ ผิดพลาด: ' + (err && err.message ? err.message : err));
+  }
+  // การ์ดไหนโหลดพัง ใส่ปุ่ม "ลองใหม่" ในการ์ดนั้นเอง แทนที่จะค้าง "กำลังโหลด…" ตลอดไป
+  // retryFnCall คือสตริงเรียกฟังก์ชัน เช่น 'loadHistory()' (ใส่ผ่าน onclick ตรงๆ เพราะฟังก์ชันเป็น global อยู่แล้ว)
+  function retryCardHtml_(message, retryFnCall) {
+    return `<div class="empty">${message}<br>` +
+      `<button class="btn btn-outline" style="margin-top:10px;padding:9px 16px;font-size:12.5px;width:auto" onclick="${retryFnCall}">🔄 ลองใหม่</button></div>`;
+  }
+  document.getElementById('refreshBtn').onclick = () => {
+    showToast('🔄 กำลังรีเฟรช…');
+    let pending = 9;
+    const done = () => { pending--; if (pending === 0) showToast('✅ รีเฟรชแล้ว'); };
+    loadDashboard(done);
+    loadRebalance(done);
+    loadTickers(done);
+    loadPortfolioNews(done);
+    loadHistory(done);
+    loadRiskMeter(done);
+    loadDecisionEngine(done);
+    loadEasyMode_(done);
+    loadV4CommandCenter_(done);
+    loadSmartAlerts_(done);
+  };
+
+
+
+
+  // ---------- NEXUS v4.9.6 Easy Mode ----------
+  function easyActionClass_(action) { return actionClassV2_(action); }
+  function renderEasyAction_(r, idx) {
+    const amount = Number(r._amount || 0);
+    const sub = r.action === '🟢 BUY' ? 'เข้าซื้อได้ตามระบบ' :
+      r.action === '🟢 DCA' ? 'ทยอยสะสม' :
+      r.action === '🟠 TRIM' ? 'พิจารณาลดสัดส่วน' :
+      r.action === '🔴 AVOID' ? 'ควรหลีกเลี่ยงการเพิ่มเงิน' : 'ยังไม่ต้องทำ';
+    return `<div class="easy-action" onclick="openStockDetail(${jsArg(r.ticker)})">
+      <div class="rank">${idx + 1}</div>
+      <div class="main"><div class="ticker">${escapeHtml(r.ticker)} <span class="action-pill ${easyActionClass_(r.action)}" style="font-size:9px;padding:3px 7px">${escapeHtml(r.action)}</span></div>
+      <div class="desc">คะแนน ${fmtNum(r.score,0)} · ${escapeHtml(sub)}${r.buyZone ? ' · Buy Zone ' + escapeHtml(String(r.buyZone)) : ''}</div></div>
+      <div class="right"><div class="score">${fmtNum(r.score,0)}</div><div class="amount">${amount > 0 ? fmtMoney(amount) : '—'}</div></div>
+    </div>`;
+  }
+  function renderEasyMode_(d) {
+    d = d || {};
+    const counts = d.counts || {};
+    document.getElementById('easyHeadline').textContent = d.headline || '🟡 รอดูจังหวะ';
+    document.getElementById('easyReason').textContent = d.headlineReason || 'ยังไม่มีข้อมูลเพียงพอสำหรับสรุป Action';
+    document.getElementById('easyBuyCount').textContent = Number(counts.buy||0) + Number(counts.dca||0);
+    document.getElementById('easyWaitCount').textContent = Number(counts.hold||0);
+    document.getElementById('easyRiskCount').textContent = Number(counts.trim||0) + Number(counts.avoid||0);
+    const deployMap = {};
+    (d.deployment || []).forEach(x => deployMap[x.ticker] = x.amount);
+    const primary = document.getElementById('easyPrimary');
+    if (d.primary) {
+      const p=d.primary;
+      const zone = p.buyZone ? `Buy Zone: ${escapeHtml(String(p.buyZone))}` : 'ยังไม่มี Buy Zone';
+      const amount = deployMap[p.ticker] || p.dcaAmount || 0;
+      primary.innerHTML = `<div class="card" style="margin:0;border-radius:15px">
+        <div class="row-between"><div><span class="ticker" onclick="openStockDetail(${jsArg(p.ticker)})">${escapeHtml(p.ticker)}</span><span class="action-pill ${easyActionClass_(p.action)}" style="margin-left:6px">${escapeHtml(p.action)}</span></div><b style="font-size:20px">${fmtNum(p.score,0)}</b></div>
+        <div class="meta-row"><span>ราคา <b>${fmtMoney(p.liveราคา)}</b></span><span>${zone}</span></div>
+        <div class="meta-row"><span>เหตุผล</span><span style="text-align:right;max-width:70%">${escapeHtml(p.whyNotBuy || 'ไม่มี เงื่อนไขที่ขัดขวาง หลัก')}</span></div>
+        ${amount>0 ? `<div class="meta-row"><span>เงินที่ระบบจัดสรร</span><b>${fmtMoney(amount)}</b></div>` : ''}
+      </div>`;
+    } else {
+      primary.innerHTML='<div class="easy-empty">วันนี้ยังไม่มีหุ้นที่ผ่านเกณฑ์ BUY/DCA เด่นชัด — รอจังหวะดีกว่าไล่ราคา 👍</div>';
+    }
+    const items=[];
+    (d.buy||[]).forEach(x=>items.push({...x,_amount:deployMap[x.ticker]||0}));
+    (d.dca||[]).forEach(x=>items.push({...x,_amount:deployMap[x.ticker]||x.dcaAmount||0}));
+    (d.trim||[]).forEach(x=>items.push({...x,_amount:0}));
+    (d.avoid||[]).forEach(x=>items.push({...x,_amount:0}));
+    const seen={};
+    const unique=items.filter(x=>!seen[x.ticker] && (seen[x.ticker]=true)).slice(0,5);
+    document.getElementById('easyActions').innerHTML=unique.length ? unique.map((r,i)=>renderEasyAction_(r,i)).join('') : '<div class="easy-empty">ยังไม่มี Action ที่เด่นชัด</div>';
+    const t=d.asOf ? new Date(d.asOf) : new Date();
+    document.getElementById('easyUpdated').textContent=`อัปเดต ${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')} · Cash ${fmtMoney(d.cash && d.cash.balance)}`;
+  }
+  function loadEasyMode_(onDone) {
+    google.script.run
+      .withSuccessHandler(d=>{ renderEasyMode_(d); if(onDone) onDone(); })
+      .withFailureHandler(e=>{ document.getElementById('easyHeadline').textContent='⚠️ โหลด Easy Mode ไม่สำเร็จ'; document.getElementById('easyReason').textContent=(e&&e.message)?e.message:String(e||'Unknown error'); if(onDone)onDone(); })
+      .getEasyModeData();
+  }
+  document.getElementById('easyAdvancedBtn').onclick=()=>goTab('decision');
+
+  // ---------- NEXUS V2 Decision Engine ----------
+  function actionClassV2_(action) {
+    const s=String(action||'');
+    if(s.indexOf('BUY')>=0) return 'action-buy';
+    if(s.indexOf('DCA')>=0) return 'action-dca';
+    if(s.indexOf('TRIM')>=0) return 'action-trim';
+    if(s.indexOf('AVOID')>=0) return 'action-avoid';
+    return 'action-hold';
+  }
+  function renderDecisionSummary_(d) {
+    const a=d.actions||{}; const c=d.cash||{}; const m=d.market||{};
+    document.getElementById('decisionSummary').innerHTML=`
+      <div class="decision-grid">
+        <div class="decision-kpi"><div class="muted">MARKET REGIME</div><div class="n" style="font-size:18px">${escapeHtml(m.regime||'-')}</div><div class="muted">VIX ${fmtNum(m.vix,1)}</div></div>
+        <div class="decision-kpi"><div class="muted">DEPLOYABLE CASH</div><div class="n">${fmtMoney(c.deployable)}</div><div class="muted">เงินสำรอง ${fmtMoney(c.reserve)} (${fmtNum((c.reservePct||0)*100,0)}%)</div></div>
+        <div class="decision-kpi"><div class="muted">BUY / DCA</div><div class="n">${a.buy||0} / ${a.dca||0}</div><div class="muted">Candidates พร้อมพิจารณา</div></div>
+        <div class="decision-kpi"><div class="muted">TRIM / AVOID</div><div class="n">${a.trim||0} / ${a.avoid||0}</div><div class="muted">ต้องทบทวนความเสี่ยง</div></div>
+      </div>`;
+  }
+  function renderActionCenter_(d) {
+    const holdings = Array.isArray(d.holdings) ? d.holdings : [];
+    const rows = holdings.filter(r => safeIncludes(r.action,'BUY') || safeIncludes(r.action,'DCA')).slice(0,5);
+    const trim = holdings.filter(r => safeIncludes(r.action,'TRIM')).slice(0,3);
+    let html='';
+    if(rows.length){ html += '<div class="card">'+rows.map((r,i)=>`
+      <div class="decision-row" style="padding:7px 0;border-bottom:1px solid var(--border)">
+        <div class="rank">${i+1}</div><div><div class="row-between"><span class="ticker" onclick="openStockDetail(${jsArg(r.ticker)})">${escapeHtml(r.ticker)}</span><span class="action-pill ${actionClassV2_(r.action)}">${escapeHtml(r.action)}</span></div><div class="muted">คะแนน ${fmtNum(r.score,0)} · สัดส่วน ${fmtPct(r.weight)} · ${escapeHtml(r.whyNotBuy)}</div><div class="scorebar"><i style="width:${Math.max(0,Math.min(100,r.score))}%"></i></div></div><div style="text-align:right"><div class="deploy-amount">${fmtMoney((d.deployment||[]).find(x=>x.ticker===r.ticker)?.amount||0)}</div><div class="muted">suggested</div></div>
+      </div>`).join('')+'</div>'; }
+    if(trim.length){ html += '<div class="card"><div class="muted" style="margin-bottom:7px">🟠 TRIM candidates</div>'+trim.map(r=>`<div class="row-between" style="padding:6px 0;border-bottom:1px solid var(--border)"><span class="ticker" onclick="openStockDetail(${jsArg(r.ticker)})">${escapeHtml(r.ticker)}</span><span class="action-pill action-trim">${escapeHtml(r.action)}</span></div>`).join('')+'</div>'; }
+    document.getElementById('actionCenter').innerHTML=html||'<div class="empty">วันนี้ยังไม่มี Action ที่เด่นชัด</div>';
+  }
+  function renderCashDeployment_(d) {
+    const rows=d.deployment||[];
+    if(!rows.length){ document.getElementById('cashDeployment').innerHTML='<div class="card"><div class="empty">ไม่มี Candidate ที่ผ่านเกณฑ์ หรือยังไม่มี Cash สำหรับ Deploy</div></div>'; return; }
+    const total=rows.reduce((s,r)=>s+Number(r.amount||0),0);
+    document.getElementById('cashDeployment').innerHTML='<div class="card">'+rows.map((r,i)=>`<div class="row-between" style="padding:7px 0;border-bottom:1px solid var(--border)"><span><b>${i+1}. ${escapeHtml(r.ticker)}</b><span class="muted"> · คะแนน ${fmtNum(r.score,0)} · ${fmtPct(r.weight)} → ${fmtPct(r.targetสัดส่วน)}</span></span><span class="deploy-amount">${fmtMoney(r.amount)}</span></div>`).join('')+`<div class="meta-row" style="margin-top:9px"><span>รวม Deploy</span><b>${fmtMoney(total)}</b></div></div>`;
+  }
+  function renderDecisionList_(rows) {
+    const list=rows||[];
+    document.getElementById('decisionList').innerHTML=list.length ? list.slice(0,10).map((r,i)=>`<div class="card"><div class="decision-row"><div class="rank">${i+1}</div><div><div class="row-between"><span class="ticker" onclick="openStockDetail(${jsArg(r.ticker)})">${escapeHtml(r.ticker)}</span><span class="action-pill ${actionClassV2_(r.action)}">${escapeHtml(r.action)}</span></div><div class="muted">Fund ${fmtNum(r.fundคะแนน,0)} · DCA ${fmtNum(r.dcaคะแนน,0)} · BuyZone ${fmtNum(r.buyคะแนน,0)} · Technical ${fmtNum(r.technicalคะแนน,0)} · Valuation ${fmtNum(r.valuationคะแนน,0)} · Risk ${fmtNum(r.riskคะแนน,0)}</div><div class="scorebar"><i style="width:${Math.max(0,Math.min(100,r.score))}%"></i></div></div><div style="font-size:20px;font-weight:800">${fmtNum(r.score,0)}</div></div></div>`).join('') : '<div class="empty">ยังไม่มีข้อมูลหุ้น</div>';
+  }
+  function loadDecisionEngine(onDone) {
+    google.script.run
+      .withSuccessHandler(d=>{
+        d = d || {actions:{},cash:{},market:{},holdings:[],deployment:[]};
+        renderDecisionSummary_(d);
+        renderActionCenter_(d);
+        renderCashDeployment_(d);
+        renderDecisionList_(d.holdings || []);
+        // v4.9.6: Audit must render from the SAME server response as คะแนน Decision สูงสุด.
+        // This prevents two separate engine calls from producing different cache-dependent values.
+        renderDecisionAudit_({rows:Array.isArray(d.auditRows)?d.auditRows:[],consistency:d.consistency||null});
+        if(onDone)onDone();
+      })
+      .withFailureHandler(e=>{
+        const msg = e && e.message ? e.message : String(e || 'Unknown error');
+        const el = document.getElementById('decisionSummary');
+        if(el) el.innerHTML='<div class="empty">⚠️ Decision Engine โหลดไม่สำเร็จ: '+escapeHtml(msg)+'</div>';
+        const ac=document.getElementById('actionCenter'); if(ac) ac.innerHTML='<div class="empty">ไม่สามารถโหลด Action ได้</div>';
+        const dl=document.getElementById('decisionList'); if(dl) dl.innerHTML='<div class="empty">ไม่สามารถโหลด Decision คะแนน ได้</div>';
+        if(onDone)onDone();
+      })
+      .getDecisionEngineData();
+  }
+
+  // ---------- V4.5.0 Decision Audit ----------
+  function renderDecisionAudit_(d) {
+    const el=document.getElementById('decisionAudit'); if(!el) return;
+    const rows=Array.isArray(d.rows)?d.rows:[];
+    const c=d.consistency||null;
+    const consistencyHtml=c ? `<div class="card" style="margin-bottom:8px;font-size:11px">${c.ok?'🟢 Decision Data Consistency: PASS':'🔴 Decision Data Consistency: MISMATCH'}${c.ok?'':' · '+escapeHtml((c.mismatches||[]).slice(0,3).map(x=>x.ticker+' '+x.field).join(', '))}</div>` : '';
+    if(!rows.length){ el.innerHTML=consistencyHtml+'<div class="empty">ยังไม่มีข้อมูลสำหรับ Audit</div>'; return; }
+    el.innerHTML=consistencyHtml+rows.slice(0,8).map(r=>{
+      const bars=(r.components||[]).map(c=>`<div style="margin-top:5px"><div class="row-between" style="font-size:11px"><span>${escapeHtml(c.key)} <span class="muted">${Math.round(c.weight*100)}%</span></span><b>${fmtNum(c.score,0)}</b></div><div class="scorebar"><i style="width:${Math.max(0,Math.min(100,Number(c.score)||0))}%"></i></div></div>`).join('');
+      return `<div class="card"><div class="row-between"><span class="ticker" onclick="openStockDetail(${jsArg(r.ticker)})">${escapeHtml(r.ticker)}</span><span class="action-pill ${actionClassV2_(r.action)}">${escapeHtml(r.action)}</span><b>${fmtNum(r.score,0)}/100</b></div>${bars}<div class="muted" style="margin-top:8px">Actionable Buy Zone: ${escapeHtml(String(r.buyZone||'-'))} · Upside: ${fmtPct(r.baseUpside)} · Risk Penalty: ${fmtNum(r.riskPenalty,1)}</div><div class="muted" style="margin-top:4px">${escapeHtml(r.reason||'')}</div></div>`;
+    }).join('');
+  }
+  function loadDecisionAudit_(onDone){
+    google.script.run.withSuccessHandler(d=>{renderDecisionAudit_(d||{});if(onDone)onDone();}).withFailureHandler(e=>{const el=document.getElementById('decisionAudit');if(el)el.innerHTML='<div class="empty">⚠️ Decision Audit โหลดไม่สำเร็จ: '+escapeHtml(e&&e.message?e.message:e)+'</div>';if(onDone)onDone();}).getDecisionAuditData();
+  }
+
+  // ---------- V4.3.8 System Health ----------
+  function renderSystemHealth(data){
+    const d=data||{}, s=d.summary||{}, checks=Array.isArray(d.checks)?d.checks:[], smoke=Array.isArray(d.smoke)?d.smoke:[];
+    const cls=d.overall?'buy':'sell';
+    let html=`<div class="kpi-grid"><div class="kpi-card"><div class="kpi-label">SYSTEM</div><div class="kpi-value">${d.overall?'PASS':'CHECK'}</div><div class="sub">${escapeHtml(d.recommendation||'')}</div></div><div class="kpi-card"><div class="kpi-label">Core Checks</div><div class="kpi-value">${s.pass||0}/${s.required||0}</div><div class="sub">Required</div></div><div class="kpi-card"><div class="kpi-label">Smoke Tests</div><div class="kpi-value">${s.smokePass||0}/${s.smokeTotal||0}</div><div class="sub">Engine calls</div></div></div>`;
+    html+=`<div class="card" style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap"><div><b>⚙️ One-Click Setup</b><div class="muted" style="margin-top:4px">เปิด Auto-refresh, Daily Snapshot และ Transactions Data Validation</div></div><button class="btn-primary" id="btnSetupAllV422" onclick="setupAllV430_()">ตั้งค่าระบบ</button></div>`;
+    html+=`<div class="section-title">🛡️ Configuration & Data Checks</div><div class="card">${checks.map(x=>`<div class="row-between" style="padding:7px 0;border-bottom:1px solid var(--border)"><span>${x.ok?'🟢':(x.optional?'🟡':'🔴')} ${escapeHtml(x.text||'')}</span><span class="badge ${x.ok?'buy':(x.optional?'med':'sell')}">${escapeHtml(x.status||'')}</span></div><div class="muted" style="font-size:11px;margin-bottom:5px">${escapeHtml(x.detail||'')}</div>`).join('')}</div>`;
+    html+=`<div class="section-title">🧪 Core Engine Smoke Tests</div><div class="card">${smoke.map(x=>`<div class="row-between" style="padding:8px 0;border-bottom:1px solid var(--border)"><span>${x.ok?'🟢':'🔴'} <b>${escapeHtml(x.name)}</b><div class="muted">${escapeHtml(x.detail||'')}</div></span><span>${x.ok?'PASS':'FAIL'} · ${fmtNum(x.ms,0)}ms</span></div>`).join('')}</div>`;
+    html+=`<div class="card"><b>ลำดับการทำงานของระบบ</b><div class="muted" style="margin-top:5px">🧠 Decision → 🎯 Buy Zone → 📊 Portfolio → 🚨 Alert → 📈 Technical</div></div>`;
+    html+=`<div class="card" style="font-size:10.5px;color:var(--sub)">⚠️ ${escapeHtml(d.disclaimer||'')}</div>`;
+    return html;
+  }
+
+  function setupAllV430_(){
+    const btn=document.getElementById('btnSetupAllV422');
+    if(btn){btn.disabled=true;btn.textContent='กำลังตั้งค่า…';}
+    google.script.run.withSuccessHandler(r=>{
+      const failed=(r&&r.results||[]).filter(x=>!x.ok);
+      if(failed.length){
+        showToast('⚠️ ตั้งค่าไม่ครบ: '+failed.map(x=>x.label).join(', '));
+      }else{
+        showToast('✅ ตั้งค่าระบบ V4.3.8 เรียบร้อย');
+      }
+      google.script.run.withSuccessHandler(d=>{
+        const el=document.getElementById('detailContent');
+        if(el) el.innerHTML=renderSystemHealth(d||{});
+      }).withFailureHandler(e=>{
+        if(btn){btn.disabled=false;btn.textContent='ตั้งค่าระบบ';}
+      }).getSystemHealthData();
+    }).withFailureHandler(e=>{
+      showToast('❌ ตั้งค่าระบบไม่สำเร็จ: '+(e&&e.message?e.message:e));
+      if(btn){btn.disabled=false;btn.textContent='ตั้งค่าระบบ';}
+    }).setupAllV430();
+  }
+
+  // ---------- NEXUS v4.9.6 Data Health Center ----------
+  function dataHealthStatusClass_(status){
+    return status==='OK'?'buy':status==='WARN'?'hold':status==='FAIL'?'sell':'med';
+  }
+  function dataHealthIcon_(status){
+    return status==='OK'?'🟢':status==='WARN'?'🟡':status==='FAIL'?'🔴':'⚪';
+  }
+  // Pure renderer: returns HTML only. It does not depend on a pre-existing DOM node.
+  function renderDataHealthCenter_(d){
+    d=d||{};
+    const c=d.counts||{};
+    const items=Array.isArray(d.items)?d.items:[];
+    const total=items.length;
+    const active=Math.max(0,total-(Number(c.DISABLED)||0));
+    const healthy=Math.max(0,Number(c.OK)||0);
+    const healthPct=active?Math.round(healthy/active*100):0;
+    let html=``;
+    html+=`<div class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-label">DATA HEALTH</div><div class="kpi-value">${d.overall?'PASS':'CHECK'}</div><div class="sub">${escapeHtml(d.asOf||'-')}</div></div>
+      <div class="kpi-card"><div class="kpi-label">🟢 OK</div><div class="kpi-value">${c.OK||0}</div><div class="sub">ข้อมูลพร้อมใช้</div></div>
+      <div class="kpi-card"><div class="kpi-label">🟡 WARN</div><div class="kpi-value">${c.WARN||0}</div><div class="sub">ควรตรวจสอบ</div></div>
+      <div class="kpi-card"><div class="kpi-label">⚪ DISABLED</div><div class="kpi-value">${c.DISABLED||0}</div><div class="sub">ไม่บังคับใช้</div></div>
+    </div>`;
+    html+=`<div class="card" style="margin-top:10px"><div class="row-between"><b>ความพร้อมของข้อมูลหลัก</b><b>${healthPct}%</b></div><div class="scorebar" style="margin-top:8px"><i style="width:${healthPct}%"></i></div><div class="muted" style="margin-top:7px">ตรวจ ${active} รายการที่เปิดใช้งาน · ไม่รวมระบบที่ปิด/ไม่บังคับ</div></div>`;
+    html+=`<div class="section-title">🔎 Data Sources & Freshness</div><div class="card">`;
+    if(!items.length) html+=`<div class="empty">ยังไม่มีผลตรวจ Data Health</div>`;
+    items.forEach(x=>{
+      html+=`<div style="padding:9px 0;border-bottom:1px solid var(--border)"><div class="row-between"><span><b>${dataHealthIcon_(x.status)} ${escapeHtml(x.label||'-')}</b><span class="muted" style="margin-left:6px">${escapeHtml(x.source||'')}</span></span><span class="badge ${dataHealthStatusClass_(x.status)}">${escapeHtml(x.status||'')}</span></div><div class="muted" style="font-size:11px;margin-top:4px">${escapeHtml(x.detail||'')}</div>${Array.isArray(x.missing)&&x.missing.length?`<div class="muted" style="font-size:10.5px;margin-top:3px">Missing: ${escapeHtml(x.missing.join(', '))}</div>`:''}</div>`;
+    });
+    html+=`</div>`;
+    html+=`<div class="card" style="margin-top:10px"><b>🔒 Safe Check</b><div class="muted" style="margin-top:5px">${escapeHtml(d.note||'ตรวจสอบอย่างเดียว ไม่แก้ไขข้อมูลต้นทาง')}</div></div>`;
+    html+=`<button class="btn btn-outline" style="margin-top:8px;width:100%" onclick="loadDataHealthCenter_()">🔄 ตรวจข้อมูลใหม่</button>`;
+    return html;
+  }
+  function loadDataHealthCenter_(){
+    const target=document.getElementById('detailContent');
+    if(target) target.innerHTML='<div class="empty">🩺 กำลังตรวจสุขภาพข้อมูล…</div>';
+    google.script.run
+      .withSuccessHandler(d=>{
+        const el=document.getElementById('detailContent');
+        if(el) el.innerHTML=renderDataHealthCenter_(d||{});
+      })
+      .withFailureHandler(e=>{
+        const el=document.getElementById('detailContent');
+        if(el) el.innerHTML='<div class="empty">⚠️ Data Health Center โหลดไม่สำเร็จ: '+escapeHtml(e&&e.message?e.message:e)+'</div><button class="btn btn-outline" style="margin-top:8px;width:100%" onclick="loadDataHealthCenter_()">ลองใหม่</button>';
+      })
+      .getDataHealthCenterData();
+  }
+
+  // ---------- More menu & Detail pages ----------
+  const MORE_ITEMS = [
+    { key: 'txlist', icon: '📝', label: 'แก้ไข / ลบธุรกรรม', fn: 'getRecentTransactions', render: renderTxList },
+    { key: 'dca', icon: '💡', label: 'DCA แนะนำซื้อสะสม', fn: 'getDcaData', render: renderDcaList },
+    { key: 'targets', icon: '🎯', label: 'ราคาเป้าหมาย', fn: 'getราคาเป้าหมายsData', render: renderเป้าหมายsList },
+    { key: 'buyzone', icon: '🟢', label: 'Buy Zone', fn: 'getBuyZoneData', render: renderBuyZoneList },
+    { key: 'fundamentals', icon: '📈', label: 'Fundamentals', fn: 'getFundamentalsData', render: renderFundamentalsList },
+    { key: 'theme', icon: '🧠', label: 'Theme Allocation', fn: 'getThemeAllocData', render: renderThemeList },
+    { key: 'watchlist', icon: '👁️', label: 'Watchlist', fn: 'getWatchlistData', render: renderWatchlistList },
+    { key: 'earnings', icon: '📅', label: 'Earnings Calendar', fn: 'getEarningsCalendar', render: renderEarningsList },
+    { key: 'alerts', icon: '🔔', label: 'Smart Alert Center', fn: 'getSmartAlertsData', render: renderSmartAlerts },
+    { key: 'action-planner', icon: '🧭', label: 'แผนการดำเนินการพอร์ต', fn: 'getPortfolioActionPlannerData', render: renderPortfolioActionPlanner },
+    { key: 'capital-allocation', icon: '💰', label: 'แผนจัดสรรเงินใหม่', fn: 'getCapitalAllocationPlanData', render: renderCapitalAllocationPlan },
+{ key: 'risk', icon: '🚨', label: 'Risk Dashboard', fn: 'getRiskData', render: renderRisk },
+    { key: 'health', icon: '📊', label: 'Health คะแนน', fn: 'getHealthData', render: renderHealth },
+    { key: 'market', icon: '🌡️', label: 'Market Conditions', fn: 'getMarketData', render: renderMarket },
+    { key: 'correlation', icon: '🔗', label: 'Portfolio Correlation', fn: 'getPortfolioCorrelation', render: renderCorrelationMatrix },
+    { key: 'system', icon: '🧪', label: 'System Health & Tests', fn: 'getSystemHealthData', render: renderSystemHealth },
+    { key: 'datahealth', icon: '🩺', label: 'Data Health Center', fn: 'getDataHealthCenterData', render: renderDataHealthCenter_ }
+  ];
+
+  document.getElementById('moreMenu').innerHTML = MORE_ITEMS.map(m => `
+    <div class="card" style="cursor:pointer" onclick="openDetail('${m.key}')">
+      <div class="row-between"><span>${m.icon}&nbsp; ${m.label}</span><span>›</span></div>
+    </div>
+  `).join('');
+
+  let returnPageId = 'page-dashboard';
+
+  function openDetail(key) {
+    const item = MORE_ITEMS.find(m => m.key === key);
+    if (!item) { showToast('⚠️ ไม่พบเมนูนี้: ' + key); return; }
+    const activeEl = document.querySelector('.page.active');
+    if (activeEl) returnPageId = activeEl.id;
+    document.getElementById('detailTitle').textContent = item.label;
+    document.getElementById('detailContent').innerHTML = '<div class="empty">กำลังโหลด…</div>';
+    pages.forEach(p => p.classList.remove('active'));
+    document.getElementById('page-detail').classList.add('active');
+
+    // Data Health has its own deterministic loader. This avoids the old render-via-callback
+    // path that could leave the detail view showing "undefined" on some deployed versions.
+    if (key === 'datahealth') {
+      loadDataHealthCenter_();
+      return;
+    }
+
+    google.script.run
+      .withSuccessHandler(data => {
+        try {
+          const rendered = item.render(data);
+          document.getElementById('detailContent').innerHTML = rendered == null ? '<div class="empty">ไม่มีข้อมูลสำหรับรายการนี้</div>' : rendered;
+          if (key === 'risk') loadRiskCommentary(false);
+        } catch (e) {
+          document.getElementById('detailContent').innerHTML =
+            '<div class="empty">⚠️ แสดงผลไม่สำเร็จ: ' + escapeHtml(e.message) + '</div>';
+        }
+      })
+      .withFailureHandler(err => {
+        document.getElementById('detailContent').innerHTML =
+          '<div class="empty">⚠️ โหลดข้อมูลไม่สำเร็จ: ' + escapeHtml(err && err.message ? err.message : String(err)) + '</div>';
+      })
+      [item.fn]();
+  }
+  document.getElementById('detailBack').onclick = () => {
+    pages.forEach(p => p.classList.remove('active'));
+    document.getElementById(returnPageId).classList.add('active');
+  };
+
+  function openStockDetail(ticker) {
+    const activeEl = document.querySelector('.page.active');
+    if (activeEl) returnPageId = activeEl.id;
+    document.getElementById('detailTitle').textContent = '📌 ' + ticker;
+    document.getElementById('detailContent').innerHTML = '<div class="empty">กำลังโหลด…</div>';
+    pages.forEach(p => p.classList.remove('active'));
+    document.getElementById('page-detail').classList.add('active');
+    google.script.run
+      .withSuccessHandler(data => {
+        lastStockDetailData_[ticker] = data;
+        document.getElementById('detailContent').innerHTML =
+          renderStockDetail(data) +
+          '<div class="section-title">📰 ข่าวล่าสุด</div><div id="newsSection" class="empty">กำลังโหลดข่าว…</div>';
+        loadCatalystRadar(ticker, false);
+        google.script.run
+          .withSuccessHandler(renderNews)
+          .withFailureHandler(() => {
+            const el = document.getElementById('newsSection');
+            if (el) el.textContent = 'โหลดข่าวไม่สำเร็จ';
+          })
+          .getStockNews(ticker);
+        google.script.run
+          .withSuccessHandler(renderAnalystเป้าหมายs)
+          .withFailureHandler(() => {})
+          .getAnalystเป้าหมายs(ticker);
+        google.script.run
+          .withSuccessHandler(renderInsiderActivity)
+          .withFailureHandler(() => {})
+          .getInsiderActivity(ticker);
+
+        // ดึงข้อมูลเทคนิคจริง (EMA/SMA/RSI/52w) และกราฟ Stage/แนวรับ-แนวต้าน (Swing) ก่อน แล้วค่อยยิง AI summary
+        // เพื่อให้ AI มีตัวเลขจริงใช้แทนการเดา (ครั้งแรกของวันอาจรอ 2-6 วิ ครั้งต่อไป cache ไว้แล้ว)
+        renderStockAiSummary_(ticker, '💭 กำลังดึงข้อมูลเทคนิคและกราฟของ ' + ticker + '…', null, true);
+        let aiReadyCount_ = 0;
+        const maybeFireAi_ = () => { aiReadyCount_++; if (aiReadyCount_ >= 2) loadStockAiSummary(ticker, false); };
+        google.script.run
+          .withSuccessHandler(tech => {
+            lastStockDetailData_[ticker].technicals = tech;
+            maybeFireAi_();
+          })
+          .withFailureHandler(() => {
+            maybeFireAi_(); // ไม่มีข้อมูลเทคนิคก็ยังวิเคราะห์ต่อได้ (AI จะตอบ Insufficient Data เอง)
+          })
+          .getStockTechnicals(ticker);
+
+        loadราคาChart(ticker, false, chart => {
+          if (chart && !chart.error) lastStockDetailData_[ticker].priceChart = chart;
+          maybeFireAi_();
+        });
+      })
+      .withFailureHandler(onError)
+      .getStockDetail(ticker);
+  }
+
+  function renderAnalystเป้าหมายs(t) {
+    const el = document.getElementById('analystSection');
+    if (!el || !t || t.error || !t.targetMean) return; // ไม่มี API key หรือไม่มีข้อมูล — ซ่อนเงียบๆ ไม่โชว์การ์ดเปล่า
+    el.innerHTML = `<div class="section-title">🎯 เป้าหมายราคานักวิเคราะห์</div>
+      <div class="card">
+        <div class="meta-row"><span>ต่ำสุด <b>${fmtMoney(t.targetLow)}</b></span><span>เฉลี่ย <b>${fmtMoney(t.targetMean)}</b></span><span>สูงสุด <b>${fmtMoney(t.targetHigh)}</b></span></div>
+      </div>`;
+  }
+
+  function renderInsiderActivity(d) {
+    const el = document.getElementById('insiderSection');
+    if (!el || !d || d.error || !d.transactions || !d.transactions.length) return;
+    el.innerHTML = '<div class="section-title">🕴️ ผู้บริหารซื้อ/ขาย (ล่าสุด)</div>' +
+      d.transactions.slice(0, 5).map(x => {
+        const isBuy = Number(x.change) > 0;
+        return `<div class="card">
+          <div class="row-between"><span>${x.name || '-'}</span><span class="badge ${isBuy ? 'buy' : 'sell'}">${isBuy ? 'ซื้อ' : 'ขาย'}</span></div>
+          <div class="meta-row"><span>${x.transactionDate || ''}</span><span>${fmtNum(Math.abs(x.change || 0), 0)} หุ้น</span></div>
+        </div>`;
+      }).join('');
+  }
+
+  // ---------- กราฟราคา + แนวรับ/แนวต้าน (Swing High/Low) + จุด DCA (Buy Zone) ----------
+  function loadราคาChart(ticker, forceRefresh, onDone) {
+    const el = document.getElementById('priceChartSection');
+    if (el) el.innerHTML = `<div class="section-title">📊 แนวรับ/แนวต้าน + จุด DCA</div><div class="card"><div class="empty">กำลังคำนวณแนวรับ/แนวต้านจากราคาจริง (Swing High/Low)…</div></div>`;
+    google.script.run
+      .withSuccessHandler(data => { renderราคาChart(ticker, data); if (onDone) onDone(data); })
+      .withFailureHandler(() => {
+        const el2 = document.getElementById('priceChartSection');
+        if (el2) el2.innerHTML = `<div class="section-title">📊 แนวรับ/แนวต้าน + จุด DCA</div>` +
+          retryCardHtml_('โหลดกราฟไม่สำเร็จ', `loadราคาChart('${ticker}', true)`);
+        if (onDone) onDone(null);
+      })
+      .getราคาChartData(ticker, 320, !!forceRefresh);
+  }
+
+  // เส้นแนวรับ/แนวต้าน/DCA บนกราฟ — ไม่ใส่ label ข้อความบนเส้นแล้ว (ซ้ำกับ list สรุปด้านล่าง ทำให้กราฟแน่นเกินไป)
+  // แค่ขีดเส้นประให้เห็นตำแหน่งคร่าวๆ พอ รายละเอียดราคา/จำนวนครั้งที่ชน ไปดูใน "สรุปเป็นรายการ" แทน
+  function guideLine_(x1, x2, y, color) {
+    return `<line x1="${x1}" y1="${y.toFixed(1)}" x2="${x2}" y2="${y.toFixed(1)}" stroke="${color}" stroke-width="1.3" stroke-dasharray="4,3" opacity="0.75"></line>`;
+  }
+
+  function renderราคาChart(ticker, data) {
+    const el = document.getElementById('priceChartSection');
+    if (!el) return;
+    if (!data || data.error) {
+      el.innerHTML = `<div class="section-title">📊 แนวรับ/แนวต้าน + จุด DCA</div><div class="card"><div class="empty">${escapeHtml((data && data.reason) || 'ยังไม่มีข้อมูลพอสำหรับคำนวณกราฟนี้')}</div></div>`;
+      return;
+    }
+
+    const closes = data.closes || [];
+    if (closes.length < 2) {
+      el.innerHTML = `<div class="section-title">📊 แนวรับ/แนวต้าน + จุด DCA</div><div class="card"><div class="empty">ข้อมูลไม่พอสำหรับวาดกราฟ</div></div>`;
+      return;
+    }
+    const support = data.support || [];
+    const resistance = data.resistance || [];
+    const dca = data.dcaZone;
+    const current = data.currentราคา;
+    const volumes = data.volumes || [];
+    const stage = data.stage;
+
+    // รวมทุกระดับราคาที่ต้องโชว์ (ราคา/แนวรับ/แนวต้าน/DCA zone) มาหา min-max ของกราฟ กันเส้นหลุดจอ
+    const allVals = closes.slice();
+    support.forEach(s => allVals.push(s.price));
+    resistance.forEach(r => allVals.push(r.price));
+    if (dca) { if (dca.s1) allVals.push(Number(dca.s1)); if (dca.r1) allVals.push(Number(dca.r1)); }
+
+    const w = 320, padL = 4, padR = 14, padT = 10;
+    const priceH = 170, volH = 40, gap = 6;
+    const h = priceH + gap + volH + 14; // +14 สำหรับแกน X ด้านล่างสุด
+    const min = Math.min.apply(null, allVals), max = Math.max.apply(null, allVals);
+    const range = (max - min) || 1;
+    const xForI = i => padL + (i * (w - padL - padR)) / (closes.length - 1);
+    const yForV = v => padT + (priceH - padT) * (1 - (v - min) / range);
+
+    const pathD = closes.map((v, i) => (i === 0 ? 'M' : 'L') + xForI(i).toFixed(1) + ',' + yForV(v).toFixed(1)).join(' ');
+    const areaD = pathD + ` L${xForI(closes.length - 1).toFixed(1)},${priceH.toFixed(1)} L${xForI(0).toFixed(1)},${priceH.toFixed(1)} Z`;
+    const isUp = closes[closes.length - 1] >= closes[0];
+    const lineColor = isUp ? 'var(--green)' : 'var(--red)';
+
+    let overlays = '';
+
+    // โซน DCA (Fibonacci Buy Zone จากระบบจริง) — แรเงาพื้นที่ระหว่าง S1–R1 พร้อมเส้น S1 เป็นจุด DCA หลัก (ไม่มี label บนกราฟแล้ว ดูราคาที่ list ด้านล่าง)
+    if (dca && dca.s1 && dca.r1) {
+      const s1 = Number(dca.s1), r1 = Number(dca.r1);
+      const yTop = yForV(Math.max(s1, r1)), yBot = yForV(Math.min(s1, r1));
+      overlays += `<rect x="${padL}" y="${yTop.toFixed(1)}" width="${(w - padL - padR).toFixed(1)}" height="${Math.max(1, yBot - yTop).toFixed(1)}" fill="var(--accent)" opacity="0.12"></rect>`;
+      overlays += guideLine_(padL, w - padR, yForV(s1), 'var(--accent)');
+    }
+
+    // แนวรับ (เขียว เส้นประ) และแนวต้าน (แดง เส้นประ) — คำนวณจาก Swing High/Low จริง ไม่มี label บนกราฟ (ดูรายละเอียดที่ list ด้านล่าง)
+    support.forEach(s => { overlays += guideLine_(padL, w - padR, yForV(s.price), 'var(--green)'); });
+    resistance.forEach(r => { overlays += guideLine_(padL, w - padR, yForV(r.price), 'var(--red)'); });
+
+    overlays += `<circle cx="${xForI(closes.length - 1).toFixed(1)}" cy="${yForV(current).toFixed(1)}" r="3.2" fill="${lineColor}"></circle>`;
+
+    // Volume bars ใต้กราฟราคา — ช่วยดูแรงซื้อ/ขายตอน breakout หรือ breakdown
+    let volumeBars = '';
+    if (volumes.length === closes.length) {
+      const volTop = priceH + gap;
+      const maxVol = Math.max.apply(null, volumes) || 1;
+      const barW = Math.max(0.6, ((w - padL - padR) / closes.length) * 0.7);
+      volumes.forEach((v, i) => {
+        const barH = (v / maxVol) * volH;
+        const isUpBar = i === 0 || closes[i] >= closes[i - 1];
+        volumeBars += `<rect x="${(xForI(i) - barW / 2).toFixed(1)}" y="${(volTop + volH - barH).toFixed(1)}" width="${barW.toFixed(1)}" height="${Math.max(0.5, barH).toFixed(1)}" fill="${isUpBar ? 'var(--green)' : 'var(--red)'}" opacity="0.55"></rect>`;
+      });
+    }
+
+    // Stage Analysis badge (Weinstein Stage 1-4)
+    const stageBadge = (stage && stage.stage)
+      ? `<span style="display:inline-block;margin-left:6px;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:700;color:#fff;background:${stage.color}">${escapeHtml(stage.label)}</span>`
+      : '';
+
+    // Breakout/Breakdown badge — โผล่เฉพาะตอนราคาเพิ่งทะลุแนวต้าน/หลุดแนวรับจริงๆ (ไม่ใช่ทุกครั้ง)
+    const breakout = data.breakout;
+    const breakoutBadge = breakout
+      ? `<div style="margin-top:6px;padding:6px 10px;border-radius:8px;font-size:12px;font-weight:600;color:#fff;background:${breakout.type === 'breakout' ? (breakout.confirmed ? 'var(--green)' : '#f59e0b') : (breakout.confirmed ? 'var(--red)' : '#f59e0b')}">${escapeHtml(breakout.label)} <span style="font-weight:400;opacity:0.85">(Volume ${breakout.volRatio}×เฉลี่ย)</span></div>`
+      : '';
+
+    // Volume ล่าสุดเทียบเฉลี่ย 20 วัน — ช่วยดูว่าวันนี้มีแรงซื้อ/ขายผิดปกติไหม
+    let volumeTrendText = '';
+    if (volumes.length >= 20) {
+      const recentVol = volumes[volumes.length - 1];
+      const avgVol = volumes.slice(-20).reduce((a, b) => a + b, 0) / 20;
+      const volDiffPct = avgVol ? ((recentVol - avgVol) / avgVol) * 100 : 0;
+      volumeTrendText = `Volume ล่าสุดเทียบเฉลี่ย 20 วัน: <b>${volDiffPct >= 0 ? '+' : ''}${volDiffPct.toFixed(0)}%</b>`;
+    }
+
+    // Legend สั้นๆ บอกความหมายเส้นบนกราฟ (แทน label ต่อเส้นที่ทำให้แน่นเกินไป) — รายละเอียดราคาไปดูที่ list ด้านล่าง
+    const legend = `<div style="display:flex;flex-wrap:wrap;gap:10px;font-size:11px;color:var(--sub);margin-bottom:6px">
+      <span><span style="display:inline-block;width:14px;height:0;border-top:1.5px dashed var(--red);vertical-align:middle;margin-right:4px"></span>แนวต้าน</span>
+      <span><span style="display:inline-block;width:14px;height:0;border-top:1.5px dashed var(--green);vertical-align:middle;margin-right:4px"></span>แนวรับ</span>
+      <span><span style="display:inline-block;width:14px;height:0;border-top:1.5px dashed var(--accent);vertical-align:middle;margin-right:4px"></span>DCA Zone</span>
+    </div>`;
+
+    // ---------- สรุปเป็นรายการ (เรียงราคาจากสูงไปต่ำ) — อ่านง่ายกว่าไล่ดูกราฟ ----------
+    const levels = [];
+    resistance.forEach((r, idx) => levels.push({ price: r.price, label: `R${resistance.length - idx} แนวต้าน (Swing)`, extra: `ชน ${r.touches} ครั้ง`, color: 'var(--red)' }));
+    if (dca && dca.r1) levels.push({ price: Number(dca.r1), label: 'DCA R1 (Fibonacci)', extra: '', color: 'var(--accent)' });
+    if (dca && dca.s1) levels.push({ price: Number(dca.s1), label: '🎯 DCA S1 — จุดเข้าซื้อสะสมหลัก', extra: dca.signal || '', color: 'var(--accent)' });
+    support.forEach((s, idx) => levels.push({ price: s.price, label: `S${idx + 1} แนวรับ (Swing)`, extra: `ชน ${s.touches} ครั้ง`, color: 'var(--green)' }));
+    levels.push({ price: current, label: '💠 ราคาปัจจุบัน', extra: '', color: lineColor, isCurrent: true });
+    levels.sort((a, b) => b.price - a.price);
+
+    const listRows = levels.map(lv => {
+      const diffPct = current ? ((lv.price - current) / current) * 100 : 0;
+      const rowStyle = lv.isCurrent
+        ? 'padding:7px;border-radius:6px;background:var(--bg2);margin:3px 0;border-bottom:none'
+        : 'padding:6px 0;border-bottom:1px solid var(--border)';
+      return `<div class="row-between" style="${rowStyle}">
+        <span style="${lv.isCurrent ? 'font-weight:700' : ''};font-size:12.5px"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${lv.color};margin-right:6px"></span>${escapeHtml(lv.label)}</span>
+        <span style="text-align:right">
+          <b style="font-size:12.5px">${fmtMoney(lv.price)}</b>
+          ${!lv.isCurrent ? `<span style="color:var(--sub);font-size:11px;margin-left:4px">${diffPct >= 0 ? '+' : ''}${diffPct.toFixed(1)}%${lv.extra ? ' • ' + escapeHtml(lv.extra) : ''}</span>` : ''}
+        </span>
+      </div>`;
+    }).join('');
+
+    el.innerHTML = `
+      <div class="row-between" style="margin-bottom:6px">
+        <div class="section-title" style="margin:0">📊 แนวรับ/แนวต้าน + จุด DCA</div>
+        <button class="brief-refresh" id="chartRefreshBtn" title="รีเฟรชกราฟ" aria-label="รีเฟรชกราฟ">🔄</button>
+      </div>
+      <div class="card">
+        <div class="row-between" style="margin-bottom:4px">
+          <span style="font-size:11.5px;color:var(--sub)">${data.dates[0]} → ${data.dates[data.dates.length - 1]}</span>
+          <span style="font-weight:700;font-size:14px">${fmtMoney(current)}</span>
+        </div>
+        <div style="margin-bottom:6px">${stageBadge}</div>
+        ${breakoutBadge}
+        ${legend}
+        <svg viewBox="0 0 ${w} ${h}" style="width:100%;height:${h}px;display:block">
+          <path d="${areaD}" fill="${lineColor}" opacity="0.10" stroke="none"></path>
+          <path d="${pathD}" fill="none" stroke="${lineColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          ${overlays}
+          ${volumeBars}
+        </svg>
+        <div style="font-size:11px;color:var(--sub);text-align:right;margin-top:-2px">Volume</div>
+        ${dca && dca.signal ? `<div style="font-size:11.5px;color:var(--sub);margin-top:4px">สัญญาณ Buy Zone: <b>${escapeHtml(String(dca.signal))}</b></div>` : ''}
+        ${stage && stage.stage ? `<div style="font-size:11.5px;color:var(--sub);margin-top:2px">MA30W ${fmtMoney(stage.ma30w)} • ความชัน ${stage.slopePct >= 0 ? '+' : ''}${fmtNum(stage.slopePct,2)}%/${'~3wk'}</div>` : ''}
+        <div style="font-size:11px;color:var(--sub);margin-top:2px">อัปเดต ${data.asOfDate} • แนวรับ/แนวต้านคำนวณจริงจาก Swing High/Low ย้อนหลัง ~${Math.round(closes.length)} วันเทรด</div>
+      </div>
+      <div class="section-title">📋 สรุปเป็นรายการ (เรียงราคาสูง → ต่ำ)</div>
+      <div class="card">
+        ${volumeTrendText ? `<div style="font-size:11.5px;color:var(--sub);margin-bottom:6px">${volumeTrendText}</div>` : ''}
+        ${listRows}
+      </div>
+      ${renderDcaRoadmapCard_(data.dcaRoadmap, current)}
+      ${renderRiskRewardCard_(data.riskEngine, data.atr14)}
+    `;
+    const btn = document.getElementById('chartRefreshBtn');
+    if (btn) btn.onclick = () => loadราคาChart(ticker, true);
+  }
+
+  // ---------- V4.3.8 DCA Roadmap: แปลงตัวเลขให้เป็น "ถ้าราคาถึงตรงนี้ ให้ทำอะไร" ----------
+  function renderDcaRoadmapCard_(roadmap, current) {
+    if (!roadmap || roadmap.error) return '';
+    const status = roadmap.stopDca
+      ? '🔴 หยุด DCA'
+      : (roadmap.headline || '🟡 รอ DCA');
+    const statusBg = roadmap.stopDca ? 'rgba(229,72,77,.14)' : (String(status).indexOf('ถึงจุด') >= 0 ? 'rgba(18,164,84,.14)' : 'rgba(217,119,6,.14)');
+    const statusColor = roadmap.stopDca ? 'var(--red)' : (String(status).indexOf('ถึงจุด') >= 0 ? 'var(--green)' : 'var(--amber)');
+    const rows = (roadmap.actions || []).map(x => {
+      const ready = current <= x.price && !roadmap.stopDca;
+      return `<div class="dca-step">
+        <div class="dca-dot">${x.step}</div>
+        <div><div class="name">${escapeHtml(x.label)} ${ready ? '🟢' : '🟡'}</div>
+          <div class="hint">${ready ? 'ถึงจุดแล้ว → ซื้อ ' + x.allocationPct + '%' : 'รอให้ราคาลงถึงจุดนี้'} • ${x.distancePct >= 0 ? '+' : ''}${fmtNum(x.distancePct,1)}% จากราคาปัจจุบัน</div></div>
+        <div><div class="price">${fmtMoney(x.price)}</div><div class="alloc">เงิน ${x.allocationPct}%</div></div>
+      </div>`;
+    }).join('');
+    const stopText = roadmap.stopDca
+      ? `ราคาหลุดระดับหยุด DCA ${fmtMoney(roadmap.stopDcaBelow)} → <b>หยุดซื้อเพิ่มและประเมินใหม่</b>`
+      : (roadmap.strongSupport ? `ถ้าหลุดแนวรับสำคัญ ${fmtMoney(roadmap.strongSupport)} ให้ประเมินแผนใหม่ก่อน DCA ต่อ` : 'ยังไม่มีแนวรับสำคัญที่น่าเชื่อถือพอ');
+    return `<div class="section-title">🧭 DCA Roadmap — ราคาเท่าไร → ทำอะไร</div>
+      <div class="dca-roadmap">
+        <div class="dca-roadmap-head"><div class="dca-roadmap-title">แผนซื้อ 3 ไม้</div><span class="dca-status" style="color:${statusColor};background:${statusBg}">${escapeHtml(status)}</span></div>
+        ${rows || '<div class="empty" style="padding:10px 0">ยังไม่มีระดับ DCA ที่น่าเชื่อถือพอ</div>'}
+        <div class="dca-now">💠 ราคาปัจจุบัน <b>${fmtMoney(current)}</b><br>🛡️ ${stopText}</div>
+        <div class="dca-rule">💡 เงินที่เตรียมไว้สำหรับหุ้นตัวนี้: แบ่งตามสัดส่วน <b>20% → 30% → 50%</b> • ระบบไม่ได้บังคับให้ซื้อ และจะไม่เปลี่ยน Decision คะแนน เดิม</div>
+      </div>`;
+  }
+
+  // ---------- Stop Loss / Take Profit / Risk-Reward (ATR-based) ----------
+  function renderRiskRewardCard_(riskEngine, atr14) {
+    if (!riskEngine || riskEngine.error) return '';
+    const sl = riskEngine.stopLoss;
+    const tps = riskEngine.takeProfits || [];
+    const rr = riskEngine.riskReward;
+    const tpRows = tps.slice(0, 3).map(tp => `
+      <div class="row-between" style="padding:6px 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:12.5px">🎯 ${escapeHtml(tp.label)} <span style="color:var(--sub);font-size:11px">(ชน ${tp.touches} ครั้ง)</span></span>
+        <span style="text-align:right"><b style="font-size:12.5px">${fmtMoney(tp.price)}</b> <span style="color:var(--green);font-size:11px;margin-left:4px">${tp.gainPct >= 0 ? '+' : ''}${fmtNum(tp.gainPct,1)}%</span></span>
+      </div>`).join('');
+    return `
+      <div class="section-title">🛑 Stop Loss / 🎯 Take Profit</div>
+      <div class="card">
+        <div class="row-between" style="padding:6px 0;border-bottom:1px solid var(--border)">
+          <span style="font-size:12.5px">🛑 Stop Loss <span style="color:var(--sub);font-size:11px">(${escapeHtml(sl.basedOn)})</span></span>
+          <span style="text-align:right"><b style="font-size:12.5px">${fmtMoney(sl.price)}</b> ${sl.riskPct != null ? `<span style="color:var(--red);font-size:11px;margin-left:4px">-${fmtNum(sl.riskPct,1)}%</span>` : ''}</span>
+        </div>
+        ${tpRows || '<div class="empty" style="padding:10px 0">ยังไม่พบแนวต้านที่ใช้เป็น Take Profit ได้</div>'}
+        ${rr ? `<div class="row-between" style="margin-top:8px;padding:7px;border-radius:6px;background:var(--bg2)">
+          <span style="font-size:12.5px;font-weight:700">Risk : Reward</span>
+          <span style="font-size:13px;font-weight:700;color:${rr.ratio >= 2 ? 'var(--green)' : rr.ratio >= 1 ? 'var(--sub)' : 'var(--red)'}">1 : ${fmtNum(rr.ratio,1)}</span>
+        </div>` : ''}
+        ${atr14 ? `<div style="font-size:10.5px;color:var(--sub);margin-top:6px">ATR14 (ความผันผวนเฉลี่ย): ${fmtMoney(atr14)} • Stop Loss คำนวณจากแนวรับจริง ไม่ใช่ % ตายตัว</div>` : ''}
+      </div>`;
+  }
+
+  function formatPubDate(d) {
+    try {
+      return new Date(d).toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' });
+    } catch (e) { return ''; }
+  }
+
+  function renderNews(news) {
+    const el = document.getElementById('newsSection');
+    if (!el) return;
+    if (!news.length) { el.textContent = 'ไม่พบข่าวล่าสุด'; return; }
+    el.className = '';
+    el.innerHTML = '';
+    news.forEach(n => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.style.cursor = 'pointer';
+      card.onclick = () => window.open(n.link, '_blank');
+
+      const title = document.createElement('div');
+      title.style.cssText = 'font-size:13.5px;font-weight:600;line-height:1.4';
+      title.textContent = n.title;
+
+      const orig = document.createElement('div');
+      orig.style.cssText = 'font-size:11px;color:var(--sub);margin-top:2px;line-height:1.3';
+      orig.textContent = n.titleOriginal && n.titleOriginal !== n.title ? n.titleOriginal : '';
+
+      const meta = document.createElement('div');
+      meta.className = 'meta-row';
+      const src = document.createElement('span');
+      src.textContent = n.source || '';
+      const date = document.createElement('span');
+      date.textContent = formatPubDate(n.pubDate);
+      meta.appendChild(src);
+      meta.appendChild(date);
+
+      card.appendChild(title);
+      if (orig.textContent) card.appendChild(orig);
+      card.appendChild(meta);
+      el.appendChild(card);
+    });
+  }
+
+
+  // ---------- Catalyst Radar ----------
+  function renderCatalystRadar_(d){
+    const el=document.getElementById('catalystRadarSection'); if(!el)return;
+    if(!d||d.error){el.innerHTML='<div class="empty">⚠️ '+escapeHtml(d&&d.error?d.error:'โหลด Catalyst ไม่สำเร็จ')+'</div>';return;}
+    const score=Number(d.catalystคะแนน)||0; const next=d.nextEarnings;
+    let h=`<div class="row-between"><div><b>🚀 Catalyst Radar</b><div class="muted">${escapeHtml(d.source||'')} · ${escapeHtml(d.asOf||'')}</div></div><span class="badge ${score>=70?'buy':score>=45?'hold':'sell'}">${score}/100</span></div>`;
+    if(next) h+=`<div class="card" style="margin-top:8px;background:rgba(124,58,237,.06)"><b>📅 Earnings ถัดไป</b><div class="meta-row"><span>${escapeHtml(next.date||'—')}</span><span>EPS Est. ${next.epsEstimate==null?'—':next.epsEstimate}</span></div></div>`;
+    if(d.events&&d.events.length) h+=`<div style="margin-top:8px">${d.events.slice(0,6).map(x=>`<div class="card" style="margin-bottom:7px"><div class="row-between"><span class="badge ${x.impact>=75?'buy':x.impact>=55?'hold':'med'}">${escapeHtml(x.type||'Catalyst')}</span><span>${escapeHtml(x.probability||'')}</span></div><div style="font-weight:700;margin-top:5px">${escapeHtml(x.title||'')}</div><div class="meta-row"><span>${escapeHtml(x.eventDate||'')}</span><span>Impact ${fmtNum(x.impact,0)}/100</span></div></div>`).join('')}</div>`;
+    if(d.aiSummary) h+=`<div class="card" style="margin-top:8px;white-space:pre-wrap;line-height:1.5"><b>🤖 AI Catalyst View</b><div style="margin-top:6px">${escapeHtml(d.aiSummary)}</div></div>`;
+    h+=`<div class="muted" style="font-size:10.5px;margin-top:7px">หมายเหตุ: Catalyst คะแนน เป็นตัวชี้วัดความพร้อมของข้อมูล/เหตุการณ์ ไม่ใช่การคาดการณ์ว่าราคาจะขึ้น</div>`;
+    el.innerHTML=h;
+  }
+  function loadCatalystRadar(ticker,force){
+    const el=document.getElementById('catalystRadarSection'); if(!el)return;
+    el.innerHTML='<div class="empty">🚀 กำลังดึง Catalyst และ Earnings Calendar…</div>';
+    google.script.run.withSuccessHandler(renderCatalystRadar_).withFailureHandler(e=>renderCatalystRadar_({error:e&&e.message?e.message:e})).getCatalystRadar(ticker,!!force);
+  }
+
+  function renderStockDetail(d) {
+    let html = '';
+
+    // TradingView Interactive Chart — โหลดทันทีไม่ต้องรอข้อมูลอื่น
+    const isDark = (root.getAttribute('data-theme') || 'light') === 'dark' ||
+      (!root.getAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    html += `<div class="card" style="padding:0;overflow:hidden">
+      <iframe style="width:100%;height:280px;border:none;display:block"
+        src="https://s.tradingview.com/widgetembed/?symbol=${encodeURIComponent(d.ticker)}&interval=D&hidesidetoolbar=1&symboledit=0&saveimage=0&toolbarbg=f1f3f6&theme=${isDark ? 'dark' : 'light'}&style=1&timezone=Asia%2FBangkok&locale=th"
+        loading="lazy"></iframe>
+    </div>`;
+
+    // กราฟแนวรับ/แนวต้าน + จุด DCA (คำนวณจริงจากระบบ) — โหลดแยกทีหลัง (ใส่ container ไว้ก่อน)
+    html += `<div id="priceChartSection"></div>`;
+
+    html += `<div class="section-title">🚀 Catalyst Radar</div><div id="catalystRadarSection" class="card"><div class="empty">กำลังเตรียม Catalyst…</div></div>`;
+
+    // AI สรุปจุดเด่น/จุดเสี่ยง/ข้อมูลสำคัญของหุ้นนี้ — โหลดแยกทีหลัง (ใส่ container ไว้ก่อน)
+    html += `<div id="aiStockSection"></div>`;
+
+    // Analyst เป้าหมายs + Insider Activity — โหลดแยกทีหลัง (ใส่ container ไว้ก่อน)
+    html += `<div id="analystSection"></div><div id="insiderSection"></div>`;
+
+    if (d.portfolio) {
+      const p = d.portfolio;
+      html += `
+        <div class="kpi-grid">
+          <div class="kpi-card"><div class="kpi-label">มูลค่าถือครอง</div><div class="kpi-value">${fmtMoney(p.mktValue)}</div></div>
+          <div class="kpi-card"><div class="kpi-label">Return %</div><div class="kpi-value ${pnlClass(p.returnPct)}">${fmtPct(p.returnPct)}</div></div>
+          <div class="kpi-card"><div class="kpi-label">จำนวนหุ้น</div><div class="kpi-value">${fmtNum(p.shares,4)}</div></div>
+          <div class="kpi-card"><div class="kpi-label">น้ำหนักพอร์ต</div><div class="kpi-value">${fmtPct(p.weight)}</div></div>
+        </div>
+        <div class="card">
+          <div class="meta-row"><span>Avg Cost <b>${fmtMoney(p.avgCost)}</b></span><span>ราคาปัจจุบัน <b>${fmtMoney(p.liveราคา)}</b></span></div>
+          <div class="meta-row"><span>Theme ${escapeHtml(p.theme)}</span><span>${escapeHtml(p.conviction || '')}</span></div>
+        </div>`;
+    } else {
+      html += '<div class="empty">ยังไม่ได้ถือหุ้นตัวนี้อยู่</div>';
+    }
+
+    if (d.fundamentals) {
+      const f = d.fundamentals;
+      html += `<div class="section-title">Fundamentals</div>
+        <div class="card">
+          <div class="row-between"><span>คะแนนรวม</span><span class="badge ${safeIncludes(f.rating,'BUY') ? 'buy':'hold'}">${escapeHtml(f.rating)}</span></div>
+          <div class="meta-row"><span>คะแนน <b>${fmtNum(f.totalคะแนน,1)}</b></span><span>P/E <b>${f.pe}</b></span><span>Beta <b>${fmtNum(f.beta,2)}</b></span></div>
+        </div>`;
+    }
+    if (d.priceเป้าหมายs) {
+      const t = d.priceเป้าหมายs;
+      html += `<div class="section-title">ราคาเป้าหมาย</div>
+        <div class="card">
+          <div class="row-between"><span>${escapeHtml(t.signal || '')}</span></div>
+          <div class="meta-row"><span>Bear <b>${fmtMoney(t.bear)}</b></span><span>Base <b>${fmtMoney(t.base)}</b></span><span>Bull <b>${fmtMoney(t.bull)}</b></span></div>
+        </div>`;
+    }
+    if (d.buyZone) {
+      const b = d.buyZone;
+      html += `<div class="section-title">Buy Zone</div>
+        <div class="card">
+          <div class="row-between"><span>${escapeHtml(b.signal || '')}</span></div>
+          <div class="meta-row"><span>S1 <b>${fmtMoney(b.s1)}</b></span><span>R1 <b>${fmtMoney(b.r1)}</b></span><span>vs S1 ${fmtPct(b.vsS1)}</span></div>
+        </div>`;
+    }
+    if (d.dca) {
+      const c = d.dca;
+      html += `<div class="section-title">DCA</div>
+        <div class="card">
+          <div class="row-between"><span class="badge ${actionClass(c.buySignal)}">${escapeHtml(c.buySignal)}</span></div>
+          <div class="meta-row"><span>คะแนน <b>${fmtNum(c.score,1)}</b></span><span>แนะนำ <b>${fmtMoney(c.allocAmt)}</b></span></div>
+          <div class="meta-row"><span>${c.rationale || ''}</span></div>
+        </div>`;
+    }
+    if (d.watchlist) {
+      const w = d.watchlist;
+      html += `<div class="section-title">Watchlist</div>
+        <div class="card">
+          <div class="row-between"><span class="badge ${actionClass(w.signal)}">${escapeHtml(w.signal)}</span></div>
+          <div class="meta-row"><span>เป้าเข้าซื้อ <b>${fmtMoney(w.entryเป้าหมาย)}</b></span><span>Priority ${fmtNum(w.priority,0)}</span></div>
+          <div class="meta-row"><span>${escapeHtml(w.why || '')}</span></div>
+        </div>`;
+    }
+
+    html += '<div class="section-title">ประวัติธุรกรรม</div>';
+    html += d.history.length
+      ? d.history.map(h => `
+        <div class="card">
+          <div class="row-between"><span class="badge ${h.action === 'SELL' ? 'sell':'buy'}">${escapeHtml(h.action)}</span><span>${escapeHtml(h.date)}</span></div>
+          <div class="meta-row"><span>${fmtNum(h.shares,4)} หุ้น @ ${fmtMoney(h.price)}</span><span>${fmtMoney(h.total)}</span></div>
+        </div>`).join('')
+      : '<div class="empty">ไม่มีประวัติธุรกรรม</div>';
+
+    return html;
+  }
+
+  function fmtNum(n, d) { return (Number(n) || 0).toFixed(d != null ? d : 2); }
+
+  function renderTxList(rows) {
+    if (!rows.length) return '<div class="empty">ยังไม่มีธุรกรรม</div>';
+    return rows.map(r => `
+      <div class="card">
+        <div class="row-between">
+          <span class="ticker">${escapeHtml(r.ticker)}</span>
+          <span class="badge ${r.action === 'SELL' || r.action === 'WITHDRAW' ? 'sell' : 'buy'}">${r.action}</span>
+        </div>
+        <div class="meta-row">
+          <span>${r.date}</span>
+          <span>${r.ticker === 'CASH' ? fmtMoney(r.price) : fmtNum(r.shares,4) + ' หุ้น @ ' + fmtMoney(r.price)}</span>
+        </div>
+        <div class="meta-row"><span>${escapeHtml(r.notes)}</span></div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button type="button" class="btn btn-outline" style="margin-top:0" onclick="startEditTx(${escapeHtml(JSON.stringify(r))})>✏️ แก้ไข</button>
+          <button type="button" class="btn btn-outline" style="margin-top:0;color:var(--red)" onclick="confirmDeleteTx(${r.row})">🗑️ ลบ</button>
+        </div>
+      </div>`).join('');
+  }
+
+  function startEditTx(r) {
+    goTab('add');
+    editingRow = r.row;
+    document.getElementById('txDate').value = r.date;
+    document.getElementById('txNotes').value = r.notes || '';
+    document.getElementById('txSubmitBtn').textContent = '💾 บันทึกการแก้ไข';
+    document.getElementById('txCancelEditBtn').style.display = 'block';
+
+    if (r.ticker === 'CASH') {
+      document.querySelectorAll('.modebtn')[1].click();
+      document.getElementById('txCashAmount').value = r.price;
+      document.querySelectorAll('.segbtn[data-cashaction]').forEach(b => {
+        b.classList.toggle('active', b.dataset.cashaction === r.action);
+      });
+      currentCashAction = r.action;
+    } else {
+      document.querySelectorAll('.modebtn')[0].click();
+      document.getElementById('txTicker').value = r.ticker;
+      document.getElementById('txShares').value = r.shares;
+      document.getElementById('txราคา').value = r.price;
+      document.getElementById('txFees').value = r.fees;
+      document.querySelectorAll('.segbtn[data-action]').forEach(b => {
+        b.classList.toggle('active', b.dataset.action === r.action);
+      });
+      currentAction = r.action;
+    }
+    showToast('แก้ไขข้อมูลแล้วกดบันทึกการแก้ไข');
+  }
+
+  function confirmDeleteTx(rowNum) {
+    if (!confirm('ยืนยันลบธุรกรรมนี้? ข้อมูลจะหายถาวร')) return;
+    google.script.run
+      .withSuccessHandler(() => {
+        showToast('🗑️ ลบธุรกรรมแล้ว');
+        openDetail('txlist');
+        loadDashboard();
+        loadRebalance();
+      })
+      .withFailureHandler(onError)
+      .deleteTransaction(rowNum);
+  }
+
+  function renderDcaList(rows) {
+    if (!rows.length) return '<div class="empty">ไม่มีข้อมูล</div>';
+    return rows.map(r => `
+      <div class="card">
+        <div class="row-between"><div style="display:flex;align-items:center">${avatarHtml(r.ticker)}<span class="ticker" onclick="openStockDetail(${jsArg(r.ticker)})">${escapeHtml(r.ticker)}</span></div><span class="badge ${actionClass(r.buySignal)}">${escapeHtml(r.buySignal)}</span></div>
+        <div class="meta-row">${r.liveราคา != null ? `<span>ราคา <b>${fmtMoney(r.liveราคา)}</b></span>` : ''}<span>คะแนน <b>${fmtNum(r.score,1)}</b></span><span>DCA Alloc <b>${fmtMoney(r.allocAmt)}</b></span></div>
+        <div class="meta-row"><span>${escapeHtml(r.rationale || '')}</span></div>
+      </div>`).join('');
+  }
+  function renderเป้าหมายsList(rows) {
+    if (!rows.length) return '<div class="empty">ไม่มีข้อมูล</div>';
+    return rows.map(r => `
+      <div class="card">
+        <div class="row-between"><div style="display:flex;align-items:center">${avatarHtml(r.ticker)}<span class="ticker" onclick="openStockDetail(${jsArg(r.ticker)})">${escapeHtml(r.ticker)}</span></div><span class="badge ${safeIncludes(r.signal,'ABOVE') ? 'buy':'hold'}">${escapeHtml(r.signal)}</span></div>
+        <div class="meta-row"><span>ราคา <b>${fmtMoney(r.live)}</b></span><span>Base <b>${fmtMoney(r.base)}</b></span><span class="${pnlClass(r.baseUp)}">${fmtPct(r.baseUp)}</span></div>
+      </div>`).join('');
+  }
+  function renderBuyZoneList(rows) {
+    if (!rows.length) return '<div class="empty">ไม่มีข้อมูล</div>';
+    return rows.map(r => `
+      <div class="card">
+        <div class="row-between"><div style="display:flex;align-items:center">${avatarHtml(r.ticker)}<span class="ticker" onclick="openStockDetail(${jsArg(r.ticker)})">${escapeHtml(r.ticker)}</span></div><span class="badge ${safeIncludes(r.signal,'BUY') ? 'buy' : (safeIncludes(r.signal,'TRIM') ? 'sell':'hold')}">${escapeHtml(r.signal)}</span></div>
+        <div class="meta-row"><span>ราคา <b>${fmtMoney(r.live)}</b></span><span>S1 <b>${fmtMoney(r.s1)}</b></span><span>vs S1 ${fmtPct(r.vsS1)}</span></div>
+      </div>`).join('');
+  }
+  function renderFundamentalsList(rows) {
+    if (!rows.length) return '<div class="empty">ไม่มีข้อมูล</div>';
+    return rows.map(r => `
+      <div class="card">
+        <div class="row-between"><div style="display:flex;align-items:center">${avatarHtml(r.ticker)}<span class="ticker" onclick="openStockDetail(${jsArg(r.ticker)})">${escapeHtml(r.ticker)}</span></div><span class="badge ${safeIncludes(r.rating,'BUY') ? 'buy' : (safeIncludes(r.rating,'PASS') ? 'sell':'hold')}">${escapeHtml(r.rating)}</span></div>
+        <div class="meta-row">${r.liveราคา != null ? `<span>ราคา <b>${fmtMoney(r.liveราคา)}</b></span>` : ''}<span>คะแนน <b>${fmtNum(r.totalคะแนน,1)}</b></span><span>P/E <b>${r.pe}</b></span><span>Beta <b>${fmtNum(r.beta,2)}</b></span></div>
+      </div>`).join('');
+  }
+  function renderThemeList(rows) {
+    if (!rows.length) return '<div class="empty">ไม่มีข้อมูล</div>';
+    return rows.map(r => `
+      <div class="card">
+        <div class="row-between"><span class="ticker">${escapeHtml(r.theme)}</span><span class="badge ${safeIncludes(r.status,'Rebalance') ? 'med':'buy'}">${escapeHtml(r.status)}</span></div>
+        <div class="meta-row"><span>เป้าหมาย <b>${fmtPct(r.target)}</b></span><span>Current <b>${fmtPct(r.current)}</b></span><span class="${pnlClass(-Math.abs(r.diff))}">Diff ${fmtPct(r.diff)}</span></div>
+      </div>`).join('');
+  }
+  function renderWatchlistList(rows) {
+    if (!rows.length) return '<div class="empty">ไม่มีข้อมูล</div>';
+    return rows.map(r => `
+      <div class="card">
+        <div class="row-between"><div style="display:flex;align-items:center">${avatarHtml(r.ticker)}<span class="ticker" onclick="openStockDetail(${jsArg(r.ticker)})">${escapeHtml(r.ticker)}</span></div><span class="badge ${safeIncludes(r.signal,'ENTER') ? 'buy' : (safeIncludes(r.signal,'TOO HIGH') ? 'sell':'hold')}">${escapeHtml(r.signal)}</span></div>
+        <div class="meta-row"><span>ราคา <b>${fmtMoney(r.live)}</b></span><span>Entry <b>${fmtMoney(r.entryเป้าหมาย)}</b></span><span>Priority ${fmtNum(r.priority,0)}</span></div>
+        <div class="meta-row"><span>${escapeHtml(r.why || '')}</span></div>
+      </div>`).join('');
+  }
+  function alertLevelClass_(level) { return level==='CRITICAL' ? 'sell' : (level==='WARNING' ? 'med' : 'buy'); }
+  function renderSmartAlerts(data, compact) {
+    data = data || {}; const c=data.counts||{}; const rows=Array.isArray(data.alerts)?data.alerts:[];
+    const p=data.priorities||{}; const countsHtml=`<div class="kpi-grid" style="margin:0 0 10px"><div class="kpi-card"><div class="kpi-label">🔴 Action Required</div><div class="kpi-value">${Number(p.P0||0)}</div></div><div class="kpi-card"><div class="kpi-label">🟠 Review</div><div class="kpi-value">${Number(p.P1||0)}</div></div><div class="kpi-card"><div class="kpi-label">🟢 โอกาส</div><div class="kpi-value">${Number(p.P2||0)}</div></div><div class="kpi-card"><div class="kpi-label">📊 Total</div><div class="kpi-value">${rows.length}</div></div></div>`;
+    const list=rows.slice(0, compact?4:25).map(a=>`<div class="card" style="margin-bottom:7px"><div class="row-between"><div style="min-width:0"><b>${escapeHtml(a.icon||'🔔')} ${a.ticker?escapeHtml(a.ticker)+' — ':''}${escapeHtml(a.title||'')}</b><div class="muted" style="margin-top:4px">${escapeHtml(a.detail||'')}</div></div><span class="badge ${alertLevelClass_(a.level)}">${escapeHtml(a.priority||'P2')} · ${escapeHtml(a.level||'NOTICE')}</span></div>${a.action?`<div class="muted" style="margin-top:6px">👉 ${escapeHtml(a.action)}</div>`:''}</div>`).join('');
+    const empty=compact ? '<div class="empty">🟢 ไม่มี Alert สำคัญที่ต้องลงมือทำตอนนี้</div>' : '<div class="empty">🟢 วันนี้ยังไม่มี Smart Alert</div>';
+    if(compact) return `<div class="card">${countsHtml}${list||empty}<div style="text-align:right;margin-top:7px"><button class="btn btn-outline" style="width:auto;padding:7px 11px;font-size:11px" onclick="openDetail('alerts')">ดู Smart Alert Center →</button></div></div>`;
+    return `<div>${countsHtml}${list||empty}</div><div class="section-title">🕘 Alert History</div><div class="card">${(data.history||[]).slice(0,15).map(a=>`<div style="padding:7px 0;border-bottom:1px solid var(--border)">${escapeHtml(a.icon||'🔔')} <b>${escapeHtml(a.ticker||'')}</b> ${escapeHtml(a.title||'')} <span class="muted">· ${a.asOf?escapeHtml(new Date(a.asOf).toLocaleString('th-TH')):''}</span></div>`).join('')||'<div class="empty">ยังไม่มีประวัติ</div>'}<button class="btn btn-outline" style="margin-top:8px" onclick="clearSmartAlertHistory_()">🧹 ล้างประวัติ</button></div><div class="card" style="font-size:10.5px;color:var(--sub);line-height:1.5">⚠️ ${escapeHtml(data.disclaimer||'Smart Alert ใช้ข้อมูลจาก Engine เดิม')}</div>`;
+  }
+  function loadSmartAlerts_(onDone) {
+    google.script.run.withSuccessHandler(d=>{ document.getElementById('smartAlertSummary').innerHTML=renderSmartAlerts(d,true); if(onDone)onDone(); }).withFailureHandler(e=>{ document.getElementById('smartAlertSummary').innerHTML='<div class="empty">⚠️ โหลด Smart Alerts ไม่สำเร็จ: '+escapeHtml(e&&e.message?e.message:e)+'</div>'; if(onDone)onDone(); }).getSmartAlertsData();
+  }
+  function clearSmartAlertHistory_(){ google.script.run.withSuccessHandler(()=>openDetail('alerts')).withFailureHandler(onError).clearSmartAlertHistory(); }
+
+
+  function renderCapitalAllocationPlan(data) {
+    data = data || {};
+    const c = data.cash || {};
+    const allocations = Array.isArray(data.allocations) ? data.allocations : [];
+    const excluded = Array.isArray(data.excluded) ? data.excluded : [];
+    const under = Array.isArray(data.rebalance && data.rebalance.underweight) ? data.rebalance.underweight : [];
+    const over = Array.isArray(data.rebalance && data.rebalance.overweight) ? data.rebalance.overweight : [];
+    const allocationTotal = Number(data.allocationTotal || 0);
+    const remainingCash = Number(data.remainingCash || 0);
+
+    const cards = `<div class="kpi-grid" style="margin:0 0 10px">
+      <div class="kpi-card"><div class="kpi-label">💵 เงินสดพร้อมลงทุน</div><div class="kpi-value">$${fmtNum(c.deployable,2)}</div></div>
+      <div class="kpi-card"><div class="kpi-label">🛡️ เงินสำรอง</div><div class="kpi-value">$${fmtNum(c.reserve,2)}</div></div>
+      <div class="kpi-card"><div class="kpi-label">🎯 หุ้นที่เหมาะสำหรับเงินใหม่</div><div class="kpi-value">${Number(data.eligibleCount||0)}</div></div>
+      <div class="kpi-card"><div class="kpi-label">📊 มูลค่าพอร์ต</div><div class="kpi-value">$${fmtNum(data.portfolioValue,2)}</div></div>
+    </div>`;
+
+    const guardCard = `<div class="card" style="margin-bottom:10px">
+      <div class="row-between"><b>🛡️ กฎป้องกันการจัดสรรเงิน</b><span class="badge buy">PASS</span></div>
+      <div class="meta-row" style="margin-top:7px">
+        <span>จัดสรรแล้ว <b>$${fmtNum(allocationTotal,2)}</b></span>
+        <span>เหลือรอจัดสรร <b>$${fmtNum(remainingCash,2)}</b></span>
+        <span>สูงสุด/หุ้น <b>${fmtNum(Number(data.maxPerStockPct||0.40)*100,0)}%</b></span>
+      </div>
+      <div class="muted" style="margin-top:5px">ไม่ใช้เงินสำรอง · ไม่เกินเงินสดพร้อมลงทุน · ตัด AVOID / TRIM / Overweight · ต้องมีช่องว่างจากเป้าหมายมากกว่า ${fmtNum(data.minCandidateGapPct||0.25,2)} จุดเปอร์เซ็นต์</div>
+    </div>`;
+
+    const planRows = allocations.map((x,i)=>`<div class="card" style="margin-bottom:8px">
+      <div class="row-between"><div><b>${i+1}. 🧭 ${escapeHtml(x.ticker||'')}</b> <span class="badge buy">${escapeHtml(x.action||'รอเงื่อนไข')}</span></div><b>$${fmtNum(x.amount,2)}</b></div>
+      <div class="meta-row"><span>ปัจจุบัน <b>${fmtPct(x.current)}</b></span><span>เป้าหมาย <b>${fmtPct(x.target)}</b></span><span>ช่องว่าง <b>${fmtPct(x.gap)}</b></span></div>
+      <div class="muted">คะแนน <b>${fmtNum(x.score,0)}</b> · ความพร้อม <b>${fmtNum(Number(x.readiness||0)*100,0)}%</b> · เงินใหม่ <b>${fmtNum(Number(x.allocationPct||0)*100,1)}%</b>${x.buyZone?` · จุดซื้อ ${fmtMoney(x.buyZone)}`:''}</div>
+      ${x.rr!=null?`<div class="muted">ความเสี่ยงต่อผลตอบแทน <b>${fmtNum(x.rr,2)}</b></div>`:''}
+    </div>`).join('');
+
+    const integrity = data.integrity || {};
+    const integrityClass = String(integrity.status||'').toUpperCase()==='PASS' ? 'buy' : 'med';
+    const integrityText = integrity.status ? `${integrity.status} · Current: ${integrity.currentWeightSource||'Portfolio / Dashboard'} · Target: ${integrity.targetWeightSource||integrity.source||'⚖️ Rebalance'} · Target ${fmtPct((integrity.targetTotal||0))} · Current ${fmtPct((integrity.currentTotal||0))}` : '';
+    const missingText = Array.isArray(integrity.missingTargetForPortfolio) && integrity.missingTargetForPortfolio.length
+      ? `<div class="muted" style="margin-top:5px">⚠️ หุ้นที่ยังไม่มี Target: ${escapeHtml(integrity.missingTargetForPortfolio.join(', '))}</div>` : '';
+    const integrityCard = integrity.status ? `<div class="card" style="margin-bottom:10px"><div class="row-between"><b>🛡️ ตรวจสอบ Target Allocation</b><span class="badge ${integrityClass}">${escapeHtml(integrity.status)}</span></div><div class="muted" style="margin-top:5px">${escapeHtml(integrityText)}</div>${missingText}${Array.isArray(integrity.weightMismatches) && integrity.weightMismatches.length ? `<div class="muted" style="margin-top:5px;color:var(--danger)">🔴 น้ำหนักระหว่าง Portfolio กับ Decision ไม่ตรงกัน: ${integrity.weightMismatches.length} หุ้น — ระบบจะหยุดการจัดสรรเงินจนกว่าจะตรวจสอบ</div>` : ''}</div>` : '';
+
+    const excludedRows = excluded.slice(0,12).map(x=>`<div class="meta-row">
+      <span>${x.reason && /AVOID|TRIM|เกิน Target|ไม่มี Target/.test(x.reason)?'🔴':'⚪'} <b>${escapeHtml(x.ticker||'')}</b></span>
+      <span>${escapeHtml(x.reason||'ไม่เข้าเกณฑ์')}</span>
+    </div>`).join('');
+
+    const underRows = under.map(x=>`<div class="meta-row"><span>🟢 <b>${escapeHtml(x.ticker)}</b></span><span>ปัจจุบัน ${fmtPct(x.current)} → เป้าหมาย ${fmtPct(x.target)} · ช่องว่าง ${fmtPct(x.diff)}</span></div>`).join('');
+    const overRows = over.map(x=>`<div class="meta-row"><span>🔴 <b>${escapeHtml(x.ticker)}</b></span><span>ปัจจุบัน ${fmtPct(x.current)} → เป้าหมาย ${fmtPct(x.target)}</span></div>`).join('');
+
+    return `${cards}${integrityCard}${guardCard}
+      <div class="card"><div style="font-size:16px;font-weight:800">💰 แผนจัดสรรเงินใหม่</div><div class="muted" style="margin-top:5px">เงินใหม่จะถูกส่งไปเฉพาะหุ้นที่มีช่องว่างจาก Target อย่างมีนัยสำคัญและผ่าน Rebalance Guard โดยไม่แตะเงินสำรอง</div></div>
+      <div class="section-title">🏆 เงินใหม่ควรไปที่ไหน</div>${planRows||'<div class="empty">ยังไม่มีหุ้นที่ผ่านเกณฑ์สำหรับจัดสรรเงินใหม่</div>'}
+      ${excludedRows?`<div class="section-title">🚫 หุ้นที่ถูกตัดออกจากการจัดสรร</div><div class="card">${excludedRows}</div>`:''}
+      <div class="section-title">📉 หุ้นที่ยังต่ำกว่าเป้าหมายมากกว่า 2%</div><div class="card">${underRows||'<div class="empty">ไม่มีหุ้นที่ต่ำกว่าเป้าหมายมากกว่า 2%</div>'}</div>
+      <div class="section-title">⚠️ หุ้นที่เกินเป้าหมายมากกว่า 2%</div><div class="card">${overRows||'<div class="empty">ไม่มีหุ้นที่เกินเป้าหมายมากกว่า 2%</div>'}</div>
+      <div class="card" style="font-size:10.5px;color:var(--sub);line-height:1.5">⚙️ ${escapeHtml(data.methodology||'ใช้ข้อมูลจาก Engine เดิม')}<br>⚠️ ${escapeHtml(data.disclaimer||'ไม่ส่งคำสั่งซื้อขายอัตโนมัติ')}</div>`;
+  }
+
+  function renderPortfolioActionPlanner(data) {
+    data = data || {};
+    const c = data.actionCounts || {};
+    const cards = `
+      <div class="kpi-grid" style="margin:0 0 10px">
+        <div class="kpi-card"><div class="kpi-label">🔴 ต้องจัดการ</div><div class="kpi-value">${Number((data.priority0||[]).length)}</div></div>
+        <div class="kpi-card"><div class="kpi-label">🟠 ต้องทบทวน</div><div class="kpi-value">${Number((data.priority1||[]).length)}</div></div>
+        <div class="kpi-card"><div class="kpi-label">🟢 ทำตามแผน</div><div class="kpi-value">${Number((data.opportunities||[]).length)}</div></div>
+        <div class="kpi-card"><div class="kpi-label">💵 เงินสดที่พร้อมลงทุน</div><div class="kpi-value">$${fmtNum(data.deployable,2)}</div></div>
+      </div>`;
+    const summary = `<div class="card"><div style="font-size:16px;font-weight:800">${escapeHtml(data.headline||'🟡 วันนี้เน้นติดตาม')}</div><div class="muted" style="margin-top:5px">${escapeHtml(data.headlineReason||'')}</div><div class="meta-row" style="margin-top:8px"><span>สุขภาพความเสี่ยง <b>${data.riskคะแนน==null?'—':fmtNum(data.riskคะแนน,0)+'/100'}</b></span><span>เงินสำรอง <b>$${fmtNum(data.reserve,2)}</b></span><span>BUY <b>${Number(c.BUY||0)}</b></span><span>DCA <b>${Number(c.DCA||0)}</b></span></div></div>`;
+    const rows = (data.plans||[]).map(x=>`
+      <div class="card" style="margin-bottom:8px">
+        <div class="row-between"><div><b>🧭 ${escapeHtml(x.ticker||'')}</b> <span class="badge ${x.priority==='P0'?'sell':(x.priority==='P1'?'med':'buy')}">${escapeHtml(x.priority||'P2')}</span></div><b>${escapeHtml(x.label||'🟡 รอดู')}</b></div>
+        <div class="meta-row"><span>คะแนน <b>${fmtNum(x.score,0)}</b></span><span>ราคา <b>${fmtMoney(x.liveราคา)}</b></span><span>สัดส่วน <b>${fmtPct(x.weight)}</b></span><span>เป้าหมาย <b>${fmtPct(x.targetสัดส่วน)}</b></span></div>
+        ${x.buyZone?`<div class="muted">จุดซื้อจากระบบ: <b>${fmtMoney(x.buyZone)}</b>${x.buyZoneLabel?' · '+escapeHtml(x.buyZoneLabel):''}</div>`:''}
+        ${x.dcaHit?`<div class="muted">🎯 จุดเฝ้าระวัง DCA: <b>${fmtMoney(x.dcaLevel)}</b> · ${escapeHtml(x.dcaLabel||'DCA')}</div>`:''}
+        ${x.riskReward!=null?`<div class="muted">ความเสี่ยงต่อผลตอบแทน <b>${fmtNum(x.riskReward,2)}</b></div>`:''}
+        <div style="margin-top:6px"><b>เหตุผล:</b> ${escapeHtml(x.reason||'')}</div>
+        <div style="margin-top:5px;color:var(--accent)"><b>👉 ต่อไป:</b> ${escapeHtml(x.nextStep||'')}</div>
+        ${x.blockers&&x.blockers.length?`<div style="margin-top:5px;color:var(--danger)"><b>เงื่อนไขที่ขัดขวาง:</b> ${escapeHtml(x.blockers.join(' • '))}</div>`:''}
+      </div>`).join('');
+    return `${cards}${summary}<div class="section-title">📋 แผนการดำเนินการ — เรียงตามความเร่งด่วน</div>${rows||'<div class="empty">ไม่มีรายการใน แผนการดำเนินการพอร์ต</div>'}<div class="card" style="font-size:10.5px;color:var(--sub);line-height:1.5">⚠️ ${escapeHtml(data.disclaimer||'แผนการดำเนินการพอร์ตใช้ข้อมูลจาก Engine เดิม')}</div>`;
+  }
+
+  function renderRisk(data) {
+    const g = data.gauges;
+    const riskLevelStr = String(g.riskLevel == null ? '' : g.riskLevel);
+    let html = `
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-label">Portfolio Beta</div><div class="kpi-value">${fmtNum(g.beta,2)}</div></div>
+        <div class="kpi-card"><div class="kpi-label">VIX Level</div><div class="kpi-value">${fmtNum(g.vixLevel,1)}</div></div>
+        <div class="kpi-card"><div class="kpi-label">Largest Position</div><div class="kpi-value">${fmtPct(g.largestPosition)}</div></div>
+        <div class="kpi-card"><div class="kpi-label">Top 5 สัดส่วน</div><div class="kpi-value">${fmtPct(g.top5สัดส่วน)}</div></div>
+      </div>
+      <div class="card"><div class="row-between"><span>ระดับความเสี่ยงรวม</span><span class="badge ${safeIncludes(riskLevelStr,'HIGH') ? 'sell' : (safeIncludes(riskLevelStr,'MED') ? 'med':'buy')}">${escapeHtml(riskLevelStr)}</span></div></div>
+    `;
+    const pr = data.portfolioRisk;
+    if (pr && !pr.error) {
+      const rb = pr.riskBand || {label:'—'};
+      const rbClass = rb.level === 'CRITICAL' || rb.level === 'HIGH' ? 'sell' : (rb.level === 'MEDIUM' ? 'med' : 'buy');
+      html += `<div class="section-title">🛡️ Portfolio Risk & Concentration 2.0</div>
+        <div class="card">
+          <div class="row-between"><span><b>Portfolio Risk คะแนน</b></span><span class="badge ${rbClass}">${escapeHtml(String(rb.label||'—'))}</span></div>
+          <div style="font-size:30px;font-weight:800;margin-top:6px">${fmtNum(pr.riskคะแนน,0)}/100</div>
+          <div class="meta-row"><span>Penalty <b>${fmtNum(pr.penaltyTotal,0)}</b></span><span>Cash <b>${fmtPct(pr.cashRatio)}</b></span><span>Top 5 <b>${fmtPct(pr.top5สัดส่วน)}</b></span></div>
+        </div>
+        <div class="card">
+          <div class="row-between"><span>Largest Position</span><b>${pr.largestPosition ? escapeHtml(pr.largestPosition.ticker)+' '+fmtPct(pr.largestPosition.weight) : '—'}</b></div>
+          <div class="row-between" style="margin-top:7px"><span>Correlation ≥ 0.70</span><b>${fmtNum(pr.correlation && pr.correlation.highPairs,0)} คู่</b></div>
+          <div class="row-between" style="margin-top:7px"><span>น้ำหนักเกินเป้าหมาย</span><b>${fmtNum((pr.overweight||[]).length,0)} หุ้น</b></div>
+          <div class="muted" style="margin-top:8px">${escapeHtml(pr.recommendation||'')}</div>
+        </div>`;
+      if (pr.themes && pr.themes.length) {
+        html += `<div class="card"><div class="section-title" style="margin-top:0">🎨 Theme Concentration</div>` + pr.themes.slice(0,5).map(x => `<div class="row-between" style="padding:5px 0;border-top:1px solid var(--border)"><span>${escapeHtml(x.name)}</span><b>${fmtPct(x.weight)}</b></div>`).join('') + `</div>`;
+      }
+      if (pr.alerts && pr.alerts.length) {
+        html += `<div class="card"><div class="section-title" style="margin-top:0">⚠️ Concentration Alerts</div>` + pr.alerts.slice(0,5).map(a => `<div style="padding:7px 0;border-top:1px solid var(--border)"><div class="row-between"><span><b>${escapeHtml(a.icon||'⚠️')} ${escapeHtml(a.title||'')}</b></span><span>${fmtNum(a.penalty,0)} pts</span></div><div class="muted" style="margin-top:3px">${escapeHtml(a.detail||'')} · ${escapeHtml(a.recommendation||'')}</div></div>`).join('') + `</div>`;
+      }
+    }
+    html += `<div id="aiRiskSection"></div>
+      <div class="section-title">Risk Alerts</div>`;
+    html += data.alerts.map(a => {
+      const statusStr = String(a.status == null ? '' : a.status);
+      return `
+      <div class="card">
+        <div class="row-between"><span class="ticker">${escapeHtml(a.category)}</span><span class="badge ${safeIncludes(statusStr,'OVER') ? 'sell':'buy'}">${statusStr}</span></div>
+        <div class="meta-row"><span>${escapeHtml(a.metric)}</span><span>ปัจจุบัน <b>${fmtPct(a.current)}</b></span><span>เกณฑ์ <b>${fmtPct(a.threshold)}</b></span></div>
+        <div class="meta-row"><span>${escapeHtml(a.recommendation || '')}</span></div>
+      </div>`;
+    }).join('');
+    return html;
+  }
+  function renderHealth(data) {
+    let html = `
+      <div class="card" style="text-align:center">
+        <div class="kpi-label">HEALTH SCORE</div>
+        <div class="kpi-value" style="font-size:32px">${fmtNum(data.score,1)}/100</div>
+        <div>${escapeHtml(data.rating)}</div>
+      </div>
+      <div class="section-title">องค์ประกอบคะแนน</div>
+    `;
+    html += data.categories.map(c => `
+      <div class="card">
+        <div class="row-between"><span class="ticker">${escapeHtml(c.name)}</span><span>${fmtNum(c.score,1)}</span></div>
+        <div class="meta-row"><span>สัดส่วน ${fmtPct(c.weight)}</span><span>${escapeHtml(c.notes)}</span></div>
+      </div>`).join('');
+    if (data.concentrationRisk) {
+      const cr = data.concentrationRisk;
+      html += `<div class="section-title">🔗 Concentration Risk (จาก Correlation จริง) <span style="font-weight:400;font-size:11px;color:var(--sub)">— เสริม ไม่รวมในคะแนน Health หลัก</span></div>`;
+      html += `<div class="card">
+        <div class="row-between"><span>ระดับความเสี่ยงกระจุกตัวเชิงกลุ่ม</span><span style="font-weight:700;color:${cr.riskColor}">${escapeHtml(cr.riskLabel)}</span></div>
+        <div style="font-size:12.5px;color:var(--sub);margin-top:6px;line-height:1.5">${escapeHtml(cr.note)}</div>
+        ${cr.topPairs && cr.topPairs.length ? cr.topPairs.map(p => `
+          <div class="row-between" style="padding:5px 0;border-top:1px solid var(--border);margin-top:6px">
+            <span style="font-size:12px">${escapeHtml(p.a)} ↔ ${escapeHtml(p.b)}</span>
+            <span style="font-size:12px;font-weight:700;color:var(--red)">+${p.corr.toFixed(2)}</span>
+          </div>`).join('') : ''}
+      </div>`;
+    }
+    html += '<div class="section-title">Checklist</div>';
+    html += data.checklist.map(c => `
+      <div class="card"><div class="row-between"><span>${escapeHtml(c.item)}</span><span class="badge ${safeIncludes(c.result,'PASS') ? 'buy' : (safeIncludes(c.result,'FAIL') ? 'sell':'med')}">${escapeHtml(c.result)}</span></div></div>`).join('');
+    return html;
+  }
+  function renderEarningsList(data) {
+    if (data.error) return `<div class="empty">⚠️ ${escapeHtml(data.error)}<br><span style="font-size:11px">(ดูวิธีตั้งค่าที่คอมเมนต์ในฟังก์ชัน getFinnhubKey_ ของ Code.gs)</span></div>`;
+    if (!data.events.length) return '<div class="empty">ไม่มีวันประกาศผลประกอบการใน 30 วันข้างหน้า</div>';
+    return data.events.map(e => `
+      <div class="card">
+        <div class="row-between"><span class="ticker" onclick="openStockDetail(${jsArg(e.ticker)})">${escapeHtml(e.ticker)}</span><span>${escapeHtml(e.date)}</span></div>
+        <div class="meta-row"><span>คาดการณ์ EPS <b>${e.epsEst != null ? fmtNum(e.epsEst,2) : '-'}</b></span><span>${e.hour === 'bmo' ? 'ก่อนตลาดเปิด' : (e.hour === 'amc' ? 'หลังตลาดปิด' : '')}</span></div>
+      </div>`).join('');
+  }
+  function renderDividendList(data) {
+    if (data.error && !data.events) return `<div class="empty">⚠️ ${escapeHtml(data.error)}<br><span style="font-size:11px">(ดูวิธีตั้งค่าที่คอมเมนต์ในฟังก์ชัน getFinnhubKey_ ของ Code.gs)</span></div>`;
+    if (!data.events.length) return '<div class="empty">ไม่มีวันขึ้นเครื่องหมาย XD ใน 60 วันข้างหน้า</div>';
+    return data.events.map(e => `
+      <div class="card">
+        <div class="row-between"><span class="ticker" onclick="openStockDetail(${jsArg(e.ticker)})">${escapeHtml(e.ticker)}</span><span>XD ${escapeHtml(e.exDate)}</span></div>
+        <div class="meta-row"><span>เงินปันผล/หุ้น <b>${fmtMoney(e.amount)}</b></span><span>จ่ายวันที่ ${escapeHtml(e.payDate || '-')}</span></div>
+      </div>`).join('');
+  }
+  function renderMarket(data) {
+    let html = `
+      <div class="card">
+        <div class="row-between"><span>VIX Regime</span><span class="badge hold">${data.vix.regime}</span></div>
+        <div class="meta-row"><span>VIX <b>${fmtNum(data.vix.level,1)}</b></span><span>Multiplier <b>${fmtNum(data.vix.multiplier,2)}x</b></span><span>DCA แนะนำ <b>${fmtMoney(data.vix.recommendedDca)}</b></span></div>
+      </div>
+    `;
+    if (data.macro && !data.macro.error && (data.macro.bond10y || data.macro.dxy)) {
+      html += `<div class="card">
+        <div class="row-between"><span>ตัวชี้วัดมหภาค</span></div>
+        <div class="meta-row">
+          ${data.macro.bond10y ? `<span>US 10Y Yield <b>${fmtNum(data.macro.bond10y.value,2)}%</b></span>` : ''}
+          ${data.macro.dxy ? `<span>Dollar Index <b>${fmtNum(data.macro.dxy.value,1)}</b></span>` : ''}
+        </div>
+      </div>`;
+    }
+    html += `<div class="section-title">Market Gauges</div>`;
+    html += data.gauges.map(g => `
+      <div class="card">
+        <div class="row-between"><span class="ticker">${escapeHtml(g.indicator)}</span><span class="badge ${(safeIncludes(g.signal,'STRONG') || safeIncludes(g.signal,'GREED')) ? 'buy' : ((safeIncludes(g.signal,'WEAK') || safeIncludes(g.signal,'PANIC') || safeIncludes(g.signal,'FEAR')) ? 'sell':'hold')}">${escapeHtml(g.signal)}</span></div>
+        <div class="meta-row"><span>Live <b>${fmtNum(g.live,2)}</b></span><span class="${pnlClass(g.changePct)}">${fmtPct(g.changePct)}</span><span>Position ${fmtNum(g.position,0)}%</span></div>
+      </div>`).join('');
+    return html;
+  }
+
+  // ---------- Portfolio Correlation Matrix (Concentration Risk) ----------
+  function corrColor_(r) {
+    const a = Math.min(1, Math.abs(r));
+    return r >= 0 ? `rgba(239,68,68,${(0.10 + a * 0.65).toFixed(2)})` : `rgba(59,130,246,${(0.10 + a * 0.65).toFixed(2)})`;
+  }
+  function corrRiskLabel_(r) {
+    const a = Math.abs(r);
+    if (a >= 0.8) return r >= 0 ? 'สูงมาก (วิ่งตามกัน)' : 'ตรงข้ามกันสูงมาก';
+    if (a >= 0.6) return r >= 0 ? 'สูง' : 'ตรงข้ามกันสูง';
+    if (a >= 0.3) return r >= 0 ? 'ปานกลาง' : 'ตรงข้ามกันปานกลาง';
+    return 'ต่ำ (กระจายตัวดี)';
+  }
+  function renderCorrelationMatrix(data) {
+    if (!data || data.error) {
+      return `<div class="card"><div class="empty">${escapeHtml((data && data.reason) || 'ยังไม่มีข้อมูลพอสำหรับคำนวณ Correlation')}</div></div>
+        <button class="btn btn-outline" style="margin-top:6px" onclick="reloadCorrelationMatrix()">🔄 ลองคำนวณใหม่</button>`;
+    }
+    const tickers = data.tickers || [];
+    const matrix = data.matrix || [];
+    const cell = 26;
+    const table = `<div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
+      <table style="border-collapse:collapse;font-size:10px;white-space:nowrap">
+        <tr><th style="min-width:40px"></th>${tickers.map(t => `<th style="padding:2px;font-weight:600;writing-mode:vertical-rl;text-orientation:mixed;height:50px">${escapeHtml(t)}</th>`).join('')}</tr>
+        ${tickers.map((rowT, i) => `
+          <tr>
+            <th style="padding:2px 5px;text-align:right;font-weight:600">${escapeHtml(rowT)}</th>
+            ${matrix[i].map((v, j) => `<td title="${escapeHtml(rowT)}\u2013${escapeHtml(tickers[j])}: ${v.toFixed(2)}" style="width:${cell}px;height:${cell}px;text-align:center;background:${i === j ? 'var(--sub)' : corrColor_(v)};opacity:${i === j ? 0.25 : 1};font-size:9px;color:${Math.abs(v) > 0.55 ? '#fff' : 'inherit'}">${i === j ? '' : v.toFixed(1)}</td>`).join('')}
+          </tr>`).join('')}
+      </table>
+    </div>`;
+    const pairRow = p => `<div class="row-between" style="padding:7px 0;border-bottom:1px solid var(--border)">
+      <span style="font-size:12.5px">${escapeHtml(p.a)} \u2194 ${escapeHtml(p.b)}</span>
+      <span style="font-weight:700;font-size:12.5px;color:${p.corr >= 0 ? 'var(--red)' : 'var(--green)'}">${p.corr >= 0 ? '+' : ''}${p.corr.toFixed(2)} <span style="font-weight:400;color:var(--sub);font-size:11px">(${corrRiskLabel_(p.corr)})</span></span>
+    </div>`;
+    return `
+      <div class="card" style="font-size:11.5px;color:var(--sub);line-height:1.55">
+        คำนวณจาก Daily Return ย้อนหลัง ${data.dataPoints} วันเทรด (${data.days} วันปฏิทิน) • อัปเดต ${data.asOfDate}<br>
+        ยิ่งค่าใกล้ +1 ยิ่งวิ่งตามกัน (ถือพร้อมกันเยอะ = กระจุกตัว ไม่ได้กระจายความเสี่ยงจริง) ยิ่งใกล้ -1 ยิ่งช่วยกระจายความเสี่ยง
+      </div>
+      <div class="section-title">🔥 คู่ที่วิ่งตามกันสูงสุด (Concentration Risk)</div>
+      <div class="card">${(data.topCorrelated || []).map(pairRow).join('') || '<div class="empty">ไม่มีข้อมูล</div>'}</div>
+      <div class="section-title">🧊 คู่ที่กระจายความเสี่ยงดีที่สุด</div>
+      <div class="card">${(data.leastCorrelated || []).map(pairRow).join('') || '<div class="empty">ไม่มีข้อมูล</div>'}</div>
+      <button class="btn btn-outline" id="corrMatrixToggleBtn" data-orig-label="🔽 ดูตารางแบบเต็ม (Correlation Matrix ${tickers.length}×${tickers.length})" style="margin-top:10px" onclick="toggleCorrMatrixTable()">🔽 ดูตารางแบบเต็ม (Correlation Matrix ${tickers.length}×${tickers.length})</button>
+      <div id="corrMatrixWrap" style="display:none;margin-top:8px">
+        <div class="section-title">🗺️ Correlation Matrix เต็ม (เลื่อนซ้าย-ขวาได้)</div>
+        <div class="card">${table}</div>
+      </div>
+      <button class="btn btn-outline" style="margin-top:6px" onclick="reloadCorrelationMatrix()">🔄 คำนวณใหม่</button>
+    `;
+  }
+  function toggleCorrMatrixTable() {
+    const el = document.getElementById('corrMatrixWrap');
+    const btn = document.getElementById('corrMatrixToggleBtn');
+    if (!el || !btn) return;
+    const willShow = el.style.display === 'none';
+    el.style.display = willShow ? 'block' : 'none';
+    btn.textContent = willShow ? '🔼 ซ่อนตารางแบบเต็ม' : btn.dataset.origLabel;
+  }
+  function reloadCorrelationMatrix() {
+    document.getElementById('detailContent').innerHTML = '<div class="empty">กำลังคำนวณ Correlation ใหม่ (อาจใช้เวลาสักครู่)…</div>';
+    google.script.run
+      .withSuccessHandler(data => { document.getElementById('detailContent').innerHTML = renderCorrelationMatrix(data); })
+      .withFailureHandler(err => {
+        document.getElementById('detailContent').innerHTML = '<div class="empty">⚠️ คำนวณไม่สำเร็จ: ' + escapeHtml(err && err.message ? err.message : String(err)) + '</div>';
+      })
+      .getPortfolioCorrelation(120, true);
+  }
+
+  // ---------- Quick Search ----------
+  document.getElementById('quickSearch').addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      const v = e.target.value.trim().toUpperCase();
+      if (v) {
+        openStockDetail(v);
+        e.target.value = '';
+        e.target.blur();
+      }
+    }
+  });
+
+  // ---------- Init ----------
+  loadDailyBriefing(false);
+  loadDashboard();
+  loadRebalance();
+  loadTickers();
+  loadPortfolioNews();
+  loadHistory();
+  loadRiskMeter();
+  loadDecisionEngine();
+  loadEasyMode_();
+  loadV4CommandCenter_();
+  loadSmartAlerts_();
+
+  // ---------- Auto-refresh ----------
+  // อัปเดต Dashboard และ Rebalance ให้อัตโนมัติทุก 60 วินาที (เผื่อราคาหุ้นขยับ)
+  // หยุดยิงตอนสลับแท็บ/ล็อกจอ (ประหยัดโควตา Apps Script + Finnhub API และแบตมือถือ)
+  // แล้วรีเฟรชทันที + เริ่ม interval ใหม่ตอนกลับมาเปิดหน้าจอ
+  let autoRefreshTimer = null;
+  function startAutoRefresh() {
+    if (autoRefreshTimer) return;
+    autoRefreshTimer = setInterval(() => {
+      loadDashboard();
+      loadRebalance();
+      loadDecisionEngine();
+      loadEasyMode_();
+      loadV4CommandCenter_();
+      loadSmartAlerts_();
+    }, 60000);
+  }
+  function stopAutoRefresh() {
+    if (!autoRefreshTimer) return;
+    clearInterval(autoRefreshTimer);
+    autoRefreshTimer = null;
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') {
+      stopAutoRefresh();
+    } else {
+      loadDashboard();
+      loadRebalance();
+      loadEasyMode_();
+      loadV4CommandCenter_();
+      loadSmartAlerts_();
+      startAutoRefresh();
+    }
+  });
+  startAutoRefresh();
+</script>
+</body>
+</html>
